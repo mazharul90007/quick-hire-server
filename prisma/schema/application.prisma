@@ -1,0 +1,16 @@
+model Application {
+    id             String   @id @default(uuid())
+    userId         String?
+    user           User?    @relation(fields: [userId], references: [id])
+    jobId          String
+    job            Job      @relation(fields: [jobId], references: [id])
+    name           String
+    email          String
+    resume_link    String
+    cover_note     String?
+    expectedSalary String?
+    createdAt      DateTime @default(now())
+    updatedAt      DateTime @updatedAt
+
+    @@map("application")
+}
