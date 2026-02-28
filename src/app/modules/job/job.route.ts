@@ -20,4 +20,10 @@ router.post(
   },
 );
 
+//Get all jobs
+router.get("/", jobController.getAllJobs);
+
+//Get single job
+router.get("/:id", jobController.getSingleJob);
+
 export const JobRoutes = router;

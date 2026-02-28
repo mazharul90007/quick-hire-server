@@ -14,5 +14,9 @@ router.post("/", auth(UserRole.ADMIN, UserRole.SUPER_ADMIN), (req, res, next) =>
         next(error);
     }
 });
+//Get all jobs
+router.get("/", jobController.getAllJobs);
+//Get single job
+router.get("/:id", jobController.getSingleJob);
 export const JobRoutes = router;
 //# sourceMappingURL=job.route.js.map
