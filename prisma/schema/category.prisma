@@ -1,15 +1,15 @@
 model Category {
-    id     String         @id @default(uuid())
-    userId String
-    user   User           @relation(fields: [userId], references: [id])
-    title  String
-    status CategoryStatus @default(ACTIVE)
-    jobs   Job[]
+  id     String         @id @default(uuid())
+  userId String
+  title  String
+  status CategoryStatus @default(ACTIVE)
+  user   User           @relation(fields: [userId], references: [id])
+  jobs   Job[]
 
-    @@map("category")
+  @@map("category")
 }
 
 enum CategoryStatus {
-    ACTIVE
-    BLOCKED
+  ACTIVE
+  BLOCKED
 }

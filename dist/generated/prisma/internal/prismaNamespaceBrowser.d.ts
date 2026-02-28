@@ -61,12 +61,12 @@ export declare const UserScalarFieldEnum: {
     readonly email: "email";
     readonly emailVerified: "emailVerified";
     readonly image: "image";
+    readonly createdAt: "createdAt";
+    readonly updatedAt: "updatedAt";
     readonly address: "address";
     readonly phone: "phone";
     readonly role: "role";
     readonly status: "status";
-    readonly createdAt: "createdAt";
-    readonly updatedAt: "updatedAt";
 };
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum];
 export declare const SessionScalarFieldEnum: {

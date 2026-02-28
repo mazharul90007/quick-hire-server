@@ -178,8 +178,8 @@ export type ApplicationWhereInput = {
     expectedSalary?: Prisma.StringNullableFilter<"Application"> | string | null;
     createdAt?: Prisma.DateTimeFilter<"Application"> | Date | string;
     updatedAt?: Prisma.DateTimeFilter<"Application"> | Date | string;
-    user?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null;
     job?: Prisma.XOR<Prisma.JobScalarRelationFilter, Prisma.JobWhereInput>;
+    user?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null;
 };
 export type ApplicationOrderByWithRelationInput = {
     id?: Prisma.SortOrder;
@@ -192,8 +192,8 @@ export type ApplicationOrderByWithRelationInput = {
     expectedSalary?: Prisma.SortOrderInput | Prisma.SortOrder;
     createdAt?: Prisma.SortOrder;
     updatedAt?: Prisma.SortOrder;
-    user?: Prisma.UserOrderByWithRelationInput;
     job?: Prisma.JobOrderByWithRelationInput;
+    user?: Prisma.UserOrderByWithRelationInput;
 };
 export type ApplicationWhereUniqueInput = Prisma.AtLeast<{
     id?: string;
@@ -209,8 +209,8 @@ export type ApplicationWhereUniqueInput = Prisma.AtLeast<{
     expectedSalary?: Prisma.StringNullableFilter<"Application"> | string | null;
     createdAt?: Prisma.DateTimeFilter<"Application"> | Date | string;
     updatedAt?: Prisma.DateTimeFilter<"Application"> | Date | string;
-    user?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null;
     job?: Prisma.XOR<Prisma.JobScalarRelationFilter, Prisma.JobWhereInput>;
+    user?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null;
 }, "id">;
 export type ApplicationOrderByWithAggregationInput = {
     id?: Prisma.SortOrder;
@@ -251,8 +251,8 @@ export type ApplicationCreateInput = {
     expectedSalary?: string | null;
     createdAt?: Date | string;
     updatedAt?: Date | string;
-    user?: Prisma.UserCreateNestedOneWithoutApplicationsInput;
     job: Prisma.JobCreateNestedOneWithoutApplicationsInput;
+    user?: Prisma.UserCreateNestedOneWithoutApplicationsInput;
 };
 export type ApplicationUncheckedCreateInput = {
     id?: string;
@@ -275,8 +275,8 @@ export type ApplicationUpdateInput = {
     expectedSalary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    user?: Prisma.UserUpdateOneWithoutApplicationsNestedInput;
     job?: Prisma.JobUpdateOneRequiredWithoutApplicationsNestedInput;
+    user?: Prisma.UserUpdateOneWithoutApplicationsNestedInput;
 };
 export type ApplicationUncheckedUpdateInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
@@ -653,8 +653,8 @@ export type ApplicationSelect<ExtArgs extends runtime.Types.Extensions.InternalA
     expectedSalary?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
-    user?: boolean | Prisma.Application$userArgs<ExtArgs>;
     job?: boolean | Prisma.JobDefaultArgs<ExtArgs>;
+    user?: boolean | Prisma.Application$userArgs<ExtArgs>;
 }, ExtArgs["result"]["application"]>;
 export type ApplicationSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
     id?: boolean;
@@ -667,8 +667,8 @@ export type ApplicationSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
     expectedSalary?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
-    user?: boolean | Prisma.Application$userArgs<ExtArgs>;
     job?: boolean | Prisma.JobDefaultArgs<ExtArgs>;
+    user?: boolean | Prisma.Application$userArgs<ExtArgs>;
 }, ExtArgs["result"]["application"]>;
 export type ApplicationSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
     id?: boolean;
@@ -681,8 +681,8 @@ export type ApplicationSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
     expectedSalary?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
-    user?: boolean | Prisma.Application$userArgs<ExtArgs>;
     job?: boolean | Prisma.JobDefaultArgs<ExtArgs>;
+    user?: boolean | Prisma.Application$userArgs<ExtArgs>;
 }, ExtArgs["result"]["application"]>;
 export type ApplicationSelectScalar = {
     id?: boolean;
@@ -698,22 +698,22 @@ export type ApplicationSelectScalar = {
 };
 export type ApplicationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "jobId" | "name" | "email" | "resume_link" | "cover_note" | "expectedSalary" | "createdAt" | "updatedAt", ExtArgs["result"]["application"]>;
 export type ApplicationInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-    user?: boolean | Prisma.Application$userArgs<ExtArgs>;
     job?: boolean | Prisma.JobDefaultArgs<ExtArgs>;
+    user?: boolean | Prisma.Application$userArgs<ExtArgs>;
 };
 export type ApplicationIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-    user?: boolean | Prisma.Application$userArgs<ExtArgs>;
     job?: boolean | Prisma.JobDefaultArgs<ExtArgs>;
+    user?: boolean | Prisma.Application$userArgs<ExtArgs>;
 };
 export type ApplicationIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-    user?: boolean | Prisma.Application$userArgs<ExtArgs>;
     job?: boolean | Prisma.JobDefaultArgs<ExtArgs>;
+    user?: boolean | Prisma.Application$userArgs<ExtArgs>;
 };
 export type $ApplicationPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
     name: "Application";
     objects: {
-        user: Prisma.$UserPayload<ExtArgs> | null;
         job: Prisma.$JobPayload<ExtArgs>;
+        user: Prisma.$UserPayload<ExtArgs> | null;
     };
     scalars: runtime.Types.Extensions.GetPayloadResult<{
         id: string;
@@ -1055,8 +1055,8 @@ export interface ApplicationDelegate<ExtArgs extends runtime.Types.Extensions.In
  */
 export interface Prisma__ApplicationClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise";
-    user<T extends Prisma.Application$userArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Application$userArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>;
     job<T extends Prisma.JobDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.JobDefaultArgs<ExtArgs>>): Prisma.Prisma__JobClient<runtime.Types.Result.GetResult<Prisma.$JobPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>;
+    user<T extends Prisma.Application$userArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Application$userArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>;
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.

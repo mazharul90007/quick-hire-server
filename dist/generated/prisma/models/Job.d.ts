@@ -293,9 +293,9 @@ export type JobWhereInput = {
     deadline?: Prisma.DateTimeNullableFilter<"Job"> | Date | string | null;
     createdAt?: Prisma.DateTimeFilter<"Job"> | Date | string;
     updatedAt?: Prisma.DateTimeFilter<"Job"> | Date | string;
-    user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>;
-    category?: Prisma.XOR<Prisma.CategoryScalarRelationFilter, Prisma.CategoryWhereInput>;
     applications?: Prisma.ApplicationListRelationFilter;
+    category?: Prisma.XOR<Prisma.CategoryScalarRelationFilter, Prisma.CategoryWhereInput>;
+    user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>;
 };
 export type JobOrderByWithRelationInput = {
     id?: Prisma.SortOrder;
@@ -321,9 +321,9 @@ export type JobOrderByWithRelationInput = {
     deadline?: Prisma.SortOrderInput | Prisma.SortOrder;
     createdAt?: Prisma.SortOrder;
     updatedAt?: Prisma.SortOrder;
-    user?: Prisma.UserOrderByWithRelationInput;
-    category?: Prisma.CategoryOrderByWithRelationInput;
     applications?: Prisma.ApplicationOrderByRelationAggregateInput;
+    category?: Prisma.CategoryOrderByWithRelationInput;
+    user?: Prisma.UserOrderByWithRelationInput;
 };
 export type JobWhereUniqueInput = Prisma.AtLeast<{
     id?: string;
@@ -352,9 +352,9 @@ export type JobWhereUniqueInput = Prisma.AtLeast<{
     deadline?: Prisma.DateTimeNullableFilter<"Job"> | Date | string | null;
     createdAt?: Prisma.DateTimeFilter<"Job"> | Date | string;
     updatedAt?: Prisma.DateTimeFilter<"Job"> | Date | string;
-    user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>;
-    category?: Prisma.XOR<Prisma.CategoryScalarRelationFilter, Prisma.CategoryWhereInput>;
     applications?: Prisma.ApplicationListRelationFilter;
+    category?: Prisma.XOR<Prisma.CategoryScalarRelationFilter, Prisma.CategoryWhereInput>;
+    user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>;
 }, "id">;
 export type JobOrderByWithAggregationInput = {
     id?: Prisma.SortOrder;
@@ -436,9 +436,9 @@ export type JobCreateInput = {
     deadline?: Date | string | null;
     createdAt?: Date | string;
     updatedAt?: Date | string;
-    user: Prisma.UserCreateNestedOneWithoutJobsInput;
-    category: Prisma.CategoryCreateNestedOneWithoutJobsInput;
     applications?: Prisma.ApplicationCreateNestedManyWithoutJobInput;
+    category: Prisma.CategoryCreateNestedOneWithoutJobsInput;
+    user: Prisma.UserCreateNestedOneWithoutJobsInput;
 };
 export type JobUncheckedCreateInput = {
     id?: string;
@@ -488,9 +488,9 @@ export type JobUpdateInput = {
     deadline?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    user?: Prisma.UserUpdateOneRequiredWithoutJobsNestedInput;
-    category?: Prisma.CategoryUpdateOneRequiredWithoutJobsNestedInput;
     applications?: Prisma.ApplicationUpdateManyWithoutJobNestedInput;
+    category?: Prisma.CategoryUpdateOneRequiredWithoutJobsNestedInput;
+    user?: Prisma.UserUpdateOneRequiredWithoutJobsNestedInput;
 };
 export type JobUncheckedUpdateInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
@@ -836,8 +836,8 @@ export type JobCreateWithoutApplicationsInput = {
     deadline?: Date | string | null;
     createdAt?: Date | string;
     updatedAt?: Date | string;
-    user: Prisma.UserCreateNestedOneWithoutJobsInput;
     category: Prisma.CategoryCreateNestedOneWithoutJobsInput;
+    user: Prisma.UserCreateNestedOneWithoutJobsInput;
 };
 export type JobUncheckedCreateWithoutApplicationsInput = {
     id?: string;
@@ -899,8 +899,8 @@ export type JobUpdateWithoutApplicationsInput = {
     deadline?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    user?: Prisma.UserUpdateOneRequiredWithoutJobsNestedInput;
     category?: Prisma.CategoryUpdateOneRequiredWithoutJobsNestedInput;
+    user?: Prisma.UserUpdateOneRequiredWithoutJobsNestedInput;
 };
 export type JobUncheckedUpdateWithoutApplicationsInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
@@ -949,8 +949,8 @@ export type JobCreateWithoutUserInput = {
     deadline?: Date | string | null;
     createdAt?: Date | string;
     updatedAt?: Date | string;
-    category: Prisma.CategoryCreateNestedOneWithoutJobsInput;
     applications?: Prisma.ApplicationCreateNestedManyWithoutJobInput;
+    category: Prisma.CategoryCreateNestedOneWithoutJobsInput;
 };
 export type JobUncheckedCreateWithoutUserInput = {
     id?: string;
@@ -1048,8 +1048,8 @@ export type JobCreateWithoutCategoryInput = {
     deadline?: Date | string | null;
     createdAt?: Date | string;
     updatedAt?: Date | string;
-    user: Prisma.UserCreateNestedOneWithoutJobsInput;
     applications?: Prisma.ApplicationCreateNestedManyWithoutJobInput;
+    user: Prisma.UserCreateNestedOneWithoutJobsInput;
 };
 export type JobUncheckedCreateWithoutCategoryInput = {
     id?: string;
@@ -1143,8 +1143,8 @@ export type JobUpdateWithoutUserInput = {
     deadline?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    category?: Prisma.CategoryUpdateOneRequiredWithoutJobsNestedInput;
     applications?: Prisma.ApplicationUpdateManyWithoutJobNestedInput;
+    category?: Prisma.CategoryUpdateOneRequiredWithoutJobsNestedInput;
 };
 export type JobUncheckedUpdateWithoutUserInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
@@ -1241,8 +1241,8 @@ export type JobUpdateWithoutCategoryInput = {
     deadline?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    user?: Prisma.UserUpdateOneRequiredWithoutJobsNestedInput;
     applications?: Prisma.ApplicationUpdateManyWithoutJobNestedInput;
+    user?: Prisma.UserUpdateOneRequiredWithoutJobsNestedInput;
 };
 export type JobUncheckedUpdateWithoutCategoryInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
@@ -1341,9 +1341,9 @@ export type JobSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = ru
     deadline?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
-    user?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
-    category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>;
     applications?: boolean | Prisma.Job$applicationsArgs<ExtArgs>;
+    category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>;
+    user?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
     _count?: boolean | Prisma.JobCountOutputTypeDefaultArgs<ExtArgs>;
 }, ExtArgs["result"]["job"]>;
 export type JobSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1370,8 +1370,8 @@ export type JobSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extension
     deadline?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
-    user?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
     category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>;
+    user?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
 }, ExtArgs["result"]["job"]>;
 export type JobSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
     id?: boolean;
@@ -1397,8 +1397,8 @@ export type JobSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extension
     deadline?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
-    user?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
     category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>;
+    user?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
 }, ExtArgs["result"]["job"]>;
 export type JobSelectScalar = {
     id?: boolean;
@@ -1427,25 +1427,25 @@ export type JobSelectScalar = {
 };
 export type JobOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "categoryId" | "title" | "companyName" | "companyDetails" | "location" | "district" | "vacancy" | "age" | "salary" | "experience" | "education" | "additionalReqirements" | "responsibilities" | "requiredSkills" | "description" | "benefits" | "jobType" | "tags" | "deadline" | "createdAt" | "updatedAt", ExtArgs["result"]["job"]>;
 export type JobInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-    user?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
-    category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>;
     applications?: boolean | Prisma.Job$applicationsArgs<ExtArgs>;
+    category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>;
+    user?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
     _count?: boolean | Prisma.JobCountOutputTypeDefaultArgs<ExtArgs>;
 };
 export type JobIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-    user?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
     category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>;
+    user?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
 };
 export type JobIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-    user?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
     category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>;
+    user?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
 };
 export type $JobPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
     name: "Job";
     objects: {
-        user: Prisma.$UserPayload<ExtArgs>;
-        category: Prisma.$CategoryPayload<ExtArgs>;
         applications: Prisma.$ApplicationPayload<ExtArgs>[];
+        category: Prisma.$CategoryPayload<ExtArgs>;
+        user: Prisma.$UserPayload<ExtArgs>;
     };
     scalars: runtime.Types.Extensions.GetPayloadResult<{
         id: string;
@@ -1800,9 +1800,9 @@ export interface JobDelegate<ExtArgs extends runtime.Types.Extensions.InternalAr
  */
 export interface Prisma__JobClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise";
-    user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>;
-    category<T extends Prisma.CategoryDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CategoryDefaultArgs<ExtArgs>>): Prisma.Prisma__CategoryClient<runtime.Types.Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>;
     applications<T extends Prisma.Job$applicationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Job$applicationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ApplicationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
+    category<T extends Prisma.CategoryDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CategoryDefaultArgs<ExtArgs>>): Prisma.Prisma__CategoryClient<runtime.Types.Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>;
+    user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>;
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.

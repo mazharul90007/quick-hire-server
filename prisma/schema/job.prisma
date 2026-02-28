@@ -1,36 +1,36 @@
 model Job {
-    id                    String        @id @default(uuid())
-    userId                String
-    user                  User          @relation(fields: [userId], references: [id])
-    categoryId            String
-    category              Category      @relation(fields: [categoryId], references: [id])
-    title                 String
-    companyName           String?
-    companyDetails        String?
-    location              String?
-    district              String?
-    vacancy               Int?
-    age                   String?
-    salary                String?
-    experience            String?
-    education             String?
-    additionalReqirements String[]
-    responsibilities      String[]
-    requiredSkills        String[]
-    description           String?
-    benefits              String[]
-    jobType               JobTypes
-    tags                  String[]
-    deadline              DateTime?
-    createdAt             DateTime      @default(now())
-    updatedAt             DateTime      @updatedAt
-    applications          Application[]
+  id                    String        @id @default(uuid())
+  userId                String
+  categoryId            String
+  title                 String
+  companyName           String?
+  companyDetails        String?
+  location              String?
+  district              String?
+  vacancy               Int?
+  age                   String?
+  salary                String?
+  experience            String?
+  education             String?
+  additionalReqirements String[]
+  responsibilities      String[]
+  requiredSkills        String[]
+  description           String?
+  benefits              String[]
+  jobType               JobTypes
+  tags                  String[]
+  deadline              DateTime?
+  createdAt             DateTime      @default(now())
+  updatedAt             DateTime      @updatedAt
+  applications          Application[]
+  category              Category      @relation(fields: [categoryId], references: [id])
+  user                  User          @relation(fields: [userId], references: [id])
 
-    @@map("job")
+  @@map("job")
 }
 
 enum JobTypes {
-    REMOTE
-    ONSITE
-    HYBRID
+  REMOTE
+  ONSITE
+  HYBRID
 }

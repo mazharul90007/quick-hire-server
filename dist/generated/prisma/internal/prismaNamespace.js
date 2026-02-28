@@ -102,12 +102,12 @@ export const UserScalarFieldEnum = {
     email: 'email',
     emailVerified: 'emailVerified',
     image: 'image',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
     address: 'address',
     phone: 'phone',
     role: 'role',
-    status: 'status',
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    status: 'status'
 };
 export const SessionScalarFieldEnum = {
     id: 'id',
