@@ -24,7 +24,21 @@ const createCategory = async (userId: string, title: string) => {
 
 //==============Get All Categories==============
 const getAllCategories = async () => {
-  const result = await prisma.category.findMany();
+  const result = await prisma.category.findMany({
+    include: {
+      jobs: {
+        select: {
+          id: true,
+          title: true,
+          companyName: true,
+          district: true,
+          location: true,
+          salary: true,
+          jobType: true,
+        },
+      },
+    },
+  });
 
   return result;
 };
