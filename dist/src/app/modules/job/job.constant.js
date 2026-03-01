@@ -5,6 +5,7 @@ export const jobFilterableFields = [
     "categoryId",
     "jobType",
     "employmentType",
+    "featured",
 ];
 export const jobSearchableFields = [
     "title",

@@ -40,6 +40,10 @@ const getAllJobs = async (filters, options) => {
     }
     //filter logic
     if (Object.keys(filterData).length > 0) {
+        if (filterData.featured !== undefined) {
+            filterData.featured =
+                filterData.featured === "true" || filterData.featured === true;
+        }
         andConditions.push({
             AND: Object.keys(filterData).map((key) => ({
                 [key]: {

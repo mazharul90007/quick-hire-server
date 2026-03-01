@@ -9,6 +9,7 @@ export declare const jobServices: {
         categoryId: string;
         jobType: import("../../../../generated/prisma/enums").JobTypes;
         employmentType: import("../../../../generated/prisma/enums").EmploymentType;
+        featured: boolean | null;
         title: string;
         location: string | null;
         companyLogo: string | null;
@@ -23,7 +24,6 @@ export declare const jobServices: {
         requiredSkills: string[];
         description: string | null;
         benefits: string[];
-        featured: boolean | null;
         tags: string[];
         deadline: Date | null;
     }>;
@@ -50,6 +50,7 @@ export declare const jobServices: {
             categoryId: string;
             jobType: import("../../../../generated/prisma/enums").JobTypes;
             employmentType: import("../../../../generated/prisma/enums").EmploymentType;
+            featured: boolean | null;
             title: string;
             location: string | null;
             companyLogo: string | null;
@@ -64,7 +65,6 @@ export declare const jobServices: {
             requiredSkills: string[];
             description: string | null;
             benefits: string[];
-            featured: boolean | null;
             tags: string[];
             deadline: Date | null;
         })[];
@@ -86,6 +86,7 @@ export declare const jobServices: {
         categoryId: string;
         jobType: import("../../../../generated/prisma/enums").JobTypes;
         employmentType: import("../../../../generated/prisma/enums").EmploymentType;
+        featured: boolean | null;
         title: string;
         location: string | null;
         companyLogo: string | null;
@@ -100,7 +101,6 @@ export declare const jobServices: {
         requiredSkills: string[];
         description: string | null;
         benefits: string[];
-        featured: boolean | null;
         tags: string[];
         deadline: Date | null;
     }>;
