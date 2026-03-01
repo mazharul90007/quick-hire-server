@@ -25,6 +25,7 @@ const createJobValidationSchema = z.object({
     "INTERNSHIP",
     "FREELANCE",
   ]),
+  featured: z.boolean().optional(),
   tags: z.array(z.string()).optional(),
   deadline: z.string().optional(),
 });

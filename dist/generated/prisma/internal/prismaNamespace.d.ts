@@ -898,6 +898,7 @@ export declare const JobScalarFieldEnum: {
     readonly benefits: "benefits";
     readonly jobType: "jobType";
     readonly employmentType: "employmentType";
+    readonly featured: "featured";
     readonly tags: "tags";
     readonly deadline: "deadline";
     readonly createdAt: "createdAt";

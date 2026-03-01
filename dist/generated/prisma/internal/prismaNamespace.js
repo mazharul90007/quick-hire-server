@@ -170,6 +170,7 @@ export const JobScalarFieldEnum = {
     benefits: 'benefits',
     jobType: 'jobType',
     employmentType: 'employmentType',
+    featured: 'featured',
     tags: 'tags',
     deadline: 'deadline',
     createdAt: 'createdAt',

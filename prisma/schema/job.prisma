@@ -20,6 +20,7 @@ model Job {
   benefits              String[]
   jobType               JobTypes       @default(ONSITE)
   employmentType        EmploymentType @default(FULL_TIME)
+  featured              Boolean?       @default(false)
   tags                  String[]
   deadline              DateTime?
   createdAt             DateTime       @default(now())

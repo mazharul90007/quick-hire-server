@@ -23,6 +23,7 @@ export declare const jobServices: {
         requiredSkills: string[];
         description: string | null;
         benefits: string[];
+        featured: boolean | null;
         tags: string[];
         deadline: Date | null;
     }>;
@@ -63,6 +64,7 @@ export declare const jobServices: {
             requiredSkills: string[];
             description: string | null;
             benefits: string[];
+            featured: boolean | null;
             tags: string[];
             deadline: Date | null;
         })[];
@@ -98,6 +100,7 @@ export declare const jobServices: {
         requiredSkills: string[];
         description: string | null;
         benefits: string[];
+        featured: boolean | null;
         tags: string[];
         deadline: Date | null;
     }>;

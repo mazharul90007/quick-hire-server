@@ -29,6 +29,7 @@ export declare const jobValidations: {
             INTERNSHIP: "INTERNSHIP";
             FREELANCE: "FREELANCE";
         }>;
+        featured: z.ZodOptional<z.ZodBoolean>;
         tags: z.ZodOptional<z.ZodArray<z.ZodString>>;
         deadline: z.ZodOptional<z.ZodString>;
     }, z.core.$strip>;
