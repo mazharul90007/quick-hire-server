@@ -5,11 +5,21 @@ export declare const categoryServices: {
         userId: string;
         title: string;
     }>;
-    getAllCategories: () => Promise<{
+    getAllCategories: () => Promise<({
+        jobs: {
+            id: string;
+            companyName: string | null;
+            district: string | null;
+            jobType: import("../../../../generated/prisma/enums").JobTypes;
+            title: string;
+            location: string | null;
+            salary: string | null;
+        }[];
+    } & {
         status: import("../../../../generated/prisma/enums").CategoryStatus;
         id: string;
         userId: string;
         title: string;
-    }[]>;
+    })[]>;
 };
 //# sourceMappingURL=category.service.d.ts.map

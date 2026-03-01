@@ -22,6 +22,13 @@ export declare const jobValidations: {
             ONSITE: "ONSITE";
             HYBRID: "HYBRID";
         }>;
+        employmentType: z.ZodEnum<{
+            FULL_TIME: "FULL_TIME";
+            PART_TIME: "PART_TIME";
+            CONTRACTUAL: "CONTRACTUAL";
+            INTERNSHIP: "INTERNSHIP";
+            FREELANCE: "FREELANCE";
+        }>;
         tags: z.ZodOptional<z.ZodArray<z.ZodString>>;
         deadline: z.ZodOptional<z.ZodString>;
     }, z.core.$strip>;

@@ -26,4 +26,11 @@ export const JobTypes = {
     ONSITE: 'ONSITE',
     HYBRID: 'HYBRID'
 };
+export const EmploymentType = {
+    FULL_TIME: 'FULL_TIME',
+    PART_TIME: 'PART_TIME',
+    CONTRACTUAL: 'CONTRACTUAL',
+    INTERNSHIP: 'INTERNSHIP',
+    FREELANCE: 'FREELANCE'
+};
 //# sourceMappingURL=enums.js.map

@@ -8,8 +8,10 @@ export declare const jobServices: {
         district: string | null;
         categoryId: string;
         jobType: import("../../../../generated/prisma/enums").JobTypes;
+        employmentType: import("../../../../generated/prisma/enums").EmploymentType;
         title: string;
         location: string | null;
+        companyLogo: string | null;
         companyDetails: string | null;
         vacancy: number | null;
         age: string | null;
@@ -46,8 +48,10 @@ export declare const jobServices: {
             district: string | null;
             categoryId: string;
             jobType: import("../../../../generated/prisma/enums").JobTypes;
+            employmentType: import("../../../../generated/prisma/enums").EmploymentType;
             title: string;
             location: string | null;
+            companyLogo: string | null;
             companyDetails: string | null;
             vacancy: number | null;
             age: string | null;
@@ -79,8 +83,10 @@ export declare const jobServices: {
         district: string | null;
         categoryId: string;
         jobType: import("../../../../generated/prisma/enums").JobTypes;
+        employmentType: import("../../../../generated/prisma/enums").EmploymentType;
         title: string;
         location: string | null;
+        companyLogo: string | null;
         companyDetails: string | null;
         vacancy: number | null;
         age: string | null;

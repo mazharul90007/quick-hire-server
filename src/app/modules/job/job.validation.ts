@@ -18,6 +18,13 @@ const createJobValidationSchema = z.object({
   description: z.string().optional(),
   benefits: z.array(z.string()).optional(),
   jobType: z.enum(["REMOTE", "ONSITE", "HYBRID"]),
+  employmentType: z.enum([
+    "FULL_TIME",
+    "PART_TIME",
+    "CONTRACTUAL",
+    "INTERNSHIP",
+    "FREELANCE",
+  ]),
   tags: z.array(z.string()).optional(),
   deadline: z.string().optional(),
 });

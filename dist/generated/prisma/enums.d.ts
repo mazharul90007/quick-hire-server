@@ -21,4 +21,12 @@ export declare const JobTypes: {
     readonly HYBRID: "HYBRID";
 };
 export type JobTypes = (typeof JobTypes)[keyof typeof JobTypes];
+export declare const EmploymentType: {
+    readonly FULL_TIME: "FULL_TIME";
+    readonly PART_TIME: "PART_TIME";
+    readonly CONTRACTUAL: "CONTRACTUAL";
+    readonly INTERNSHIP: "INTERNSHIP";
+    readonly FREELANCE: "FREELANCE";
+};
+export type EmploymentType = (typeof EmploymentType)[keyof typeof EmploymentType];
 //# sourceMappingURL=enums.d.ts.map

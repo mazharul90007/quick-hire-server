@@ -1,9 +1,10 @@
 model Job {
-  id                    String        @id @default(uuid())
+  id                    String         @id @default(uuid())
   userId                String
   categoryId            String
   title                 String
   companyName           String?
+  companyLogo           String?
   companyDetails        String?
   location              String?
   district              String?
@@ -17,14 +18,15 @@ model Job {
   requiredSkills        String[]
   description           String?
   benefits              String[]
-  jobType               JobTypes
+  jobType               JobTypes       @default(ONSITE)
+  employmentType        EmploymentType @default(FULL_TIME)
   tags                  String[]
   deadline              DateTime?
-  createdAt             DateTime      @default(now())
-  updatedAt             DateTime      @updatedAt
+  createdAt             DateTime       @default(now())
+  updatedAt             DateTime       @updatedAt
   applications          Application[]
-  category              Category      @relation(fields: [categoryId], references: [id])
-  user                  User          @relation(fields: [userId], references: [id])
+  category              Category       @relation(fields: [categoryId], references: [id])
+  user                  User           @relation(fields: [userId], references: [id])
 
   @@map("job")
 }
@@ -33,4 +35,12 @@ enum JobTypes {
   REMOTE
   ONSITE
   HYBRID
+}
+
+enum EmploymentType {
+  FULL_TIME
+  PART_TIME
+  CONTRACTUAL
+  INTERNSHIP
+  FREELANCE
 }
