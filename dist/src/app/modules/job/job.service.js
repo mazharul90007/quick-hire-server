@@ -24,8 +24,10 @@ const createJob = async (userId, payload) => {
 };
 //===============Get all Jobs=================
 const getAllJobs = async (filters, options) => {
-    const { searchTerm, ...filterData } = filters;
+    const { searchTerm, ...filtersRemaining } = filters;
     const { page, limit, skip, sortBy, sortOrder } = calculatePagination(options);
+    // Clean filterData to remove empty strings, nulls, and undefined
+    const filterData = Object.fromEntries(Object.entries(filtersRemaining).filter(([_, v]) => v !== "" && v !== null && v !== undefined));
     const andConditions = [];
     //search logic
     if (searchTerm) {
@@ -45,12 +47,31 @@ const getAllJobs = async (filters, options) => {
                 filterData.featured === "true" || filterData.featured === true;
         }
         andConditions.push({
-            AND: Object.keys(filterData).map((key) => ({
-                [key]: {
-                    equals: filterData[key],
-                    // mode: "insensitive",
-                },
-            })),
+            AND: Object.keys(filterData).map((key) => {
+                const value = filterData[key];
+                // Handle arrays or comma-separated strings for multiple selection
+                if (typeof value === "string" && value.includes(",")) {
+                    return {
+                        [key]: {
+                            in: value.split(","),
+                        },
+                    };
+                }
+                if (Array.isArray(value)) {
+                    return {
+                        [key]: {
+                            in: value,
+                        },
+                    };
+                }
+                // Default to equals
+                return {
+                    [key]: {
+                        equals: value,
+                        mode: "insensitive",
+                    },
+                };
+            }),
         });
     }
     const whereConditions = andConditions.length > 0 ? { AND: andConditions } : {};

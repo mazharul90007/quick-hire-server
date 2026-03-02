@@ -34,11 +34,11 @@ export declare const applicationServices: {
             job: {
                 id: string;
                 companyName: string | null;
+                location: string | null;
                 district: string | null;
                 categoryId: string;
                 jobType: import("../../../../generated/prisma/enums").JobTypes;
                 title: string;
-                location: string | null;
                 vacancy: number | null;
                 salary: string | null;
             };
@@ -72,11 +72,11 @@ export declare const applicationServices: {
         job: {
             id: string;
             companyName: string | null;
+            location: string | null;
             district: string | null;
             categoryId: string;
             jobType: import("../../../../generated/prisma/enums").JobTypes;
             title: string;
-            location: string | null;
             vacancy: number | null;
             salary: string | null;
         };

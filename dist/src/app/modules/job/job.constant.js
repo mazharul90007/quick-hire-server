@@ -1,6 +1,7 @@
 export const jobFilterableFields = [
     "searchTerm",
     "companyName",
+    "location",
     "district",
     "categoryId",
     "jobType",

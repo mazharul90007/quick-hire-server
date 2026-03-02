@@ -9,10 +9,10 @@ export declare const categoryServices: {
         jobs: {
             id: string;
             companyName: string | null;
+            location: string | null;
             district: string | null;
             jobType: import("../../../../generated/prisma/enums").JobTypes;
             title: string;
-            location: string | null;
             salary: string | null;
         }[];
     } & {
