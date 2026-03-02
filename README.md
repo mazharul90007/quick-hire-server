@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://quick-hire-server.onrender.com" target="blank"><img src="https://img.icons8.com/color/144/briefcase.png" width="120" alt="QuickHire Logo" /></a>
+  <a href="https://quick-hire-server.onrender.com" target="blank"><img src="https://res.cloudinary.com/dp6urj3gj/image/upload/v1772487956/quick-hire-logo_kfga0x.png" width="160" alt="QuickHire Logo" /></a>
 </p>
 
 <p align="center">A professional and scalable job portal server-side application built with modern technologies.</p>
@@ -8,10 +8,10 @@
 
 **QUICK HIRE SERVER** is a robust backend API designed for a modern job recruitment platform. It manages job postings, applicant tracking, and category organization with high performance and security.
 
-🌐 **Frontend Live URL:** [https://quick-hire-client-ig4g962c5.vercel.app](https://quick-hire-client-ig4g962c5.vercel.app)  
+🌐 **Frontend Live URL:** [https://quick-hire-client-chi.vercel.app](https://quick-hire-client-chi.vercel.app)  
 🌐 **Backend Live URL:** [https://quick-hire-server.onrender.com](https://quick-hire-server.onrender.com)  
-🌐 **Frontend Github URL:** [https://github.com/mazharul90007/quick-hire-client](https://github.com/mazharul90007/quick-hire-client)  
-📚 **API Documentation:** [Postman Documentation](https://documenter.getpostman.com/view/40157327/2sBXcGDKC2)
+🌐 **Frontend Github URL:** [https://github.com/mazharul90007/quick-hire](https://github.com/mazharul90007/quick-hire)  
+📚 **API Documentation:** [Postman Documentation](https://documenter.getpostman.com/view/40157327/2sBXcKAcnk)
 
 ---
 
@@ -45,6 +45,14 @@
 
 - **Create Category** (ADMIN, SUPER_ADMIN) - Organize jobs into logical segments.
 - **Get All Categories** (PUBLIC) - Instant access to all available job sectors.
+
+---
+
+## 🗂️ Entity Relationship Diagram (ERD)
+
+<p align="center">
+  <img src="https://res.cloudinary.com/dp6urj3gj/image/upload/v1772487037/quick-hire-erd_zvfrbo.png" alt="ChemistBD ER Diagram" width="700"/>
+</p>
 
 ---
 
