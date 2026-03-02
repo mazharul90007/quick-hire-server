@@ -10,7 +10,10 @@ import router from "./app/routes";
 const app = express();
 //parser
 app.use(cors({
-    origin: ["http://localhost:3000"],
+    origin: [
+        "http://localhost:3000",
+        "https://quick-hire-client-chi.vercel.app",
+    ],
     credentials: true,
 }));
 app.use(cookieParser());

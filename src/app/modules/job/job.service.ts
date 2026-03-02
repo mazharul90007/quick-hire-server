@@ -83,11 +83,11 @@ const getAllJobs = async (filters: any, options: any) => {
           };
         }
 
-        // Default to equals
+        // Default to equals, only use insensitive for strings
         return {
           [key]: {
             equals: value,
-            mode: "insensitive",
+            ...(typeof value === "string" && { mode: "insensitive" }),
           },
         };
       }),
