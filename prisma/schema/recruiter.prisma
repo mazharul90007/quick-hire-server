@@ -1,0 +1,69 @@
+model Recruiter {
+    id                 String       @id @default(uuid())
+    userId             String       @unique
+    user               User         @relation(fields: [userId], references: [id])
+    recruiterName      String?
+    recruiterPhoto     String?
+    recruiterPhone     String?
+    recruiterWorkEmail String?
+    companyName        String?
+    companyLogo        String?
+    companyWebsite     String?
+    companyFacebookId  String?
+    companyLinkedInId  String?
+    companySize        CompanySize?
+    companyAddress     String?
+    industryId         String?
+    industry           Industry?    @relation(fields: [industryId], references: [id])
+    subIndustryId      String?
+    subIndustry        SubIndustry? @relation(fields: [subIndustryId], references: [id])
+    isVerified         Boolean      @default(false)
+    subscriptionPlan   Subscription @default(FREE)
+    isDeleted          Boolean      @default(false)
+    createdAt          DateTime     @default(now())
+    updatedAt          DateTime     @updatedAt
+    jobs               Job[]
+
+    @@map("recruiters")
+}
+
+enum CompanySize {
+    SMALL
+    MEDIUM
+    LARGE
+    VERY_LARGE
+    ENTERPRISE
+}
+
+enum Subscription {
+    FREE
+    SILVER
+    GOLD
+    DIAMOND
+}
+
+model Industry {
+    id            String        @id @default(uuid())
+    name          String        @unique
+    createdAt     DateTime      @default(now())
+    updatedAt     DateTime      @updatedAt
+    subIndustries SubIndustry[]
+    recruiters    Recruiter[]
+    jobs          Job[]
+
+    @@map("industries")
+}
+
+model SubIndustry {
+    id         String      @id @default(uuid())
+    name       String
+    industryId String
+    industry   Industry    @relation(fields: [industryId], references: [id])
+    recruiters Recruiter[]
+    jobs       Job[]
+    createdAt  DateTime    @default(now())
+    updatedAt  DateTime    @updatedAt
+
+    @@unique([name, industryId])
+    @@map("sub_industries")
+}
