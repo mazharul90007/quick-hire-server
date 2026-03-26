@@ -2,7 +2,8 @@ import status from "http-status";
 import { prisma } from "../../../lib/prisma";
 import ApiError from "../../errors/ApiErrors";
 import { auth } from "../../../lib/auth";
-import { ICreateApplicant } from "./auth.interface";
+import { ICreateApplicant, ICreateRecruiter } from "./auth.interface";
+import { UserRole } from "../../../../generated/prisma/enums";
 
 //=====================Create Applicant=====================
 const createApplicant = async (payload: ICreateApplicant) => {
@@ -79,7 +80,7 @@ const createAdmin = async (payload: any) => {
       email: admin.email,
       password,
       name: admin.name || "",
-      role: "ADMIN",
+      role: UserRole.ADMIN,
       needPasswordChange: true,
     },
   });
@@ -127,8 +128,6 @@ const forgetPassword = async (payload: { email: string }) => {
 const resetPassword = async (payload: any) => {
   const { newPassword, token } = payload;
 
-  // 1. In Better-Auth v1, the reset token is stored in the 'identifier' with a prefix
-  // and the 'value' field contains the User ID.
   const verification = await prisma.verification.findFirst({
     where: { identifier: `reset-password:${token}` },
   });
@@ -139,7 +138,7 @@ const resetPassword = async (payload: any) => {
 
   const userId = verification.value;
 
-  // 2. Perform the reset via Better-Auth
+  //Perform the reset via Better-Auth
   const result = await auth.api.resetPassword({
     body: { newPassword, token },
   });
@@ -149,7 +148,7 @@ const resetPassword = async (payload: any) => {
     throw new ApiError(status.BAD_REQUEST, "Password reset failed");
   }
 
-  // 3. Clear the needPasswordChange flag using the userId we found
+  //Clear the needPasswordChange flag using the userId
   await prisma.user.update({
     where: { id: userId },
     data: { needPasswordChange: false },
@@ -158,9 +157,72 @@ const resetPassword = async (payload: any) => {
   return result;
 };
 
+//====================Create Recruiter====================
+const createRecruiter = async (payload: ICreateRecruiter) => {
+  const { password, email, recruiter } = payload;
+
+  //Check if user already exists
+  const isUserExist = await prisma.user.findUnique({
+    where: { email },
+  });
+
+  if (isUserExist) {
+    throw new ApiError(status.CONFLICT, "User with this email already exists!");
+  }
+
+  //Create User via better-auth
+  const userData = await auth.api.signUpEmail({
+    body: {
+      email,
+      password,
+      name: recruiter.recruiterName || "",
+      role: UserRole.RECRUITER,
+    },
+  });
+
+  if (!userData.user) {
+    throw new ApiError(status.BAD_REQUEST, "Failed to register user!");
+  }
+
+  const userId = userData.user.id;
+
+  try {
+    //Create the Recruiter profile record
+    const result = await prisma.recruiter.create({
+      data: {
+        ...recruiter,
+        userId,
+      } as any,
+      include: {
+        user: {
+          select: {
+            email: true,
+            name: true,
+            image: true,
+            emailVerified: true,
+            address: true,
+            role: true,
+            status: true,
+            needPasswordChange: true,
+          },
+        },
+      },
+    });
+    return result;
+  } catch (error) {
+    //Rollback: delete the user if profile creation fails
+    await prisma.user.delete({ where: { id: userId } });
+    throw new ApiError(
+      status.INTERNAL_SERVER_ERROR,
+      "Recruiter registration failed!",
+    );
+  }
+};
+
 export const AuthService = {
   createApplicant,
   createAdmin,
   forgetPassword,
   resetPassword,
+  createRecruiter,
 };

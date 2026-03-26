@@ -49,9 +49,21 @@ const resetPassword = catchAsync(async (req, res) => {
   });
 });
 
+//====================Create Recruiter====================
+const createRecruiter = catchAsync(async (req, res) => {
+  const result = await AuthService.createRecruiter(req.body);
+  sendResponse(res, {
+    statusCode: status.CREATED,
+    success: true,
+    message: "Recruiter registered successfully! Please verify your email.",
+    data: result,
+  });
+});
+
 export const AuthController = {
   createApplicant,
   createAdmin,
   forgetPassword,
   resetPassword,
+  createRecruiter,
 };

@@ -34,4 +34,12 @@ router.post(
   validateRequest(AuthValidation.resetPassword),
   AuthController.resetPassword,
 );
+
+//====================Register Recruiter====================
+router.post(
+  "/register-recruiter",
+  validateRequest(AuthValidation.createRecruiter),
+  AuthController.createRecruiter,
+);
+
 export const AuthRoutes = router;

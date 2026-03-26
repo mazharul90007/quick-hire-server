@@ -7,3 +7,21 @@ export interface ICreateApplicant {
     phone?: string;
   };
 }
+
+export interface ICreateRecruiter {
+  password: string;
+  email: string;
+  recruiter: {
+    recruiterName?: string;
+    recruiterPhone?: string;
+    recruiterWorkEmail?: string;
+    companyName?: string;
+    companyWebsite?: string;
+    companyFacebookId?: string;
+    companyLinkedInId?: string;
+    companySize?: string;
+    companyAddress?: string;
+    industryId?: string;
+    subIndustryId?: string;
+  };
+}
