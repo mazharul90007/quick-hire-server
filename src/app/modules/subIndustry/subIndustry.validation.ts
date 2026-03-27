@@ -5,6 +5,12 @@ const createSubIndustry = z.object({
   industryId: z.string("Industry ID is required"),
 });
 
+const updateSubIndustry = z.object({
+  name: z.string().optional(),
+  industryId: z.string().optional(),
+});
+
 export const SubIndustryValidation = {
   createSubIndustry,
+  updateSubIndustry,
 };

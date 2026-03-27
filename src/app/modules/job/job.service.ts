@@ -2,28 +2,50 @@ import { Prisma } from "../../../../generated/prisma/client";
 import { prisma } from "../../../lib/prisma";
 import ApiError from "../../errors/ApiErrors";
 import calculatePagination from "../../helpers/paginationHelpers";
-import { jobSearchableFields } from "./job.constant";
+import {
+  jobAllowedSortFields,
+  jobEnumFilterFields,
+  jobSearchableFields,
+} from "./job.constant";
+import type { CreateJobPayload } from "./job.validation";
 
 //===============Create Job=================
-const createJob = async (userId: string, payload: any) => {
-  //verify user
-  const isExistUser = await prisma.user.findUnique({
-    where: { id: userId },
+const createJob = async (userId: string, payload: CreateJobPayload) => {
+  const recruiter = await prisma.recruiter.findFirst({
+    where: { userId, isDeleted: false },
   });
 
-  if (!isExistUser) {
-    throw new ApiError(400, "User not found");
+  if (!recruiter) {
+    throw new ApiError(404, "Recruiter profile not found");
   }
 
-  // Handle date format
-  const jobData = {
-    ...payload,
-    userId: userId,
-    deadline: payload.deadline ? new Date(payload.deadline) : undefined,
-  };
+  const subIndustry = await prisma.subIndustry.findUnique({
+    where: { id: payload.subIndustryId },
+    select: { id: true, industryId: true },
+  });
+
+  if (!subIndustry) {
+    throw new ApiError(404, "Sub-industry not found");
+  }
+
+  if (subIndustry.industryId !== payload.industryId) {
+    throw new ApiError(
+      400,
+      "Sub-industry does not belong to the given industry",
+    );
+  }
+
+  const { industryId, subIndustryId, deadline, ...rest } = payload;
 
   const result = await prisma.job.create({
-    data: jobData,
+    data: {
+      recruiterId: recruiter.id,
+      industryId,
+      subIndustryId,
+      ...rest,
+      isVerified: false,
+      deadline: deadline ? new Date(deadline) : undefined,
+    } as Prisma.JobUncheckedCreateInput,
   });
 
   return result;
@@ -32,18 +54,24 @@ const createJob = async (userId: string, payload: any) => {
 //===============Get all Jobs=================
 const getAllJobs = async (filters: any, options: any) => {
   const { searchTerm, ...filtersRemaining } = filters;
-  const { page, limit, skip, sortBy, sortOrder } = calculatePagination(options);
+  let { page, limit, skip, sortBy, sortOrder } = calculatePagination(options);
 
-  // Clean filterData to remove empty strings, nulls, and undefined
+  const sortField = jobAllowedSortFields.includes(
+    sortBy as (typeof jobAllowedSortFields)[number],
+  )
+    ? sortBy
+    : "createdAt";
+  sortOrder =
+    String(sortOrder).toLowerCase() === "asc" ? "asc" : "desc";
+
   const filterData = Object.fromEntries(
     Object.entries(filtersRemaining).filter(
       ([_, v]) => v !== "" && v !== null && v !== undefined,
     ),
   );
 
-  const andConditions = [];
+  const andConditions: Prisma.JobWhereInput[] = [];
 
-  //search logic
   if (searchTerm) {
     andConditions.push({
       OR: jobSearchableFields.map((field) => ({
@@ -55,35 +83,42 @@ const getAllJobs = async (filters: any, options: any) => {
     });
   }
 
-  //filter logic
   if (Object.keys(filterData).length > 0) {
     if (filterData.featured !== undefined) {
       filterData.featured =
         filterData.featured === "true" || filterData.featured === true;
+    }
+    if (filterData.isVerified !== undefined) {
+      filterData.isVerified =
+        filterData.isVerified === "true" || filterData.isVerified === true;
     }
 
     andConditions.push({
       AND: Object.keys(filterData).map((key) => {
         const value = filterData[key];
 
-        // Handle arrays or comma-separated strings for multiple selection
         if (typeof value === "string" && value.includes(",")) {
-          return {
-            [key]: {
-              in: value.split(","),
-            },
-          };
+          const list = value
+            .split(",")
+            .map((s) => s.trim())
+            .filter(Boolean);
+          if (jobEnumFilterFields.includes(key)) {
+            return { [key]: { in: list } };
+          }
+          return { [key]: { in: list, mode: "insensitive" } };
         }
 
         if (Array.isArray(value)) {
-          return {
-            [key]: {
-              in: value,
-            },
-          };
+          if (jobEnumFilterFields.includes(key)) {
+            return { [key]: { in: value } };
+          }
+          return { [key]: { in: value, mode: "insensitive" } };
         }
 
-        // Default to equals, only use insensitive for strings
+        if (jobEnumFilterFields.includes(key)) {
+          return { [key]: value };
+        }
+
         return {
           [key]: {
             equals: value,
@@ -96,15 +131,18 @@ const getAllJobs = async (filters: any, options: any) => {
 
   const whereConditions: Prisma.JobWhereInput =
     andConditions.length > 0 ? { AND: andConditions } : {};
+
   const result = await prisma.job.findMany({
     where: whereConditions,
     skip,
     take: limit,
     orderBy: {
-      [sortBy]: sortOrder,
+      [sortField]: sortOrder,
     },
     include: {
-      category: true,
+      industry: true,
+      subIndustry: true,
+      recruiter: true,
     },
   });
   const total = await prisma.job.count({ where: whereConditions });
@@ -118,7 +156,11 @@ const getAllJobs = async (filters: any, options: any) => {
 const getSingleJob = async (id: string) => {
   const result = await prisma.job.findUniqueOrThrow({
     where: { id },
-    include: { category: true },
+    include: {
+      industry: true,
+      subIndustry: true,
+      recruiter: true,
+    },
   });
 
   return result;

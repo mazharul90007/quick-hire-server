@@ -1,0 +1,6 @@
+-- AlterTable
+ALTER TABLE "jobs" ALTER COLUMN "additionalRequirements" SET DEFAULT ARRAY[]::TEXT[],
+ALTER COLUMN "responsibilities" SET DEFAULT ARRAY[]::TEXT[],
+ALTER COLUMN "requiredSkills" SET DEFAULT ARRAY[]::TEXT[],
+ALTER COLUMN "benefits" SET DEFAULT ARRAY[]::TEXT[],
+ALTER COLUMN "tags" SET DEFAULT ARRAY[]::TEXT[];

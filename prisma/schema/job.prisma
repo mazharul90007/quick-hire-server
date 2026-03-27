@@ -14,16 +14,18 @@ model Job {
   salary                 String?
   experience             String?
   education              String?
-  additionalRequirements String[]
-  responsibilities       String[]
-  requiredSkills         String[]
+  additionalRequirements String[] @default([])
+  responsibilities       String[] @default([])
+  requiredSkills         String[] @default([])
   description            String?
-  benefits               String[]
+  benefits               String[] @default([])
   jobType                JobTypes       @default(ONSITE)
   employmentType         EmploymentType @default(FULL_TIME)
   featured               Boolean?       @default(false)
-  tags                   String[]
+  isVerified             Boolean?       @default(false)
+  tags                   String[] @default([])
   deadline               DateTime?
+  status                 JobStatus      @default(ACTIVE)
   createdAt              DateTime       @default(now())
   updatedAt              DateTime       @updatedAt
   applications           Application[]
@@ -43,4 +45,10 @@ enum EmploymentType {
   CONTRACTUAL
   INTERNSHIP
   FREELANCE
+}
+
+enum JobStatus {
+  ACTIVE
+  PAUSED
+  DELETED
 }

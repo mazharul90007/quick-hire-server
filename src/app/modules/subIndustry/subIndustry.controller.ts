@@ -4,6 +4,7 @@ import catchAsync from "../../../shared/catchAsync";
 import sendResponse from "../../../shared/sendResponse";
 import { SubIndustryService } from "./subIndustry.service";
 
+//==================Create subIndustries===================
 const createSubIndustry = catchAsync(async (req: Request, res: Response) => {
   const result = await SubIndustryService.createSubIndustry(req.body);
 
@@ -15,6 +16,34 @@ const createSubIndustry = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+//==================Get all subIndustries===================
+const getAllSubIndustries = catchAsync(async (req: Request, res: Response) => {
+  const result = await SubIndustryService.getAllSubIndustries();
+  sendResponse(res, {
+    statusCode: status.OK,
+    success: true,
+    message: "Sub-industries fetched successfully!",
+    data: result,
+  });
+});
+
+//==================Update subIndustry===================
+const updateSubIndustry = catchAsync(async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const result = await SubIndustryService.updateSubIndustry(
+    id as string,
+    req.body,
+  );
+  sendResponse(res, {
+    statusCode: status.OK,
+    success: true,
+    message: "Sub-industry updated successfully!",
+    data: result,
+  });
+});
+
 export const SubIndustryController = {
   createSubIndustry,
+  getAllSubIndustries,
+  updateSubIndustry,
 };
