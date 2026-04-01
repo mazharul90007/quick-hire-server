@@ -5,6 +5,7 @@ import { ApplicationRoutes } from "../modules/application/application.route";
 import { AuthRoutes } from "../modules/auth/auth.routes";
 import { IndustryRoutes } from "../modules/industry/industry.routes";
 import { SubIndustryRoutes } from "../modules/subIndustry/subIndustry.routes";
+import { AdminRoutes } from "../modules/Admin/admin.route";
 
 const router: express.Router = express.Router();
 
@@ -32,6 +33,10 @@ const moduleRoutes = [
   {
     path: "/sub-industries",
     route: SubIndustryRoutes,
+  },
+  {
+    path: "/admin",
+    route: AdminRoutes,
   },
 ];
 
