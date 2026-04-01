@@ -119,6 +119,11 @@ const getAllJobs = async (filters: any, options: any) => {
           return { [key]: value };
         }
 
+        /* Prisma boolean filters: use shorthand, not { equals }, for nullable booleans */
+        if (key === "featured" || key === "isVerified") {
+          return { [key]: Boolean(value) };
+        }
+
         return {
           [key]: {
             equals: value,

@@ -1,3 +1,9 @@
-export const applicationFilterableFields = ["searchTerm", "email"];
+/** Query keys allowed on GET /applications (controller picks these from req.query). */
+export const applicationFilterableFields = [
+  "searchTerm",
+  "jobId",
+  "applicantId",
+];
 
-export const applicationSearchableFields = ["name", "email"];
+/** When the client sends ?searchTerm=..., we search these columns (partial match). */
+export const applicationSearchableFields = ["cover_note", "expectedSalary"];

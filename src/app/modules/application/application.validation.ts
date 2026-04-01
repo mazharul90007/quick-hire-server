@@ -1,15 +1,22 @@
 import { z } from "zod";
 
+/**
+ * Body for "apply to a job".
+ * Who is applying comes from the auth session, not from this payload.
+ */
 const createApplicationValidationSchema = z.object({
-    jobId: z.string().min(1, "Job ID is required"),
-    name: z.string().min(1, "Name is required"),
-    email: z.string().email("Invalid email address"),
-    resume_link: z.string().url("Invalid resume link URL"),
-    cover_note: z.string().optional(),
-    expectedSalary: z.string().optional(),
-    userId: z.string().optional(),
+  /** Which job they are applying to (must be a real UUID in your DB). */
+  jobId: z.string().uuid("Valid job id is required"),
+  /** Optional message to the employer. */
+  cover_note: z.string().optional(),
+  /** Optional salary expectation as free text (e.g. "BDT 80,000"). */
+  expectedSalary: z.string().optional(),
 });
 
+export type CreateApplicationPayload = z.infer<
+  typeof createApplicationValidationSchema
+>;
+
 export const applicationValidation = {
-    createApplicationValidationSchema,
+  createApplicationValidationSchema,
 };
