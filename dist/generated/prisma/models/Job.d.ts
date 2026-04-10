@@ -31,7 +31,6 @@ export type JobMinAggregateOutputType = {
     age: string | null;
     salary: string | null;
     experience: string | null;
-    education: string | null;
     description: string | null;
     jobType: $Enums.JobTypes | null;
     employmentType: $Enums.EmploymentType | null;
@@ -54,7 +53,6 @@ export type JobMaxAggregateOutputType = {
     age: string | null;
     salary: string | null;
     experience: string | null;
-    education: string | null;
     description: string | null;
     jobType: $Enums.JobTypes | null;
     employmentType: $Enums.EmploymentType | null;
@@ -112,7 +110,6 @@ export type JobMinAggregateInputType = {
     age?: true;
     salary?: true;
     experience?: true;
-    education?: true;
     description?: true;
     jobType?: true;
     employmentType?: true;
@@ -135,7 +132,6 @@ export type JobMaxAggregateInputType = {
     age?: true;
     salary?: true;
     experience?: true;
-    education?: true;
     description?: true;
     jobType?: true;
     employmentType?: true;
@@ -263,7 +259,7 @@ export type JobGroupByOutputType = {
     age: string | null;
     salary: string | null;
     experience: string | null;
-    education: string | null;
+    education: string[];
     additionalRequirements: string[];
     responsibilities: string[];
     requiredSkills: string[];
@@ -302,7 +298,7 @@ export type JobWhereInput = {
     age?: Prisma.StringNullableFilter<"Job"> | string | null;
     salary?: Prisma.StringNullableFilter<"Job"> | string | null;
     experience?: Prisma.StringNullableFilter<"Job"> | string | null;
-    education?: Prisma.StringNullableFilter<"Job"> | string | null;
+    education?: Prisma.StringNullableListFilter<"Job">;
     additionalRequirements?: Prisma.StringNullableListFilter<"Job">;
     responsibilities?: Prisma.StringNullableListFilter<"Job">;
     requiredSkills?: Prisma.StringNullableListFilter<"Job">;
@@ -334,7 +330,7 @@ export type JobOrderByWithRelationInput = {
     age?: Prisma.SortOrderInput | Prisma.SortOrder;
     salary?: Prisma.SortOrderInput | Prisma.SortOrder;
     experience?: Prisma.SortOrderInput | Prisma.SortOrder;
-    education?: Prisma.SortOrderInput | Prisma.SortOrder;
+    education?: Prisma.SortOrder;
     additionalRequirements?: Prisma.SortOrder;
     responsibilities?: Prisma.SortOrder;
     requiredSkills?: Prisma.SortOrder;
@@ -369,7 +365,7 @@ export type JobWhereUniqueInput = Prisma.AtLeast<{
     age?: Prisma.StringNullableFilter<"Job"> | string | null;
     salary?: Prisma.StringNullableFilter<"Job"> | string | null;
     experience?: Prisma.StringNullableFilter<"Job"> | string | null;
-    education?: Prisma.StringNullableFilter<"Job"> | string | null;
+    education?: Prisma.StringNullableListFilter<"Job">;
     additionalRequirements?: Prisma.StringNullableListFilter<"Job">;
     responsibilities?: Prisma.StringNullableListFilter<"Job">;
     requiredSkills?: Prisma.StringNullableListFilter<"Job">;
@@ -401,7 +397,7 @@ export type JobOrderByWithAggregationInput = {
     age?: Prisma.SortOrderInput | Prisma.SortOrder;
     salary?: Prisma.SortOrderInput | Prisma.SortOrder;
     experience?: Prisma.SortOrderInput | Prisma.SortOrder;
-    education?: Prisma.SortOrderInput | Prisma.SortOrder;
+    education?: Prisma.SortOrder;
     additionalRequirements?: Prisma.SortOrder;
     responsibilities?: Prisma.SortOrder;
     requiredSkills?: Prisma.SortOrder;
@@ -437,7 +433,7 @@ export type JobScalarWhereWithAggregatesInput = {
     age?: Prisma.StringNullableWithAggregatesFilter<"Job"> | string | null;
     salary?: Prisma.StringNullableWithAggregatesFilter<"Job"> | string | null;
     experience?: Prisma.StringNullableWithAggregatesFilter<"Job"> | string | null;
-    education?: Prisma.StringNullableWithAggregatesFilter<"Job"> | string | null;
+    education?: Prisma.StringNullableListFilter<"Job">;
     additionalRequirements?: Prisma.StringNullableListFilter<"Job">;
     responsibilities?: Prisma.StringNullableListFilter<"Job">;
     requiredSkills?: Prisma.StringNullableListFilter<"Job">;
@@ -462,7 +458,7 @@ export type JobCreateInput = {
     age?: string | null;
     salary?: string | null;
     experience?: string | null;
-    education?: string | null;
+    education?: Prisma.JobCreateeducationInput | string[];
     additionalRequirements?: Prisma.JobCreateadditionalRequirementsInput | string[];
     responsibilities?: Prisma.JobCreateresponsibilitiesInput | string[];
     requiredSkills?: Prisma.JobCreaterequiredSkillsInput | string[];
@@ -494,7 +490,7 @@ export type JobUncheckedCreateInput = {
     age?: string | null;
     salary?: string | null;
     experience?: string | null;
-    education?: string | null;
+    education?: Prisma.JobCreateeducationInput | string[];
     additionalRequirements?: Prisma.JobCreateadditionalRequirementsInput | string[];
     responsibilities?: Prisma.JobCreateresponsibilitiesInput | string[];
     requiredSkills?: Prisma.JobCreaterequiredSkillsInput | string[];
@@ -520,7 +516,7 @@ export type JobUpdateInput = {
     age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     salary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     experience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    education?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    education?: Prisma.JobUpdateeducationInput | string[];
     additionalRequirements?: Prisma.JobUpdateadditionalRequirementsInput | string[];
     responsibilities?: Prisma.JobUpdateresponsibilitiesInput | string[];
     requiredSkills?: Prisma.JobUpdaterequiredSkillsInput | string[];
@@ -552,7 +548,7 @@ export type JobUncheckedUpdateInput = {
     age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     salary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     experience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    education?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    education?: Prisma.JobUpdateeducationInput | string[];
     additionalRequirements?: Prisma.JobUpdateadditionalRequirementsInput | string[];
     responsibilities?: Prisma.JobUpdateresponsibilitiesInput | string[];
     requiredSkills?: Prisma.JobUpdaterequiredSkillsInput | string[];
@@ -581,7 +577,7 @@ export type JobCreateManyInput = {
     age?: string | null;
     salary?: string | null;
     experience?: string | null;
-    education?: string | null;
+    education?: Prisma.JobCreateeducationInput | string[];
     additionalRequirements?: Prisma.JobCreateadditionalRequirementsInput | string[];
     responsibilities?: Prisma.JobCreateresponsibilitiesInput | string[];
     requiredSkills?: Prisma.JobCreaterequiredSkillsInput | string[];
@@ -606,7 +602,7 @@ export type JobUpdateManyMutationInput = {
     age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     salary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     experience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    education?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    education?: Prisma.JobUpdateeducationInput | string[];
     additionalRequirements?: Prisma.JobUpdateadditionalRequirementsInput | string[];
     responsibilities?: Prisma.JobUpdateresponsibilitiesInput | string[];
     requiredSkills?: Prisma.JobUpdaterequiredSkillsInput | string[];
@@ -634,7 +630,7 @@ export type JobUncheckedUpdateManyInput = {
     age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     salary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     experience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    education?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    education?: Prisma.JobUpdateeducationInput | string[];
     additionalRequirements?: Prisma.JobUpdateadditionalRequirementsInput | string[];
     responsibilities?: Prisma.JobUpdateresponsibilitiesInput | string[];
     requiredSkills?: Prisma.JobUpdaterequiredSkillsInput | string[];
@@ -704,7 +700,6 @@ export type JobMaxOrderByAggregateInput = {
     age?: Prisma.SortOrder;
     salary?: Prisma.SortOrder;
     experience?: Prisma.SortOrder;
-    education?: Prisma.SortOrder;
     description?: Prisma.SortOrder;
     jobType?: Prisma.SortOrder;
     employmentType?: Prisma.SortOrder;
@@ -727,7 +722,6 @@ export type JobMinOrderByAggregateInput = {
     age?: Prisma.SortOrder;
     salary?: Prisma.SortOrder;
     experience?: Prisma.SortOrder;
-    education?: Prisma.SortOrder;
     description?: Prisma.SortOrder;
     jobType?: Prisma.SortOrder;
     employmentType?: Prisma.SortOrder;
@@ -761,6 +755,9 @@ export type JobUpdateOneRequiredWithoutApplicationsNestedInput = {
     connect?: Prisma.JobWhereUniqueInput;
     update?: Prisma.XOR<Prisma.XOR<Prisma.JobUpdateToOneWithWhereWithoutApplicationsInput, Prisma.JobUpdateWithoutApplicationsInput>, Prisma.JobUncheckedUpdateWithoutApplicationsInput>;
 };
+export type JobCreateeducationInput = {
+    set: string[];
+};
 export type JobCreateadditionalRequirementsInput = {
     set: string[];
 };
@@ -782,6 +779,10 @@ export type NullableIntFieldUpdateOperationsInput = {
     decrement?: number;
     multiply?: number;
     divide?: number;
+};
+export type JobUpdateeducationInput = {
+    set?: string[];
+    push?: string | string[];
 };
 export type JobUpdateadditionalRequirementsInput = {
     set?: string[];
@@ -938,7 +939,7 @@ export type JobCreateWithoutApplicationsInput = {
     age?: string | null;
     salary?: string | null;
     experience?: string | null;
-    education?: string | null;
+    education?: Prisma.JobCreateeducationInput | string[];
     additionalRequirements?: Prisma.JobCreateadditionalRequirementsInput | string[];
     responsibilities?: Prisma.JobCreateresponsibilitiesInput | string[];
     requiredSkills?: Prisma.JobCreaterequiredSkillsInput | string[];
@@ -969,7 +970,7 @@ export type JobUncheckedCreateWithoutApplicationsInput = {
     age?: string | null;
     salary?: string | null;
     experience?: string | null;
-    education?: string | null;
+    education?: Prisma.JobCreateeducationInput | string[];
     additionalRequirements?: Prisma.JobCreateadditionalRequirementsInput | string[];
     responsibilities?: Prisma.JobCreateresponsibilitiesInput | string[];
     requiredSkills?: Prisma.JobCreaterequiredSkillsInput | string[];
@@ -1007,7 +1008,7 @@ export type JobUpdateWithoutApplicationsInput = {
     age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     salary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     experience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    education?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    education?: Prisma.JobUpdateeducationInput | string[];
     additionalRequirements?: Prisma.JobUpdateadditionalRequirementsInput | string[];
     responsibilities?: Prisma.JobUpdateresponsibilitiesInput | string[];
     requiredSkills?: Prisma.JobUpdaterequiredSkillsInput | string[];
@@ -1038,7 +1039,7 @@ export type JobUncheckedUpdateWithoutApplicationsInput = {
     age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     salary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     experience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    education?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    education?: Prisma.JobUpdateeducationInput | string[];
     additionalRequirements?: Prisma.JobUpdateadditionalRequirementsInput | string[];
     responsibilities?: Prisma.JobUpdateresponsibilitiesInput | string[];
     requiredSkills?: Prisma.JobUpdaterequiredSkillsInput | string[];
@@ -1063,7 +1064,7 @@ export type JobCreateWithoutRecruiterInput = {
     age?: string | null;
     salary?: string | null;
     experience?: string | null;
-    education?: string | null;
+    education?: Prisma.JobCreateeducationInput | string[];
     additionalRequirements?: Prisma.JobCreateadditionalRequirementsInput | string[];
     responsibilities?: Prisma.JobCreateresponsibilitiesInput | string[];
     requiredSkills?: Prisma.JobCreaterequiredSkillsInput | string[];
@@ -1093,7 +1094,7 @@ export type JobUncheckedCreateWithoutRecruiterInput = {
     age?: string | null;
     salary?: string | null;
     experience?: string | null;
-    education?: string | null;
+    education?: Prisma.JobCreateeducationInput | string[];
     additionalRequirements?: Prisma.JobCreateadditionalRequirementsInput | string[];
     responsibilities?: Prisma.JobCreateresponsibilitiesInput | string[];
     requiredSkills?: Prisma.JobCreaterequiredSkillsInput | string[];
@@ -1146,7 +1147,7 @@ export type JobScalarWhereInput = {
     age?: Prisma.StringNullableFilter<"Job"> | string | null;
     salary?: Prisma.StringNullableFilter<"Job"> | string | null;
     experience?: Prisma.StringNullableFilter<"Job"> | string | null;
-    education?: Prisma.StringNullableFilter<"Job"> | string | null;
+    education?: Prisma.StringNullableListFilter<"Job">;
     additionalRequirements?: Prisma.StringNullableListFilter<"Job">;
     responsibilities?: Prisma.StringNullableListFilter<"Job">;
     requiredSkills?: Prisma.StringNullableListFilter<"Job">;
@@ -1171,7 +1172,7 @@ export type JobCreateWithoutIndustryInput = {
     age?: string | null;
     salary?: string | null;
     experience?: string | null;
-    education?: string | null;
+    education?: Prisma.JobCreateeducationInput | string[];
     additionalRequirements?: Prisma.JobCreateadditionalRequirementsInput | string[];
     responsibilities?: Prisma.JobCreateresponsibilitiesInput | string[];
     requiredSkills?: Prisma.JobCreaterequiredSkillsInput | string[];
@@ -1201,7 +1202,7 @@ export type JobUncheckedCreateWithoutIndustryInput = {
     age?: string | null;
     salary?: string | null;
     experience?: string | null;
-    education?: string | null;
+    education?: Prisma.JobCreateeducationInput | string[];
     additionalRequirements?: Prisma.JobCreateadditionalRequirementsInput | string[];
     responsibilities?: Prisma.JobCreateresponsibilitiesInput | string[];
     requiredSkills?: Prisma.JobCreaterequiredSkillsInput | string[];
@@ -1248,7 +1249,7 @@ export type JobCreateWithoutSubIndustryInput = {
     age?: string | null;
     salary?: string | null;
     experience?: string | null;
-    education?: string | null;
+    education?: Prisma.JobCreateeducationInput | string[];
     additionalRequirements?: Prisma.JobCreateadditionalRequirementsInput | string[];
     responsibilities?: Prisma.JobCreateresponsibilitiesInput | string[];
     requiredSkills?: Prisma.JobCreaterequiredSkillsInput | string[];
@@ -1278,7 +1279,7 @@ export type JobUncheckedCreateWithoutSubIndustryInput = {
     age?: string | null;
     salary?: string | null;
     experience?: string | null;
-    education?: string | null;
+    education?: Prisma.JobCreateeducationInput | string[];
     additionalRequirements?: Prisma.JobCreateadditionalRequirementsInput | string[];
     responsibilities?: Prisma.JobCreateresponsibilitiesInput | string[];
     requiredSkills?: Prisma.JobCreaterequiredSkillsInput | string[];
@@ -1327,7 +1328,7 @@ export type JobCreateManyRecruiterInput = {
     age?: string | null;
     salary?: string | null;
     experience?: string | null;
-    education?: string | null;
+    education?: Prisma.JobCreateeducationInput | string[];
     additionalRequirements?: Prisma.JobCreateadditionalRequirementsInput | string[];
     responsibilities?: Prisma.JobCreateresponsibilitiesInput | string[];
     requiredSkills?: Prisma.JobCreaterequiredSkillsInput | string[];
@@ -1352,7 +1353,7 @@ export type JobUpdateWithoutRecruiterInput = {
     age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     salary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     experience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    education?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    education?: Prisma.JobUpdateeducationInput | string[];
     additionalRequirements?: Prisma.JobUpdateadditionalRequirementsInput | string[];
     responsibilities?: Prisma.JobUpdateresponsibilitiesInput | string[];
     requiredSkills?: Prisma.JobUpdaterequiredSkillsInput | string[];
@@ -1382,7 +1383,7 @@ export type JobUncheckedUpdateWithoutRecruiterInput = {
     age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     salary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     experience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    education?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    education?: Prisma.JobUpdateeducationInput | string[];
     additionalRequirements?: Prisma.JobUpdateadditionalRequirementsInput | string[];
     responsibilities?: Prisma.JobUpdateresponsibilitiesInput | string[];
     requiredSkills?: Prisma.JobUpdaterequiredSkillsInput | string[];
@@ -1410,7 +1411,7 @@ export type JobUncheckedUpdateManyWithoutRecruiterInput = {
     age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     salary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     experience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    education?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    education?: Prisma.JobUpdateeducationInput | string[];
     additionalRequirements?: Prisma.JobUpdateadditionalRequirementsInput | string[];
     responsibilities?: Prisma.JobUpdateresponsibilitiesInput | string[];
     requiredSkills?: Prisma.JobUpdaterequiredSkillsInput | string[];
@@ -1437,7 +1438,7 @@ export type JobCreateManyIndustryInput = {
     age?: string | null;
     salary?: string | null;
     experience?: string | null;
-    education?: string | null;
+    education?: Prisma.JobCreateeducationInput | string[];
     additionalRequirements?: Prisma.JobCreateadditionalRequirementsInput | string[];
     responsibilities?: Prisma.JobCreateresponsibilitiesInput | string[];
     requiredSkills?: Prisma.JobCreaterequiredSkillsInput | string[];
@@ -1462,7 +1463,7 @@ export type JobUpdateWithoutIndustryInput = {
     age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     salary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     experience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    education?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    education?: Prisma.JobUpdateeducationInput | string[];
     additionalRequirements?: Prisma.JobUpdateadditionalRequirementsInput | string[];
     responsibilities?: Prisma.JobUpdateresponsibilitiesInput | string[];
     requiredSkills?: Prisma.JobUpdaterequiredSkillsInput | string[];
@@ -1492,7 +1493,7 @@ export type JobUncheckedUpdateWithoutIndustryInput = {
     age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     salary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     experience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    education?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    education?: Prisma.JobUpdateeducationInput | string[];
     additionalRequirements?: Prisma.JobUpdateadditionalRequirementsInput | string[];
     responsibilities?: Prisma.JobUpdateresponsibilitiesInput | string[];
     requiredSkills?: Prisma.JobUpdaterequiredSkillsInput | string[];
@@ -1520,7 +1521,7 @@ export type JobUncheckedUpdateManyWithoutIndustryInput = {
     age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     salary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     experience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    education?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    education?: Prisma.JobUpdateeducationInput | string[];
     additionalRequirements?: Prisma.JobUpdateadditionalRequirementsInput | string[];
     responsibilities?: Prisma.JobUpdateresponsibilitiesInput | string[];
     requiredSkills?: Prisma.JobUpdaterequiredSkillsInput | string[];
@@ -1547,7 +1548,7 @@ export type JobCreateManySubIndustryInput = {
     age?: string | null;
     salary?: string | null;
     experience?: string | null;
-    education?: string | null;
+    education?: Prisma.JobCreateeducationInput | string[];
     additionalRequirements?: Prisma.JobCreateadditionalRequirementsInput | string[];
     responsibilities?: Prisma.JobCreateresponsibilitiesInput | string[];
     requiredSkills?: Prisma.JobCreaterequiredSkillsInput | string[];
@@ -1572,7 +1573,7 @@ export type JobUpdateWithoutSubIndustryInput = {
     age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     salary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     experience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    education?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    education?: Prisma.JobUpdateeducationInput | string[];
     additionalRequirements?: Prisma.JobUpdateadditionalRequirementsInput | string[];
     responsibilities?: Prisma.JobUpdateresponsibilitiesInput | string[];
     requiredSkills?: Prisma.JobUpdaterequiredSkillsInput | string[];
@@ -1602,7 +1603,7 @@ export type JobUncheckedUpdateWithoutSubIndustryInput = {
     age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     salary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     experience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    education?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    education?: Prisma.JobUpdateeducationInput | string[];
     additionalRequirements?: Prisma.JobUpdateadditionalRequirementsInput | string[];
     responsibilities?: Prisma.JobUpdateresponsibilitiesInput | string[];
     requiredSkills?: Prisma.JobUpdaterequiredSkillsInput | string[];
@@ -1630,7 +1631,7 @@ export type JobUncheckedUpdateManyWithoutSubIndustryInput = {
     age?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     salary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     experience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    education?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    education?: Prisma.JobUpdateeducationInput | string[];
     additionalRequirements?: Prisma.JobUpdateadditionalRequirementsInput | string[];
     responsibilities?: Prisma.JobUpdateresponsibilitiesInput | string[];
     requiredSkills?: Prisma.JobUpdaterequiredSkillsInput | string[];
@@ -1831,7 +1832,7 @@ export type $JobPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
         age: string | null;
         salary: string | null;
         experience: string | null;
-        education: string | null;
+        education: string[];
         additionalRequirements: string[];
         responsibilities: string[];
         requiredSkills: string[];
@@ -2215,7 +2216,7 @@ export interface JobFieldRefs {
     readonly age: Prisma.FieldRef<"Job", 'String'>;
     readonly salary: Prisma.FieldRef<"Job", 'String'>;
     readonly experience: Prisma.FieldRef<"Job", 'String'>;
-    readonly education: Prisma.FieldRef<"Job", 'String'>;
+    readonly education: Prisma.FieldRef<"Job", 'String[]'>;
     readonly additionalRequirements: Prisma.FieldRef<"Job", 'String[]'>;
     readonly responsibilities: Prisma.FieldRef<"Job", 'String[]'>;
     readonly requiredSkills: Prisma.FieldRef<"Job", 'String[]'>;

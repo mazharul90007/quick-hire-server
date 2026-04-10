@@ -13,17 +13,17 @@ model Job {
   age                    String?
   salary                 String?
   experience             String?
-  education              String?
-  additionalRequirements String[] @default([])
-  responsibilities       String[] @default([])
-  requiredSkills         String[] @default([])
+  education              String[]       @default([])
+  additionalRequirements String[]       @default([])
+  responsibilities       String[]       @default([])
+  requiredSkills         String[]       @default([])
   description            String?
-  benefits               String[] @default([])
+  benefits               String[]       @default([])
   jobType                JobTypes       @default(ONSITE)
   employmentType         EmploymentType @default(FULL_TIME)
   featured               Boolean?       @default(false)
   isVerified             Boolean?       @default(false)
-  tags                   String[] @default([])
+  tags                   String[]       @default([])
   deadline               DateTime?
   status                 JobStatus      @default(ACTIVE)
   createdAt              DateTime       @default(now())

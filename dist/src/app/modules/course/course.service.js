@@ -213,8 +213,8 @@ const createCheckoutSession = async (userId, courseId) => {
         },
     });
     const appUrl = process.env.APP_URL || "http://localhost:3000";
-    const successUrl = `${appUrl}/applicant/courses?checkout=success&session_id={CHECKOUT_SESSION_ID}`;
-    const cancelUrl = `${appUrl}/applicant/courses?checkout=cancel`;
+    const successUrl = `${appUrl}/applicant/payment-success?session_id={CHECKOUT_SESSION_ID}&purchase_id=${purchase.id}&course_id=${course.id}`;
+    const cancelUrl = `${appUrl}/applicant/payment-failed?reason=cancelled&purchase_id=${purchase.id}&course_id=${course.id}`;
     const session = await stripe.checkout.sessions.create({
         mode: "payment",
         line_items: [

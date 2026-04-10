@@ -22,7 +22,7 @@ export declare const jobServices: {
         age: string | null;
         salary: string | null;
         experience: string | null;
-        education: string | null;
+        education: string[];
         additionalRequirements: string[];
         responsibilities: string[];
         requiredSkills: string[];
@@ -89,7 +89,7 @@ export declare const jobServices: {
         age: string | null;
         salary: string | null;
         experience: string | null;
-        education: string | null;
+        education: string[];
         additionalRequirements: string[];
         responsibilities: string[];
         requiredSkills: string[];
@@ -159,7 +159,7 @@ export declare const jobServices: {
             age: string | null;
             salary: string | null;
             experience: string | null;
-            education: string | null;
+            education: string[];
             additionalRequirements: string[];
             responsibilities: string[];
             requiredSkills: string[];
@@ -224,7 +224,7 @@ export declare const jobServices: {
         age: string | null;
         salary: string | null;
         experience: string | null;
-        education: string | null;
+        education: string[];
         additionalRequirements: string[];
         responsibilities: string[];
         requiredSkills: string[];

@@ -9,7 +9,7 @@ declare const createJobValidationSchema: z.ZodObject<{
     age: z.ZodOptional<z.ZodString>;
     salary: z.ZodOptional<z.ZodString>;
     experience: z.ZodOptional<z.ZodString>;
-    education: z.ZodOptional<z.ZodString>;
+    education: z.ZodOptional<z.ZodArray<z.ZodString>>;
     additionalRequirements: z.ZodOptional<z.ZodArray<z.ZodString>>;
     responsibilities: z.ZodOptional<z.ZodArray<z.ZodString>>;
     requiredSkills: z.ZodOptional<z.ZodArray<z.ZodString>>;
@@ -42,7 +42,7 @@ declare const updateJobValidationSchema: z.ZodObject<{
     age: z.ZodOptional<z.ZodString>;
     salary: z.ZodOptional<z.ZodString>;
     experience: z.ZodOptional<z.ZodString>;
-    education: z.ZodOptional<z.ZodString>;
+    education: z.ZodOptional<z.ZodArray<z.ZodString>>;
     additionalRequirements: z.ZodOptional<z.ZodArray<z.ZodString>>;
     responsibilities: z.ZodOptional<z.ZodArray<z.ZodString>>;
     requiredSkills: z.ZodOptional<z.ZodArray<z.ZodString>>;
@@ -82,7 +82,7 @@ export declare const jobValidations: {
         age: z.ZodOptional<z.ZodString>;
         salary: z.ZodOptional<z.ZodString>;
         experience: z.ZodOptional<z.ZodString>;
-        education: z.ZodOptional<z.ZodString>;
+        education: z.ZodOptional<z.ZodArray<z.ZodString>>;
         additionalRequirements: z.ZodOptional<z.ZodArray<z.ZodString>>;
         responsibilities: z.ZodOptional<z.ZodArray<z.ZodString>>;
         requiredSkills: z.ZodOptional<z.ZodArray<z.ZodString>>;
@@ -114,7 +114,7 @@ export declare const jobValidations: {
         age: z.ZodOptional<z.ZodString>;
         salary: z.ZodOptional<z.ZodString>;
         experience: z.ZodOptional<z.ZodString>;
-        education: z.ZodOptional<z.ZodString>;
+        education: z.ZodOptional<z.ZodArray<z.ZodString>>;
         additionalRequirements: z.ZodOptional<z.ZodArray<z.ZodString>>;
         responsibilities: z.ZodOptional<z.ZodArray<z.ZodString>>;
         requiredSkills: z.ZodOptional<z.ZodArray<z.ZodString>>;
