@@ -74,7 +74,7 @@
 ## 🗂️ Entity Relationship Diagram (ERD)
 
 <p align="center">
-  <img src="https://res.cloudinary.com/dp6urj3gj/image/upload/v1772487037/quick-hire-erd_zvfrbo.png" alt="QuickHire ER Diagram" width="700"/>
+  <img src="https://res.cloudinary.com/dp6urj3gj/image/upload/v1775854276/quick-hire_w5nx8x.png" alt="QuickHire ER Diagram" width="700"/>
 </p>
 
 ---
