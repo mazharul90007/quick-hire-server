@@ -31,7 +31,7 @@ export type CourseMinAggregateOutputType = {
     stripePriceId: string | null;
     thumbnailUrl: string | null;
     isPublished: boolean | null;
-    createdByUserId: string | null;
+    createdByAdminId: string | null;
     createdAt: Date | null;
     updatedAt: Date | null;
 };
@@ -47,7 +47,7 @@ export type CourseMaxAggregateOutputType = {
     stripePriceId: string | null;
     thumbnailUrl: string | null;
     isPublished: boolean | null;
-    createdByUserId: string | null;
+    createdByAdminId: string | null;
     createdAt: Date | null;
     updatedAt: Date | null;
 };
@@ -63,7 +63,7 @@ export type CourseCountAggregateOutputType = {
     stripePriceId: number;
     thumbnailUrl: number;
     isPublished: number;
-    createdByUserId: number;
+    createdByAdminId: number;
     createdAt: number;
     updatedAt: number;
     _all: number;
@@ -86,7 +86,7 @@ export type CourseMinAggregateInputType = {
     stripePriceId?: true;
     thumbnailUrl?: true;
     isPublished?: true;
-    createdByUserId?: true;
+    createdByAdminId?: true;
     createdAt?: true;
     updatedAt?: true;
 };
@@ -102,7 +102,7 @@ export type CourseMaxAggregateInputType = {
     stripePriceId?: true;
     thumbnailUrl?: true;
     isPublished?: true;
-    createdByUserId?: true;
+    createdByAdminId?: true;
     createdAt?: true;
     updatedAt?: true;
 };
@@ -118,7 +118,7 @@ export type CourseCountAggregateInputType = {
     stripePriceId?: true;
     thumbnailUrl?: true;
     isPublished?: true;
-    createdByUserId?: true;
+    createdByAdminId?: true;
     createdAt?: true;
     updatedAt?: true;
     _all?: true;
@@ -211,7 +211,7 @@ export type CourseGroupByOutputType = {
     stripePriceId: string | null;
     thumbnailUrl: string | null;
     isPublished: boolean;
-    createdByUserId: string;
+    createdByAdminId: string;
     createdAt: Date;
     updatedAt: Date;
     _count: CourseCountAggregateOutputType | null;
@@ -238,10 +238,10 @@ export type CourseWhereInput = {
     stripePriceId?: Prisma.StringNullableFilter<"Course"> | string | null;
     thumbnailUrl?: Prisma.StringNullableFilter<"Course"> | string | null;
     isPublished?: Prisma.BoolFilter<"Course"> | boolean;
-    createdByUserId?: Prisma.StringFilter<"Course"> | string;
+    createdByAdminId?: Prisma.StringFilter<"Course"> | string;
     createdAt?: Prisma.DateTimeFilter<"Course"> | Date | string;
     updatedAt?: Prisma.DateTimeFilter<"Course"> | Date | string;
-    createdBy?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>;
+    createdBy?: Prisma.XOR<Prisma.AdminScalarRelationFilter, Prisma.AdminWhereInput>;
     purchases?: Prisma.CoursePurchaseListRelationFilter;
 };
 export type CourseOrderByWithRelationInput = {
@@ -256,10 +256,10 @@ export type CourseOrderByWithRelationInput = {
     stripePriceId?: Prisma.SortOrderInput | Prisma.SortOrder;
     thumbnailUrl?: Prisma.SortOrderInput | Prisma.SortOrder;
     isPublished?: Prisma.SortOrder;
-    createdByUserId?: Prisma.SortOrder;
+    createdByAdminId?: Prisma.SortOrder;
     createdAt?: Prisma.SortOrder;
     updatedAt?: Prisma.SortOrder;
-    createdBy?: Prisma.UserOrderByWithRelationInput;
+    createdBy?: Prisma.AdminOrderByWithRelationInput;
     purchases?: Prisma.CoursePurchaseOrderByRelationAggregateInput;
 };
 export type CourseWhereUniqueInput = Prisma.AtLeast<{
@@ -277,10 +277,10 @@ export type CourseWhereUniqueInput = Prisma.AtLeast<{
     stripePriceId?: Prisma.StringNullableFilter<"Course"> | string | null;
     thumbnailUrl?: Prisma.StringNullableFilter<"Course"> | string | null;
     isPublished?: Prisma.BoolFilter<"Course"> | boolean;
-    createdByUserId?: Prisma.StringFilter<"Course"> | string;
+    createdByAdminId?: Prisma.StringFilter<"Course"> | string;
     createdAt?: Prisma.DateTimeFilter<"Course"> | Date | string;
     updatedAt?: Prisma.DateTimeFilter<"Course"> | Date | string;
-    createdBy?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>;
+    createdBy?: Prisma.XOR<Prisma.AdminScalarRelationFilter, Prisma.AdminWhereInput>;
     purchases?: Prisma.CoursePurchaseListRelationFilter;
 }, "id" | "slug">;
 export type CourseOrderByWithAggregationInput = {
@@ -295,7 +295,7 @@ export type CourseOrderByWithAggregationInput = {
     stripePriceId?: Prisma.SortOrderInput | Prisma.SortOrder;
     thumbnailUrl?: Prisma.SortOrderInput | Prisma.SortOrder;
     isPublished?: Prisma.SortOrder;
-    createdByUserId?: Prisma.SortOrder;
+    createdByAdminId?: Prisma.SortOrder;
     createdAt?: Prisma.SortOrder;
     updatedAt?: Prisma.SortOrder;
     _count?: Prisma.CourseCountOrderByAggregateInput;
@@ -319,7 +319,7 @@ export type CourseScalarWhereWithAggregatesInput = {
     stripePriceId?: Prisma.StringNullableWithAggregatesFilter<"Course"> | string | null;
     thumbnailUrl?: Prisma.StringNullableWithAggregatesFilter<"Course"> | string | null;
     isPublished?: Prisma.BoolWithAggregatesFilter<"Course"> | boolean;
-    createdByUserId?: Prisma.StringWithAggregatesFilter<"Course"> | string;
+    createdByAdminId?: Prisma.StringWithAggregatesFilter<"Course"> | string;
     createdAt?: Prisma.DateTimeWithAggregatesFilter<"Course"> | Date | string;
     updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Course"> | Date | string;
 };
@@ -337,7 +337,7 @@ export type CourseCreateInput = {
     isPublished?: boolean;
     createdAt?: Date | string;
     updatedAt?: Date | string;
-    createdBy: Prisma.UserCreateNestedOneWithoutCoursesCreatedInput;
+    createdBy: Prisma.AdminCreateNestedOneWithoutCoursesCreatedInput;
     purchases?: Prisma.CoursePurchaseCreateNestedManyWithoutCourseInput;
 };
 export type CourseUncheckedCreateInput = {
@@ -352,7 +352,7 @@ export type CourseUncheckedCreateInput = {
     stripePriceId?: string | null;
     thumbnailUrl?: string | null;
     isPublished?: boolean;
-    createdByUserId: string;
+    createdByAdminId: string;
     createdAt?: Date | string;
     updatedAt?: Date | string;
     purchases?: Prisma.CoursePurchaseUncheckedCreateNestedManyWithoutCourseInput;
@@ -371,7 +371,7 @@ export type CourseUpdateInput = {
     isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    createdBy?: Prisma.UserUpdateOneRequiredWithoutCoursesCreatedNestedInput;
+    createdBy?: Prisma.AdminUpdateOneRequiredWithoutCoursesCreatedNestedInput;
     purchases?: Prisma.CoursePurchaseUpdateManyWithoutCourseNestedInput;
 };
 export type CourseUncheckedUpdateInput = {
@@ -386,7 +386,7 @@ export type CourseUncheckedUpdateInput = {
     stripePriceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     thumbnailUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean;
-    createdByUserId?: Prisma.StringFieldUpdateOperationsInput | string;
+    createdByAdminId?: Prisma.StringFieldUpdateOperationsInput | string;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     purchases?: Prisma.CoursePurchaseUncheckedUpdateManyWithoutCourseNestedInput;
@@ -403,7 +403,7 @@ export type CourseCreateManyInput = {
     stripePriceId?: string | null;
     thumbnailUrl?: string | null;
     isPublished?: boolean;
-    createdByUserId: string;
+    createdByAdminId: string;
     createdAt?: Date | string;
     updatedAt?: Date | string;
 };
@@ -434,7 +434,7 @@ export type CourseUncheckedUpdateManyInput = {
     stripePriceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     thumbnailUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean;
-    createdByUserId?: Prisma.StringFieldUpdateOperationsInput | string;
+    createdByAdminId?: Prisma.StringFieldUpdateOperationsInput | string;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
@@ -458,7 +458,7 @@ export type CourseCountOrderByAggregateInput = {
     stripePriceId?: Prisma.SortOrder;
     thumbnailUrl?: Prisma.SortOrder;
     isPublished?: Prisma.SortOrder;
-    createdByUserId?: Prisma.SortOrder;
+    createdByAdminId?: Prisma.SortOrder;
     createdAt?: Prisma.SortOrder;
     updatedAt?: Prisma.SortOrder;
 };
@@ -477,7 +477,7 @@ export type CourseMaxOrderByAggregateInput = {
     stripePriceId?: Prisma.SortOrder;
     thumbnailUrl?: Prisma.SortOrder;
     isPublished?: Prisma.SortOrder;
-    createdByUserId?: Prisma.SortOrder;
+    createdByAdminId?: Prisma.SortOrder;
     createdAt?: Prisma.SortOrder;
     updatedAt?: Prisma.SortOrder;
 };
@@ -493,7 +493,7 @@ export type CourseMinOrderByAggregateInput = {
     stripePriceId?: Prisma.SortOrder;
     thumbnailUrl?: Prisma.SortOrder;
     isPublished?: Prisma.SortOrder;
-    createdByUserId?: Prisma.SortOrder;
+    createdByAdminId?: Prisma.SortOrder;
     createdAt?: Prisma.SortOrder;
     updatedAt?: Prisma.SortOrder;
 };
@@ -632,7 +632,7 @@ export type CourseScalarWhereInput = {
     stripePriceId?: Prisma.StringNullableFilter<"Course"> | string | null;
     thumbnailUrl?: Prisma.StringNullableFilter<"Course"> | string | null;
     isPublished?: Prisma.BoolFilter<"Course"> | boolean;
-    createdByUserId?: Prisma.StringFilter<"Course"> | string;
+    createdByAdminId?: Prisma.StringFilter<"Course"> | string;
     createdAt?: Prisma.DateTimeFilter<"Course"> | Date | string;
     updatedAt?: Prisma.DateTimeFilter<"Course"> | Date | string;
 };
@@ -650,7 +650,7 @@ export type CourseCreateWithoutPurchasesInput = {
     isPublished?: boolean;
     createdAt?: Date | string;
     updatedAt?: Date | string;
-    createdBy: Prisma.UserCreateNestedOneWithoutCoursesCreatedInput;
+    createdBy: Prisma.AdminCreateNestedOneWithoutCoursesCreatedInput;
 };
 export type CourseUncheckedCreateWithoutPurchasesInput = {
     id?: string;
@@ -664,7 +664,7 @@ export type CourseUncheckedCreateWithoutPurchasesInput = {
     stripePriceId?: string | null;
     thumbnailUrl?: string | null;
     isPublished?: boolean;
-    createdByUserId: string;
+    createdByAdminId: string;
     createdAt?: Date | string;
     updatedAt?: Date | string;
 };
@@ -695,7 +695,7 @@ export type CourseUpdateWithoutPurchasesInput = {
     isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    createdBy?: Prisma.UserUpdateOneRequiredWithoutCoursesCreatedNestedInput;
+    createdBy?: Prisma.AdminUpdateOneRequiredWithoutCoursesCreatedNestedInput;
 };
 export type CourseUncheckedUpdateWithoutPurchasesInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
@@ -709,7 +709,7 @@ export type CourseUncheckedUpdateWithoutPurchasesInput = {
     stripePriceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     thumbnailUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean;
-    createdByUserId?: Prisma.StringFieldUpdateOperationsInput | string;
+    createdByAdminId?: Prisma.StringFieldUpdateOperationsInput | string;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
@@ -811,10 +811,10 @@ export type CourseSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     stripePriceId?: boolean;
     thumbnailUrl?: boolean;
     isPublished?: boolean;
-    createdByUserId?: boolean;
+    createdByAdminId?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
-    createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
+    createdBy?: boolean | Prisma.AdminDefaultArgs<ExtArgs>;
     purchases?: boolean | Prisma.Course$purchasesArgs<ExtArgs>;
     _count?: boolean | Prisma.CourseCountOutputTypeDefaultArgs<ExtArgs>;
 }, ExtArgs["result"]["course"]>;
@@ -830,10 +830,10 @@ export type CourseSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
     stripePriceId?: boolean;
     thumbnailUrl?: boolean;
     isPublished?: boolean;
-    createdByUserId?: boolean;
+    createdByAdminId?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
-    createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
+    createdBy?: boolean | Prisma.AdminDefaultArgs<ExtArgs>;
 }, ExtArgs["result"]["course"]>;
 export type CourseSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
     id?: boolean;
@@ -847,10 +847,10 @@ export type CourseSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
     stripePriceId?: boolean;
     thumbnailUrl?: boolean;
     isPublished?: boolean;
-    createdByUserId?: boolean;
+    createdByAdminId?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
-    createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
+    createdBy?: boolean | Prisma.AdminDefaultArgs<ExtArgs>;
 }, ExtArgs["result"]["course"]>;
 export type CourseSelectScalar = {
     id?: boolean;
@@ -864,26 +864,26 @@ export type CourseSelectScalar = {
     stripePriceId?: boolean;
     thumbnailUrl?: boolean;
     isPublished?: boolean;
-    createdByUserId?: boolean;
+    createdByAdminId?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
 };
-export type CourseOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "slug" | "description" | "priceAmount" | "currency" | "accessDuration" | "stripeProductId" | "stripePriceId" | "thumbnailUrl" | "isPublished" | "createdByUserId" | "createdAt" | "updatedAt", ExtArgs["result"]["course"]>;
+export type CourseOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "slug" | "description" | "priceAmount" | "currency" | "accessDuration" | "stripeProductId" | "stripePriceId" | "thumbnailUrl" | "isPublished" | "createdByAdminId" | "createdAt" | "updatedAt", ExtArgs["result"]["course"]>;
 export type CourseInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-    createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
+    createdBy?: boolean | Prisma.AdminDefaultArgs<ExtArgs>;
     purchases?: boolean | Prisma.Course$purchasesArgs<ExtArgs>;
     _count?: boolean | Prisma.CourseCountOutputTypeDefaultArgs<ExtArgs>;
 };
 export type CourseIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-    createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
+    createdBy?: boolean | Prisma.AdminDefaultArgs<ExtArgs>;
 };
 export type CourseIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-    createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
+    createdBy?: boolean | Prisma.AdminDefaultArgs<ExtArgs>;
 };
 export type $CoursePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
     name: "Course";
     objects: {
-        createdBy: Prisma.$UserPayload<ExtArgs>;
+        createdBy: Prisma.$AdminPayload<ExtArgs>;
         purchases: Prisma.$CoursePurchasePayload<ExtArgs>[];
     };
     scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -904,7 +904,7 @@ export type $CoursePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
         stripePriceId: string | null;
         thumbnailUrl: string | null;
         isPublished: boolean;
-        createdByUserId: string;
+        createdByAdminId: string;
         createdAt: Date;
         updatedAt: Date;
     }, ExtArgs["result"]["course"]>;
@@ -1236,7 +1236,7 @@ export interface CourseDelegate<ExtArgs extends runtime.Types.Extensions.Interna
  */
 export interface Prisma__CourseClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise";
-    createdBy<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>;
+    createdBy<T extends Prisma.AdminDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AdminDefaultArgs<ExtArgs>>): Prisma.Prisma__AdminClient<runtime.Types.Result.GetResult<Prisma.$AdminPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>;
     purchases<T extends Prisma.Course$purchasesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Course$purchasesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CoursePurchasePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1274,7 +1274,7 @@ export interface CourseFieldRefs {
     readonly stripePriceId: Prisma.FieldRef<"Course", 'String'>;
     readonly thumbnailUrl: Prisma.FieldRef<"Course", 'String'>;
     readonly isPublished: Prisma.FieldRef<"Course", 'Boolean'>;
-    readonly createdByUserId: Prisma.FieldRef<"Course", 'String'>;
+    readonly createdByAdminId: Prisma.FieldRef<"Course", 'String'>;
     readonly createdAt: Prisma.FieldRef<"Course", 'DateTime'>;
     readonly updatedAt: Prisma.FieldRef<"Course", 'DateTime'>;
 }

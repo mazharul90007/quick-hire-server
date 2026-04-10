@@ -26,16 +26,39 @@ export declare const CourseService: {
         accessDuration: CourseAccessDuration;
         thumbnailUrl: string | null;
     }>;
-    listAllCoursesAdmin: () => Promise<({
+    listAllCoursesAdmin: () => Promise<{
+        createdBy: {
+            id: string;
+            email: string;
+            name: string | null;
+        };
         _count: {
             purchases: number;
         };
+        id: string;
+        createdAt: Date;
+        updatedAt: Date;
+        title: string;
+        description: string | null;
+        slug: string;
+        priceAmount: number;
+        currency: string;
+        accessDuration: CourseAccessDuration;
+        thumbnailUrl: string | null;
+        isPublished: boolean;
+        stripeProductId: string | null;
+        stripePriceId: string | null;
+        createdByAdminId: string;
+    }[]>;
+    createCourse: (userId: string, payload: CreateCourseInput) => Promise<{
         createdBy: {
-            name: string | null;
             id: string;
             email: string;
+            name: string | null;
         };
-    } & {
+        _count: {
+            purchases: number;
+        };
         id: string;
         createdAt: Date;
         updatedAt: Date;
@@ -45,29 +68,21 @@ export declare const CourseService: {
         priceAmount: number;
         currency: string;
         accessDuration: CourseAccessDuration;
-        stripeProductId: string | null;
-        stripePriceId: string | null;
         thumbnailUrl: string | null;
         isPublished: boolean;
-        createdByUserId: string;
-    })[]>;
-    createCourse: (createdByUserId: string, payload: CreateCourseInput) => Promise<{
-        id: string;
-        createdAt: Date;
-        updatedAt: Date;
-        title: string;
-        description: string | null;
-        slug: string;
-        priceAmount: number;
-        currency: string;
-        accessDuration: CourseAccessDuration;
         stripeProductId: string | null;
         stripePriceId: string | null;
-        thumbnailUrl: string | null;
-        isPublished: boolean;
-        createdByUserId: string;
+        createdByAdminId: string;
     }>;
     updateCourse: (courseId: string, payload: UpdateCourseInput) => Promise<{
+        createdBy: {
+            id: string;
+            email: string;
+            name: string | null;
+        };
+        _count: {
+            purchases: number;
+        };
         id: string;
         createdAt: Date;
         updatedAt: Date;
@@ -77,13 +92,21 @@ export declare const CourseService: {
         priceAmount: number;
         currency: string;
         accessDuration: CourseAccessDuration;
-        stripeProductId: string | null;
-        stripePriceId: string | null;
         thumbnailUrl: string | null;
         isPublished: boolean;
-        createdByUserId: string;
+        stripeProductId: string | null;
+        stripePriceId: string | null;
+        createdByAdminId: string;
     }>;
     deleteCourse: (courseId: string) => Promise<{
+        createdBy: {
+            id: string;
+            email: string;
+            name: string | null;
+        };
+        _count: {
+            purchases: number;
+        };
         id: string;
         createdAt: Date;
         updatedAt: Date;
@@ -93,11 +116,11 @@ export declare const CourseService: {
         priceAmount: number;
         currency: string;
         accessDuration: CourseAccessDuration;
-        stripeProductId: string | null;
-        stripePriceId: string | null;
         thumbnailUrl: string | null;
         isPublished: boolean;
-        createdByUserId: string;
+        stripeProductId: string | null;
+        stripePriceId: string | null;
+        createdByAdminId: string;
     } | null>;
     createCheckoutSession: (userId: string, courseId: string) => Promise<{
         checkoutUrl: string;
@@ -153,11 +176,11 @@ export declare const CourseService: {
             priceAmount: number;
             currency: string;
             accessDuration: CourseAccessDuration;
-            stripeProductId: string | null;
-            stripePriceId: string | null;
             thumbnailUrl: string | null;
             isPublished: boolean;
-            createdByUserId: string;
+            stripeProductId: string | null;
+            stripePriceId: string | null;
+            createdByAdminId: string;
         };
     } & {
         status: CoursePurchaseStatus;

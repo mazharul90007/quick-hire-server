@@ -145,7 +145,7 @@ export declare const CourseScalarFieldEnum: {
     readonly stripePriceId: "stripePriceId";
     readonly thumbnailUrl: "thumbnailUrl";
     readonly isPublished: "isPublished";
-    readonly createdByUserId: "createdByUserId";
+    readonly createdByAdminId: "createdByAdminId";
     readonly createdAt: "createdAt";
     readonly updatedAt: "updatedAt";
 };

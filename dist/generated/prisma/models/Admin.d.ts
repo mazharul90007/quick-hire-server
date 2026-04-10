@@ -155,6 +155,7 @@ export type AdminWhereInput = {
     createdAt?: Prisma.DateTimeFilter<"Admin"> | Date | string;
     updatedAt?: Prisma.DateTimeFilter<"Admin"> | Date | string;
     user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>;
+    coursesCreated?: Prisma.CourseListRelationFilter;
 };
 export type AdminOrderByWithRelationInput = {
     id?: Prisma.SortOrder;
@@ -165,6 +166,7 @@ export type AdminOrderByWithRelationInput = {
     createdAt?: Prisma.SortOrder;
     updatedAt?: Prisma.SortOrder;
     user?: Prisma.UserOrderByWithRelationInput;
+    coursesCreated?: Prisma.CourseOrderByRelationAggregateInput;
 };
 export type AdminWhereUniqueInput = Prisma.AtLeast<{
     id?: string;
@@ -178,6 +180,7 @@ export type AdminWhereUniqueInput = Prisma.AtLeast<{
     createdAt?: Prisma.DateTimeFilter<"Admin"> | Date | string;
     updatedAt?: Prisma.DateTimeFilter<"Admin"> | Date | string;
     user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>;
+    coursesCreated?: Prisma.CourseListRelationFilter;
 }, "id" | "userId">;
 export type AdminOrderByWithAggregationInput = {
     id?: Prisma.SortOrder;
@@ -211,6 +214,7 @@ export type AdminCreateInput = {
     createdAt?: Date | string;
     updatedAt?: Date | string;
     user: Prisma.UserCreateNestedOneWithoutAdminInput;
+    coursesCreated?: Prisma.CourseCreateNestedManyWithoutCreatedByInput;
 };
 export type AdminUncheckedCreateInput = {
     id?: string;
@@ -220,6 +224,7 @@ export type AdminUncheckedCreateInput = {
     phone?: string | null;
     createdAt?: Date | string;
     updatedAt?: Date | string;
+    coursesCreated?: Prisma.CourseUncheckedCreateNestedManyWithoutCreatedByInput;
 };
 export type AdminUpdateInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
@@ -229,6 +234,7 @@ export type AdminUpdateInput = {
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     user?: Prisma.UserUpdateOneRequiredWithoutAdminNestedInput;
+    coursesCreated?: Prisma.CourseUpdateManyWithoutCreatedByNestedInput;
 };
 export type AdminUncheckedUpdateInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
@@ -238,6 +244,7 @@ export type AdminUncheckedUpdateInput = {
     phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    coursesCreated?: Prisma.CourseUncheckedUpdateManyWithoutCreatedByNestedInput;
 };
 export type AdminCreateManyInput = {
     id?: string;
@@ -296,6 +303,10 @@ export type AdminNullableScalarRelationFilter = {
     is?: Prisma.AdminWhereInput | null;
     isNot?: Prisma.AdminWhereInput | null;
 };
+export type AdminScalarRelationFilter = {
+    is?: Prisma.AdminWhereInput;
+    isNot?: Prisma.AdminWhereInput;
+};
 export type StringFieldUpdateOperationsInput = {
     set?: string;
 };
@@ -333,6 +344,18 @@ export type AdminUncheckedUpdateOneWithoutUserNestedInput = {
     connect?: Prisma.AdminWhereUniqueInput;
     update?: Prisma.XOR<Prisma.XOR<Prisma.AdminUpdateToOneWithWhereWithoutUserInput, Prisma.AdminUpdateWithoutUserInput>, Prisma.AdminUncheckedUpdateWithoutUserInput>;
 };
+export type AdminCreateNestedOneWithoutCoursesCreatedInput = {
+    create?: Prisma.XOR<Prisma.AdminCreateWithoutCoursesCreatedInput, Prisma.AdminUncheckedCreateWithoutCoursesCreatedInput>;
+    connectOrCreate?: Prisma.AdminCreateOrConnectWithoutCoursesCreatedInput;
+    connect?: Prisma.AdminWhereUniqueInput;
+};
+export type AdminUpdateOneRequiredWithoutCoursesCreatedNestedInput = {
+    create?: Prisma.XOR<Prisma.AdminCreateWithoutCoursesCreatedInput, Prisma.AdminUncheckedCreateWithoutCoursesCreatedInput>;
+    connectOrCreate?: Prisma.AdminCreateOrConnectWithoutCoursesCreatedInput;
+    upsert?: Prisma.AdminUpsertWithoutCoursesCreatedInput;
+    connect?: Prisma.AdminWhereUniqueInput;
+    update?: Prisma.XOR<Prisma.XOR<Prisma.AdminUpdateToOneWithWhereWithoutCoursesCreatedInput, Prisma.AdminUpdateWithoutCoursesCreatedInput>, Prisma.AdminUncheckedUpdateWithoutCoursesCreatedInput>;
+};
 export type AdminCreateWithoutUserInput = {
     id?: string;
     name?: string | null;
@@ -340,6 +363,7 @@ export type AdminCreateWithoutUserInput = {
     phone?: string | null;
     createdAt?: Date | string;
     updatedAt?: Date | string;
+    coursesCreated?: Prisma.CourseCreateNestedManyWithoutCreatedByInput;
 };
 export type AdminUncheckedCreateWithoutUserInput = {
     id?: string;
@@ -348,6 +372,7 @@ export type AdminUncheckedCreateWithoutUserInput = {
     phone?: string | null;
     createdAt?: Date | string;
     updatedAt?: Date | string;
+    coursesCreated?: Prisma.CourseUncheckedCreateNestedManyWithoutCreatedByInput;
 };
 export type AdminCreateOrConnectWithoutUserInput = {
     where: Prisma.AdminWhereUniqueInput;
@@ -369,6 +394,7 @@ export type AdminUpdateWithoutUserInput = {
     phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    coursesCreated?: Prisma.CourseUpdateManyWithoutCreatedByNestedInput;
 };
 export type AdminUncheckedUpdateWithoutUserInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
@@ -377,6 +403,80 @@ export type AdminUncheckedUpdateWithoutUserInput = {
     phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    coursesCreated?: Prisma.CourseUncheckedUpdateManyWithoutCreatedByNestedInput;
+};
+export type AdminCreateWithoutCoursesCreatedInput = {
+    id?: string;
+    name?: string | null;
+    address?: string | null;
+    phone?: string | null;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+    user: Prisma.UserCreateNestedOneWithoutAdminInput;
+};
+export type AdminUncheckedCreateWithoutCoursesCreatedInput = {
+    id?: string;
+    userId: string;
+    name?: string | null;
+    address?: string | null;
+    phone?: string | null;
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+};
+export type AdminCreateOrConnectWithoutCoursesCreatedInput = {
+    where: Prisma.AdminWhereUniqueInput;
+    create: Prisma.XOR<Prisma.AdminCreateWithoutCoursesCreatedInput, Prisma.AdminUncheckedCreateWithoutCoursesCreatedInput>;
+};
+export type AdminUpsertWithoutCoursesCreatedInput = {
+    update: Prisma.XOR<Prisma.AdminUpdateWithoutCoursesCreatedInput, Prisma.AdminUncheckedUpdateWithoutCoursesCreatedInput>;
+    create: Prisma.XOR<Prisma.AdminCreateWithoutCoursesCreatedInput, Prisma.AdminUncheckedCreateWithoutCoursesCreatedInput>;
+    where?: Prisma.AdminWhereInput;
+};
+export type AdminUpdateToOneWithWhereWithoutCoursesCreatedInput = {
+    where?: Prisma.AdminWhereInput;
+    data: Prisma.XOR<Prisma.AdminUpdateWithoutCoursesCreatedInput, Prisma.AdminUncheckedUpdateWithoutCoursesCreatedInput>;
+};
+export type AdminUpdateWithoutCoursesCreatedInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    user?: Prisma.UserUpdateOneRequiredWithoutAdminNestedInput;
+};
+export type AdminUncheckedUpdateWithoutCoursesCreatedInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    userId?: Prisma.StringFieldUpdateOperationsInput | string;
+    name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+};
+/**
+ * Count Type AdminCountOutputType
+ */
+export type AdminCountOutputType = {
+    coursesCreated: number;
+};
+export type AdminCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    coursesCreated?: boolean | AdminCountOutputTypeCountCoursesCreatedArgs;
+};
+/**
+ * AdminCountOutputType without action
+ */
+export type AdminCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AdminCountOutputType
+     */
+    select?: Prisma.AdminCountOutputTypeSelect<ExtArgs> | null;
+};
+/**
+ * AdminCountOutputType without action
+ */
+export type AdminCountOutputTypeCountCoursesCreatedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    where?: Prisma.CourseWhereInput;
 };
 export type AdminSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
     id?: boolean;
@@ -387,6 +487,8 @@ export type AdminSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
     createdAt?: boolean;
     updatedAt?: boolean;
     user?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
+    coursesCreated?: boolean | Prisma.Admin$coursesCreatedArgs<ExtArgs>;
+    _count?: boolean | Prisma.AdminCountOutputTypeDefaultArgs<ExtArgs>;
 }, ExtArgs["result"]["admin"]>;
 export type AdminSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
     id?: boolean;
@@ -420,6 +522,8 @@ export type AdminSelectScalar = {
 export type AdminOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "name" | "address" | "phone" | "createdAt" | "updatedAt", ExtArgs["result"]["admin"]>;
 export type AdminInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
     user?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
+    coursesCreated?: boolean | Prisma.Admin$coursesCreatedArgs<ExtArgs>;
+    _count?: boolean | Prisma.AdminCountOutputTypeDefaultArgs<ExtArgs>;
 };
 export type AdminIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
     user?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
@@ -431,6 +535,7 @@ export type $AdminPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     name: "Admin";
     objects: {
         user: Prisma.$UserPayload<ExtArgs>;
+        coursesCreated: Prisma.$CoursePayload<ExtArgs>[];
     };
     scalars: runtime.Types.Extensions.GetPayloadResult<{
         id: string;
@@ -770,6 +875,7 @@ export interface AdminDelegate<ExtArgs extends runtime.Types.Extensions.Internal
 export interface Prisma__AdminClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise";
     user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>;
+    coursesCreated<T extends Prisma.Admin$coursesCreatedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Admin$coursesCreatedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CoursePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1179,6 +1285,29 @@ export type AdminDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Interna
      * Limit how many Admins to delete.
      */
     limit?: number;
+};
+/**
+ * Admin.coursesCreated
+ */
+export type Admin$coursesCreatedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Course
+     */
+    select?: Prisma.CourseSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the Course
+     */
+    omit?: Prisma.CourseOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Prisma.CourseInclude<ExtArgs> | null;
+    where?: Prisma.CourseWhereInput;
+    orderBy?: Prisma.CourseOrderByWithRelationInput | Prisma.CourseOrderByWithRelationInput[];
+    cursor?: Prisma.CourseWhereUniqueInput;
+    take?: number;
+    skip?: number;
+    distinct?: Prisma.CourseScalarFieldEnum | Prisma.CourseScalarFieldEnum[];
 };
 /**
  * Admin without action

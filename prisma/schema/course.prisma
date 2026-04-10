@@ -31,8 +31,8 @@ model Course {
   thumbnailUrl String?
   isPublished  Boolean @default(false)
 
-  createdByUserId String
-  createdBy       User   @relation(fields: [createdByUserId], references: [id], onDelete: Restrict)
+  createdByAdminId String
+  createdBy        Admin  @relation(fields: [createdByAdminId], references: [id], onDelete: Restrict)
 
   purchases CoursePurchase[]
 

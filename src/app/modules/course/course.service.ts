@@ -92,19 +92,56 @@ const getPublishedCourse = async (idOrSlug: string) => {
 
 //======== Admin CRUD =========
 
+const courseAdminInclude = {
+  createdBy: {
+    select: {
+      id: true,
+      name: true,
+      user: { select: { email: true, name: true } },
+    },
+  },
+  _count: { select: { purchases: true } },
+} satisfies Prisma.CourseInclude;
+
+type CourseAdminRowPayload = Prisma.CourseGetPayload<{
+  include: typeof courseAdminInclude;
+}>;
+
+function toCourseAdminApiRow(row: CourseAdminRowPayload) {
+  const { createdBy, ...rest } = row;
+  return {
+    ...rest,
+    createdBy: {
+      id: createdBy.id,
+      email: createdBy.user.email,
+      name: createdBy.name ?? createdBy.user.name,
+    },
+  };
+}
+
+async function requireAdminIdForUser(userId: string): Promise<string> {
+  const admin = await prisma.admin.findUnique({ where: { userId } });
+  if (!admin) {
+    throw new ApiError(
+      status.FORBIDDEN,
+      "An admin profile is required to create or manage courses.",
+    );
+  }
+  return admin.id;
+}
+
 //======== List all courses (admin) =========
 const listAllCoursesAdmin = async () => {
-  return prisma.course.findMany({
+  const rows = await prisma.course.findMany({
     orderBy: { updatedAt: "desc" },
-    include: {
-      createdBy: { select: { id: true, email: true, name: true } },
-      _count: { select: { purchases: true } },
-    },
+    include: courseAdminInclude,
   });
+  return rows.map(toCourseAdminApiRow);
 };
 
 //======== Create course =========
-const createCourse = async (createdByUserId: string, payload: CreateCourseInput) => {
+const createCourse = async (userId: string, payload: CreateCourseInput) => {
+  const createdByAdminId = await requireAdminIdForUser(userId);
   let slug = payload.slug ?? slugifyTitle(payload.title);
   for (let i = 0; i < 5; i++) {
     const exists = await prisma.course.findUnique({ where: { slug } });
@@ -112,7 +149,7 @@ const createCourse = async (createdByUserId: string, payload: CreateCourseInput)
     slug = `${slugifyTitle(payload.title)}-${Math.random().toString(36).slice(2, 6)}`;
   }
 
-  return prisma.course.create({
+  const row = await prisma.course.create({
     data: {
       title: payload.title,
       slug,
@@ -122,9 +159,11 @@ const createCourse = async (createdByUserId: string, payload: CreateCourseInput)
       accessDuration: payload.accessDuration as CourseAccessDuration,
       thumbnailUrl: payload.thumbnailUrl ?? null,
       isPublished: payload.isPublished ?? false,
-      createdByUserId,
+      createdByAdminId,
     },
+    include: courseAdminInclude,
   });
+  return toCourseAdminApiRow(row);
 };
 
 //======== Update course =========
@@ -151,10 +190,12 @@ const updateCourse = async (courseId: string, payload: UpdateCourseInput) => {
   if (payload.thumbnailUrl !== undefined) data.thumbnailUrl = payload.thumbnailUrl;
   if (payload.isPublished !== undefined) data.isPublished = payload.isPublished;
 
-  return prisma.course.update({
+  const row = await prisma.course.update({
     where: { id: courseId },
     data,
+    include: courseAdminInclude,
   });
+  return toCourseAdminApiRow(row);
 };
 
 //======== Delete course (or unpublish if paid purchases exist) =========
@@ -169,10 +210,12 @@ const deleteCourse = async (courseId: string) => {
     throw new ApiError(status.NOT_FOUND, "Course not found");
   }
   if (existing._count.purchases > 0) {
-    return prisma.course.update({
+    const row = await prisma.course.update({
       where: { id: courseId },
       data: { isPublished: false },
+      include: courseAdminInclude,
     });
+    return toCourseAdminApiRow(row);
   }
   await prisma.coursePurchase.deleteMany({ where: { courseId } });
   await prisma.course.delete({ where: { id: courseId } });

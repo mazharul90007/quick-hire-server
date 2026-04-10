@@ -152,7 +152,7 @@ export const CourseScalarFieldEnum = {
     stripePriceId: 'stripePriceId',
     thumbnailUrl: 'thumbnailUrl',
     isPublished: 'isPublished',
-    createdByUserId: 'createdByUserId',
+    createdByAdminId: 'createdByAdminId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
 };

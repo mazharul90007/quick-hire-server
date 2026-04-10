@@ -5,6 +5,7 @@ model Admin {
     name         String?
     address      String?
     phone        String?
+    coursesCreated   Course[]
     createdAt    DateTime @default(now())
     updatedAt    DateTime @updatedAt
 

@@ -19,9 +19,14 @@ export const seedSuperAdmin = async () => {
                 },
             });
             // Mark email as verified manually for the Super Admin
-            await prisma.user.update({
+            const user = await prisma.user.update({
                 where: { email: "superadmin@gmail.com" },
                 data: { emailVerified: true },
+            });
+            await prisma.admin.upsert({
+                where: { userId: user.id },
+                create: { userId: user.id, name: "Super Admin" },
+                update: {},
             });
             console.log("Super Admin seeded successfully!");
         }
