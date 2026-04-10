@@ -6,7 +6,8 @@ const createIndustry = async (payload: ICreateIndustry) => {
   return await prisma.$transaction(async (tx) => {
     const result = await tx.industry.create({
       data: {
-        ...payload,
+        name: payload.name,
+        logo: payload.logo ?? null,
         subIndustries: {
           create: {
             name: "Others",
@@ -26,10 +27,16 @@ const createIndustry = async (payload: ICreateIndustry) => {
 const getAllIndustries = async () => {
   return await prisma.industry.findMany({
     include: {
+      _count: {
+        select: { jobs: true },
+      },
       subIndustries: {
         select: {
           id: true,
           name: true,
+          _count: {
+            select: { jobs: true },
+          },
         },
       },
     },
@@ -39,11 +46,14 @@ const getAllIndustries = async () => {
 //=================Update Industry Data==================
 const updateIndustry = async (
   id: string,
-  payload: Partial<ICreateIndustry>,
+  payload: { name?: string; logo?: string | null },
 ) => {
   return await prisma.industry.update({
     where: { id },
-    data: payload,
+    data: {
+      ...(payload.name !== undefined && { name: payload.name }),
+      ...(payload.logo !== undefined && { logo: payload.logo }),
+    },
     include: {
       subIndustries: {
         select: {

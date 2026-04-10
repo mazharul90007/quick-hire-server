@@ -12,8 +12,8 @@ export * from "./enums";
  * const prisma = new PrismaClient({
  *   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL })
  * })
- * // Fetch zero or more Applications
- * const applications = await prisma.application.findMany()
+ * // Fetch zero or more Admins
+ * const admins = await prisma.admin.findMany()
  * ```
  *
  * Read more in our [docs](https://pris.ly/d/client).
@@ -21,6 +21,16 @@ export * from "./enums";
 export declare const PrismaClient: $Class.PrismaClientConstructor;
 export type PrismaClient<LogOpts extends Prisma.LogLevel = never, OmitOpts extends Prisma.PrismaClientOptions["omit"] = Prisma.PrismaClientOptions["omit"], ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = $Class.PrismaClient<LogOpts, OmitOpts, ExtArgs>;
 export { Prisma };
+/**
+ * Model Admin
+ *
+ */
+export type Admin = Prisma.AdminModel;
+/**
+ * Model Applicant
+ *
+ */
+export type Applicant = Prisma.ApplicantModel;
 /**
  * Model Application
  *
@@ -47,13 +57,33 @@ export type Account = Prisma.AccountModel;
  */
 export type Verification = Prisma.VerificationModel;
 /**
- * Model Category
+ * Model Course
  *
  */
-export type Category = Prisma.CategoryModel;
+export type Course = Prisma.CourseModel;
+/**
+ * Model CoursePurchase
+ *
+ */
+export type CoursePurchase = Prisma.CoursePurchaseModel;
 /**
  * Model Job
  *
  */
 export type Job = Prisma.JobModel;
+/**
+ * Model Recruiter
+ *
+ */
+export type Recruiter = Prisma.RecruiterModel;
+/**
+ * Model Industry
+ *
+ */
+export type Industry = Prisma.IndustryModel;
+/**
+ * Model SubIndustry
+ *
+ */
+export type SubIndustry = Prisma.SubIndustryModel;
 //# sourceMappingURL=client.d.ts.map

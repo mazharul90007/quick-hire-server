@@ -1,35 +1,50 @@
+import { UserRole } from "../../../../generated/prisma/enums";
 import { prisma } from "../../../lib/prisma";
 import ApiError from "../../errors/ApiErrors";
 import calculatePagination from "../../helpers/paginationHelpers";
-import { jobSearchableFields } from "./job.constant";
+import { jobAllowedSortFields, jobEnumFilterFields, jobSearchableFields, } from "./job.constant";
 //===============Create Job=================
 const createJob = async (userId, payload) => {
-    //verify user
-    const isExistUser = await prisma.user.findUnique({
-        where: { id: userId },
+    const recruiter = await prisma.recruiter.findFirst({
+        where: { userId, isDeleted: false },
     });
-    if (!isExistUser) {
-        throw new ApiError(400, "User not found");
+    if (!recruiter) {
+        throw new ApiError(404, "Recruiter profile not found");
     }
-    // Handle date format
-    const jobData = {
-        ...payload,
-        userId: userId,
-        deadline: payload.deadline ? new Date(payload.deadline) : undefined,
-    };
+    const subIndustry = await prisma.subIndustry.findUnique({
+        where: { id: payload.subIndustryId },
+        select: { id: true, industryId: true },
+    });
+    if (!subIndustry) {
+        throw new ApiError(404, "Sub-industry not found");
+    }
+    if (subIndustry.industryId !== payload.industryId) {
+        throw new ApiError(400, "Sub-industry does not belong to the given industry");
+    }
+    const { industryId, subIndustryId, deadline, ...rest } = payload;
     const result = await prisma.job.create({
-        data: jobData,
+        data: {
+            recruiterId: recruiter.id,
+            industryId,
+            subIndustryId,
+            ...rest,
+            isVerified: false,
+            deadline: deadline ? new Date(deadline) : undefined,
+        },
     });
     return result;
 };
 //===============Get all Jobs=================
 const getAllJobs = async (filters, options) => {
     const { searchTerm, ...filtersRemaining } = filters;
-    const { page, limit, skip, sortBy, sortOrder } = calculatePagination(options);
-    // Clean filterData to remove empty strings, nulls, and undefined
+    let { page, limit, skip, sortBy, sortOrder } = calculatePagination(options);
+    const sortField = jobAllowedSortFields.includes(sortBy)
+        ? sortBy
+        : "createdAt";
+    sortOrder =
+        String(sortOrder).toLowerCase() === "asc" ? "asc" : "desc";
     const filterData = Object.fromEntries(Object.entries(filtersRemaining).filter(([_, v]) => v !== "" && v !== null && v !== undefined));
     const andConditions = [];
-    //search logic
     if (searchTerm) {
         andConditions.push({
             OR: jobSearchableFields.map((field) => ({
@@ -40,31 +55,41 @@ const getAllJobs = async (filters, options) => {
             })),
         });
     }
-    //filter logic
     if (Object.keys(filterData).length > 0) {
         if (filterData.featured !== undefined) {
             filterData.featured =
                 filterData.featured === "true" || filterData.featured === true;
         }
+        if (filterData.isVerified !== undefined) {
+            filterData.isVerified =
+                filterData.isVerified === "true" || filterData.isVerified === true;
+        }
         andConditions.push({
             AND: Object.keys(filterData).map((key) => {
                 const value = filterData[key];
-                // Handle arrays or comma-separated strings for multiple selection
                 if (typeof value === "string" && value.includes(",")) {
-                    return {
-                        [key]: {
-                            in: value.split(","),
-                        },
-                    };
+                    const list = value
+                        .split(",")
+                        .map((s) => s.trim())
+                        .filter(Boolean);
+                    if (jobEnumFilterFields.includes(key)) {
+                        return { [key]: { in: list } };
+                    }
+                    return { [key]: { in: list, mode: "insensitive" } };
                 }
                 if (Array.isArray(value)) {
-                    return {
-                        [key]: {
-                            in: value,
-                        },
-                    };
+                    if (jobEnumFilterFields.includes(key)) {
+                        return { [key]: { in: value } };
+                    }
+                    return { [key]: { in: value, mode: "insensitive" } };
                 }
-                // Default to equals, only use insensitive for strings
+                if (jobEnumFilterFields.includes(key)) {
+                    return { [key]: value };
+                }
+                /* Prisma boolean filters: use shorthand, not { equals }, for nullable booleans */
+                if (key === "featured" || key === "isVerified") {
+                    return { [key]: Boolean(value) };
+                }
                 return {
                     [key]: {
                         equals: value,
@@ -80,10 +105,12 @@ const getAllJobs = async (filters, options) => {
         skip,
         take: limit,
         orderBy: {
-            [sortBy]: sortOrder,
+            [sortField]: sortOrder,
         },
         include: {
-            category: true,
+            industry: true,
+            subIndustry: true,
+            recruiter: true,
         },
     });
     const total = await prisma.job.count({ where: whereConditions });
@@ -96,12 +123,74 @@ const getAllJobs = async (filters, options) => {
 const getSingleJob = async (id) => {
     const result = await prisma.job.findUniqueOrThrow({
         where: { id },
-        include: { category: true },
+        include: {
+            industry: true,
+            subIndustry: true,
+            recruiter: true,
+        },
     });
     return result;
 };
+const updateJob = async (id, payload, viewer) => {
+    const job = await prisma.job.findUnique({
+        where: { id },
+        select: {
+            id: true,
+            recruiterId: true,
+            industryId: true,
+            subIndustryId: true,
+            recruiter: { select: { userId: true } },
+        },
+    });
+    if (!job) {
+        throw new ApiError(404, "Job not found");
+    }
+    const isAdmin = viewer.role === UserRole.ADMIN || viewer.role === UserRole.SUPER_ADMIN;
+    const isRecruiter = viewer.role === UserRole.RECRUITER;
+    if (!isAdmin && !isRecruiter) {
+        throw new ApiError(403, "You are not allowed to update this job");
+    }
+    if (isRecruiter && job.recruiter.userId !== viewer.userId) {
+        throw new ApiError(403, "You can only update jobs you created");
+    }
+    if (isRecruiter && (payload.featured !== undefined || payload.isVerified !== undefined)) {
+        throw new ApiError(403, "Recruiters are not allowed to update featured/verification flags");
+    }
+    const nextIndustryId = payload.industryId ?? job.industryId;
+    const nextSubIndustryId = payload.subIndustryId ?? job.subIndustryId;
+    if (payload.industryId !== undefined || payload.subIndustryId !== undefined) {
+        const sub = await prisma.subIndustry.findUnique({
+            where: { id: nextSubIndustryId },
+            select: { industryId: true },
+        });
+        if (!sub) {
+            throw new ApiError(404, "Sub-industry not found");
+        }
+        if (sub.industryId !== nextIndustryId) {
+            throw new ApiError(400, "Sub-industry does not belong to the given industry");
+        }
+    }
+    const { deadline, ...rest } = payload;
+    const cleanRest = Object.fromEntries(Object.entries(rest).filter(([, value]) => value !== undefined));
+    const updateData = {
+        ...cleanRest,
+        ...(deadline !== undefined
+            ? { deadline: deadline ? new Date(deadline) : null }
+            : {}),
+    };
+    return prisma.job.update({
+        where: { id },
+        data: updateData,
+        include: {
+            industry: true,
+            subIndustry: true,
+            recruiter: true,
+        },
+    });
+};
 export const jobServices = {
     createJob,
+    updateJob,
     getAllJobs,
     getSingleJob,
 };

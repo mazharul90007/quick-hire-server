@@ -1,0 +1,76 @@
+enum CoursePurchaseStatus {
+  PENDING
+  PAID
+  FAILED
+  REFUNDED
+  CANCELED
+}
+
+/// How long purchased access lasts (shown on catalog + receipt; enforced via CoursePurchase.accessExpiresAt).
+enum CourseAccessDuration {
+  MONTHS_6
+  MONTHS_12
+  UNLIMITED
+}
+
+model Course {
+  id          String  @id @default(uuid())
+  title       String
+  slug        String  @unique
+  description String?
+  /// Major currency amount (supports decimals, e.g. 99.99 BDT). Stored as float in DB; Stripe minor units = Math.round(major×100) at checkout.
+  priceAmount Float
+  currency    String  @default("bdt")
+
+  /// Catalog duration; copy logic to accessExpiresAt on purchase when status becomes PAID.
+  accessDuration CourseAccessDuration @default(UNLIMITED)
+
+  stripeProductId String?
+  stripePriceId   String?
+
+  thumbnailUrl String?
+  isPublished  Boolean @default(false)
+
+  createdByUserId String
+  createdBy       User   @relation(fields: [createdByUserId], references: [id], onDelete: Restrict)
+
+  purchases CoursePurchase[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("courses")
+}
+
+model CoursePurchase {
+  id          String    @id @default(uuid())
+  applicantId String
+  applicant   Applicant @relation(fields: [applicantId], references: [id], onDelete: Cascade)
+  courseId    String
+  course      Course    @relation(fields: [courseId], references: [id], onDelete: Restrict)
+
+  status CoursePurchaseStatus @default(PENDING)
+
+  /// Snapshot at checkout: Stripe minor units (same as session amount_total)
+  amount   Int
+  currency String
+
+  stripeCheckoutSessionId String? @unique
+  stripePaymentIntentId   String? @unique
+
+  paidAt DateTime?
+
+  /// Set when PAID: null = unlimited access; otherwise paidAt + duration from course at checkout.
+  accessExpiresAt DateTime?
+
+  /// Human-readable id for receipts (e.g. QH-2026-00001). Optional; can generate in app on first PAID.
+  receiptNumber String? @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([applicantId])
+  @@index([courseId])
+  @@index([status])
+  @@map("course_purchases")
+}

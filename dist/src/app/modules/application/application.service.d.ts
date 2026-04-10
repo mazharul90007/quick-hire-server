@@ -1,96 +1,136 @@
+/**
+ * Application module — business logic for job applications.
+ *
+ * Create flow: only a logged-in user with an Applicant profile can apply.
+ * List flow: who sees what depends on role (admin sees all, recruiter sees
+ * applications to their jobs, applicant sees only their own).
+ */
+import { UserRole } from "../../../../generated/prisma/enums";
+import type { CreateApplicationPayload } from "./application.validation";
+/** Who is calling the API — we use this to filter lists and single reads by role. */
+type ApplicationViewer = {
+    userId: string;
+    role: UserRole;
+};
 export declare const applicationServices: {
-    createApplication: (userId: string | undefined, payload: any) => Promise<{
-        name: string;
+    createApplication: (userId: string, payload: CreateApplicationPayload) => Promise<{
+        job: {
+            id: string;
+            jobType: import("../../../../generated/prisma/enums").JobTypes;
+            title: string | null;
+            salary: string | null;
+            recruiter: {
+                id: string;
+                recruiterName: string | null;
+                companyName: string | null;
+                companyLogo: string | null;
+            };
+        };
+        applicant: {
+            user: {
+                name: string | null;
+                id: string;
+                email: string;
+                image: string | null;
+            };
+            id: string;
+        };
+    } & {
         id: string;
         createdAt: Date;
         updatedAt: Date;
-        email: string;
-        userId: string | null;
-        resume_link: string;
+        jobId: string;
+        applicantId: string;
         cover_note: string | null;
         expectedSalary: string | null;
-        jobId: string;
+        cv: string | null;
     }>;
-    getAllApplications: (filters: any, options: any) => Promise<{
+    getAllApplications: (filters: any, options: any, viewer: ApplicationViewer) => Promise<{
         meta: {
             page: number;
             limit: number;
             total: number;
         };
         data: ({
-            user: {
-                name: string | null;
-                role: import("../../../../generated/prisma/enums").UserRole;
-                status: import("../../../../generated/prisma/enums").UserStatus;
-                id: string;
-                createdAt: Date;
-                updatedAt: Date;
-                email: string;
-                emailVerified: boolean;
-                image: string | null;
-                address: string | null;
-                phone: string | null;
-            } | null;
             job: {
                 id: string;
-                companyName: string | null;
-                location: string | null;
-                district: string | null;
-                categoryId: string;
                 jobType: import("../../../../generated/prisma/enums").JobTypes;
-                title: string;
-                vacancy: number | null;
+                title: string | null;
                 salary: string | null;
+                recruiter: {
+                    id: string;
+                    recruiterName: string | null;
+                    companyName: string | null;
+                    companyLogo: string | null;
+                };
+            };
+            applicant: {
+                user: {
+                    name: string | null;
+                    id: string;
+                    email: string;
+                    image: string | null;
+                };
+                id: string;
             };
         } & {
-            name: string;
             id: string;
             createdAt: Date;
             updatedAt: Date;
-            email: string;
-            userId: string | null;
-            resume_link: string;
+            jobId: string;
+            applicantId: string;
             cover_note: string | null;
             expectedSalary: string | null;
-            jobId: string;
+            cv: string | null;
         })[];
     }>;
-    getSingleApplication: (id: string) => Promise<{
-        user: {
-            name: string | null;
-            role: import("../../../../generated/prisma/enums").UserRole;
-            status: import("../../../../generated/prisma/enums").UserStatus;
-            id: string;
-            createdAt: Date;
-            updatedAt: Date;
-            email: string;
-            emailVerified: boolean;
-            image: string | null;
-            address: string | null;
-            phone: string | null;
-        } | null;
-        job: {
-            id: string;
-            companyName: string | null;
-            location: string | null;
-            district: string | null;
-            categoryId: string;
-            jobType: import("../../../../generated/prisma/enums").JobTypes;
-            title: string;
-            vacancy: number | null;
-            salary: string | null;
-        };
-    } & {
-        name: string;
+    getSingleApplication: (id: string, viewer: ApplicationViewer) => Promise<{
         id: string;
         createdAt: Date;
         updatedAt: Date;
-        email: string;
-        userId: string | null;
-        resume_link: string;
+        job: {
+            status: import("../../../../generated/prisma/enums").JobStatus;
+            id: string;
+            recruiterId: string;
+            jobType: import("../../../../generated/prisma/enums").JobTypes;
+            employmentType: import("../../../../generated/prisma/enums").EmploymentType;
+            location: string | null;
+            district: string | null;
+            title: string | null;
+            salary: string | null;
+            recruiter: {
+                id: string;
+                recruiterName: string | null;
+                companyName: string | null;
+                companyLogo: string | null;
+            };
+            industry: {
+                name: string;
+                id: string;
+            };
+            subIndustry: {
+                name: string;
+                id: string;
+            };
+        };
+        jobId: string;
+        applicantId: string;
         cover_note: string | null;
         expectedSalary: string | null;
-        jobId: string;
+        cv: string | null;
+        applicant: {
+            user: {
+                name: string | null;
+                id: string;
+                email: string;
+                image: string | null;
+            };
+            name: string | null;
+            id: string;
+            cv: string | null;
+            phone: string | null;
+        };
     }>;
 };
+export {};
 //# sourceMappingURL=application.service.d.ts.map

@@ -41,34 +41,6 @@ function pickSort(
   return allowed.includes(sortBy) ? sortBy : fallback;
 }
 
-async function ensureProfileForRole(
-  tx: Prisma.TransactionClient,
-  userId: string,
-  role: UserRole,
-) {
-  if (role === UserRole.RECRUITER) {
-    await tx.recruiter.upsert({
-      where: { userId },
-      create: { userId },
-      update: {},
-    });
-  }
-  if (role === UserRole.APPLICANT) {
-    await tx.applicant.upsert({
-      where: { userId },
-      create: { userId },
-      update: {},
-    });
-  }
-  if (role === UserRole.ADMIN || role === UserRole.SUPER_ADMIN) {
-    await tx.admin.upsert({
-      where: { userId },
-      create: { userId },
-      update: {},
-    });
-  }
-}
-
 // ---------------------------------------------------------------------------
 // APPLICANTS
 // ---------------------------------------------------------------------------
@@ -148,12 +120,37 @@ const getSingleApplicant = async (id: string, includeDeleted = false) => {
 
 const updateApplicant = async (
   id: string,
-  payload: Prisma.ApplicantUpdateInput,
+  payload: Prisma.ApplicantUpdateInput & { image?: string | null },
 ) => {
   await getSingleApplicant(id, false);
-  return prisma.applicant.update({
+  const { image, ...applicantData } = payload;
+  const row = await prisma.applicant.findUnique({
     where: { id },
-    data: payload,
+    select: { userId: true },
+  });
+  if (!row) {
+    throw new ApiError(404, "Applicant not found");
+  }
+
+  const hasApplicantFields = Object.keys(applicantData).length > 0;
+
+  await prisma.$transaction(async (tx) => {
+    if (image !== undefined) {
+      await tx.user.update({
+        where: { id: row.userId },
+        data: { image },
+      });
+    }
+    if (hasApplicantFields) {
+      await tx.applicant.update({
+        where: { id },
+        data: applicantData,
+      });
+    }
+  });
+
+  return prisma.applicant.findUniqueOrThrow({
+    where: { id },
     include: { user: { select: userPublicSelect } },
   });
 };
@@ -255,13 +252,17 @@ const getSingleRecruiter = async (id: string, includeDeleted = false) => {
 
 const updateRecruiter = async (
   id: string,
-  payload: Prisma.RecruiterUncheckedUpdateInput,
+  payload: Prisma.RecruiterUncheckedUpdateInput & { image?: string | null },
 ) => {
   await getSingleRecruiter(id, false);
+  const { image, ...recruiterData } = payload;
 
-  if (payload.industryId || payload.subIndustryId) {
-    const industryId = payload.industryId as string | null | undefined;
-    const subIndustryId = payload.subIndustryId as string | null | undefined;
+  if (recruiterData.industryId || recruiterData.subIndustryId) {
+    const industryId = recruiterData.industryId as string | null | undefined;
+    const subIndustryId = recruiterData.subIndustryId as
+      | string
+      | null
+      | undefined;
     if (subIndustryId && industryId) {
       const sub = await prisma.subIndustry.findUnique({
         where: { id: subIndustryId },
@@ -279,9 +280,33 @@ const updateRecruiter = async (
     }
   }
 
-  return prisma.recruiter.update({
+  const recRow = await prisma.recruiter.findUnique({
     where: { id },
-    data: payload,
+    select: { userId: true },
+  });
+  if (!recRow) {
+    throw new ApiError(404, "Recruiter not found");
+  }
+
+  const hasRecruiterFields = Object.keys(recruiterData).length > 0;
+
+  await prisma.$transaction(async (tx) => {
+    if (image !== undefined) {
+      await tx.user.update({
+        where: { id: recRow.userId },
+        data: { image },
+      });
+    }
+    if (hasRecruiterFields) {
+      await tx.recruiter.update({
+        where: { id },
+        data: recruiterData,
+      });
+    }
+  });
+
+  return prisma.recruiter.findUniqueOrThrow({
+    where: { id },
     include: {
       user: { select: userPublicSelect },
       industry: { select: { id: true, name: true } },
@@ -370,18 +395,179 @@ const getSingleAdmin = async (id: string, includeDeleted = false) => {
 
 const updateAdminProfile = async (
   id: string,
-  payload: Prisma.AdminUpdateInput,
+  payload: Prisma.AdminUpdateInput & { image?: string | null },
 ) => {
   await getSingleAdmin(id, false);
-  return prisma.admin.update({
+  const { image, ...adminData } = payload;
+  const row = await prisma.admin.findUnique({
     where: { id },
-    data: payload,
+    select: { userId: true },
+  });
+  if (!row) {
+    throw new ApiError(404, "Admin profile not found");
+  }
+
+  const hasAdminFields = Object.keys(adminData).length > 0;
+
+  await prisma.$transaction(async (tx) => {
+    if (image !== undefined) {
+      await tx.user.update({
+        where: { id: row.userId },
+        data: { image },
+      });
+    }
+    if (hasAdminFields) {
+      await tx.admin.update({
+        where: { id },
+        data: adminData,
+      });
+    }
+  });
+
+  return prisma.admin.findUniqueOrThrow({
+    where: { id },
     include: { user: { select: userPublicSelect } },
   });
 };
 
+export type AdminSelfFileUrls = { image?: string };
+
+//==========Get Admin Profile (self)=========
+const getMyProfile = async (userId: string) => {
+  const admin = await prisma.admin.findUnique({
+    where: { userId },
+    include: { user: { select: userPublicSelect } },
+  });
+  if (!admin) {
+    throw new ApiError(404, "Admin profile not found");
+  }
+  const u = admin.user;
+  if (!u || (u.role !== UserRole.ADMIN && u.role !== UserRole.SUPER_ADMIN)) {
+    throw new ApiError(403, "Not an admin account");
+  }
+  if (u.isDeleted) {
+    throw new ApiError(404, "Admin profile not found");
+  }
+  return admin;
+};
+
+//==========Update Admin Profile (self)=========
+const updateMyProfile = async (
+  userId: string,
+  data: { name?: string; address?: string; phone?: string },
+  files: AdminSelfFileUrls,
+) => {
+  const admin = await prisma.admin.findUnique({ where: { userId } });
+  if (!admin) {
+    throw new ApiError(404, "Admin profile not found");
+  }
+  const user = await prisma.user.findUnique({ where: { id: userId } });
+  if (
+    !user ||
+    (user.role !== UserRole.ADMIN && user.role !== UserRole.SUPER_ADMIN)
+  ) {
+    throw new ApiError(403, "Not an admin account");
+  }
+
+  const userData: Prisma.UserUpdateInput = {};
+  if (data.name !== undefined) userData.name = data.name;
+  if (data.address !== undefined) userData.address = data.address;
+  if (files.image) userData.image = files.image;
+
+  const adminData: Prisma.AdminUpdateInput = {};
+  if (data.name !== undefined) adminData.name = data.name;
+  if (data.address !== undefined) adminData.address = data.address;
+  if (data.phone !== undefined) adminData.phone = data.phone;
+
+  if (!Object.keys(userData).length && !Object.keys(adminData).length) {
+    return prisma.admin.findUniqueOrThrow({
+      where: { id: admin.id },
+      include: { user: { select: userPublicSelect } },
+    });
+  }
+
+  await prisma.$transaction(async (tx) => {
+    if (Object.keys(userData).length) {
+      await tx.user.update({ where: { id: userId }, data: userData });
+    }
+    if (Object.keys(adminData).length) {
+      await tx.admin.update({ where: { id: admin.id }, data: adminData });
+    }
+  });
+
+  return prisma.admin.findUniqueOrThrow({
+    where: { id: admin.id },
+    include: { user: { select: userPublicSelect } },
+  });
+};
+
+const applicantProfileSelect = {
+  id: true,
+  name: true,
+  address: true,
+  phone: true,
+  cv: true,
+  userType: true,
+  createdAt: true,
+  updatedAt: true,
+} satisfies Prisma.ApplicantSelect;
+
+const recruiterProfileSelect = {
+  id: true,
+  recruiterName: true,
+  recruiterPhone: true,
+  recruiterWorkEmail: true,
+  companyName: true,
+  companyLogo: true,
+  companyWebsite: true,
+  companyFacebookId: true,
+  companyLinkedInId: true,
+  companySize: true,
+  companyAddress: true,
+  industryId: true,
+  subIndustryId: true,
+  isVerified: true,
+  subscriptionPlan: true,
+  isDeleted: true,
+  createdAt: true,
+  updatedAt: true,
+  industry: { select: { id: true, name: true } },
+  subIndustry: { select: { id: true, name: true } },
+} satisfies Prisma.RecruiterSelect;
+
+const adminProfileSelect = {
+  id: true,
+  name: true,
+  address: true,
+  phone: true,
+  createdAt: true,
+  updatedAt: true,
+} satisfies Prisma.AdminSelect;
+
+//==========Get User By Id=========
+const getUserById = async (userId: string, includeDeleted = false) => {
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    select: {
+      ...userPublicSelect,
+      needPasswordChange: true,
+      applicant: { select: applicantProfileSelect },
+      recruiter: { select: recruiterProfileSelect },
+      admin: { select: adminProfileSelect },
+    },
+  });
+
+  if (!user) {
+    throw new ApiError(404, "User not found");
+  }
+  if (!includeDeleted && user.isDeleted) {
+    throw new ApiError(404, "User not found");
+  }
+  return user;
+};
+
 // ---------------------------------------------------------------------------
-// USER (soft delete + role + status)
+// USER (soft delete + status)
 // ---------------------------------------------------------------------------
 
 const softDeleteUser = async (
@@ -421,52 +607,6 @@ const softDeleteUser = async (
       where: { userId: targetUserId },
       data: { isDeleted: true },
     });
-  });
-
-  return prisma.user.findUnique({
-    where: { id: targetUserId },
-    select: userPublicSelect,
-  });
-};
-
-const updateUserRole = async (
-  actorUserId: string,
-  actorRole: UserRole,
-  targetUserId: string,
-  newRole: UserRole,
-) => {
-  const target = await prisma.user.findUnique({ where: { id: targetUserId } });
-  if (!target) {
-    throw new ApiError(404, "User not found");
-  }
-  if (target.isDeleted) {
-    throw new ApiError(400, "Cannot change role of a deleted user");
-  }
-
-  if (newRole === UserRole.SUPER_ADMIN && actorRole !== UserRole.SUPER_ADMIN) {
-    throw new ApiError(403, "Only super admin can assign SUPER_ADMIN role");
-  }
-  if (
-    target.role === UserRole.SUPER_ADMIN &&
-    actorRole !== UserRole.SUPER_ADMIN
-  ) {
-    throw new ApiError(403, "Only super admin can modify super admin users");
-  }
-
-  if (actorUserId === targetUserId) {
-    const isStaff = (r: UserRole) =>
-      r === UserRole.ADMIN || r === UserRole.SUPER_ADMIN;
-    if (isStaff(target.role) && !isStaff(newRole)) {
-      throw new ApiError(400, "You cannot remove your own staff access");
-    }
-  }
-
-  await prisma.$transaction(async (tx) => {
-    await tx.user.update({
-      where: { id: targetUserId },
-      data: { role: newRole },
-    });
-    await ensureProfileForRole(tx, targetUserId, newRole);
   });
 
   return prisma.user.findUnique({
@@ -520,7 +660,9 @@ export const adminServices = {
   getAllAdmins,
   getSingleAdmin,
   updateAdminProfile,
+  getMyProfile,
+  updateMyProfile,
+  getUserById,
   softDeleteUser,
-  updateUserRole,
   updateUserStatus,
 };

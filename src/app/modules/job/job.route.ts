@@ -15,6 +15,13 @@ router.post(
   jobController.createJob,
 );
 
+router.patch(
+  "/:id",
+  auth(UserRole.ADMIN, UserRole.SUPER_ADMIN, UserRole.RECRUITER),
+  validateRequest(jobValidations.updateJobValidationSchema),
+  jobController.updateJob,
+);
+
 //Get all jobs
 router.get("/", jobController.getAllJobs);
 

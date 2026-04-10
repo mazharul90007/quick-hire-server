@@ -4,7 +4,17 @@ import catchAsync from "../../../shared/catchAsync";
 import sendResponse from "../../../shared/sendResponse";
 import pick from "../../../shared/pick";
 import { UserRole } from "../../../../generated/prisma/enums";
-import { adminServices } from "./admin.service";
+import {
+  uploadApplicantCvPdf,
+  uploadProfileImage,
+} from "../../../lib/cloudinary";
+import {
+  COMPANY_LOGO_FOLDER,
+  PROFILE_IMAGE_FOLDER,
+  assertPdfMagic,
+  profileMultipartFiles,
+} from "../../helpers/profileMultipart";
+import { adminServices, type AdminSelfFileUrls } from "./admin.service";
 import {
   applicantListQueryKeys,
   recruiterListQueryKeys,
@@ -13,6 +23,7 @@ import {
 
 const listOptionsKeys = ["page", "limit", "sortBy", "sortOrder"] as const;
 
+//==========Get All Applicants=========
 const getAllApplicants = catchAsync(async (req: Request, res: Response) => {
   const filters = pick(req.query, [...applicantListQueryKeys]);
   const options = pick(req.query, [...listOptionsKeys]);
@@ -26,6 +37,7 @@ const getAllApplicants = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+//==========Get Single Applicant=========
 const getSingleApplicant = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
   const includeDeleted = req.query.includeDeleted === "true";
@@ -41,9 +53,25 @@ const getSingleApplicant = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+//==========Update Applicant=========
 const updateApplicant = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
-  const result = await adminServices.updateApplicant(id as string, req.body);
+  const payload = { ...(req.body as Record<string, unknown>) };
+  const f = profileMultipartFiles(req);
+  if (f.image?.buffer?.length) {
+    payload.image = await uploadProfileImage(
+      f.image.buffer,
+      PROFILE_IMAGE_FOLDER,
+    );
+  }
+  if (f.cv?.buffer?.length) {
+    assertPdfMagic(f.cv);
+    payload.cv = await uploadApplicantCvPdf(f.cv.buffer);
+  }
+  const result = await adminServices.updateApplicant(
+    id as string,
+    payload as Parameters<typeof adminServices.updateApplicant>[1],
+  );
   sendResponse(res, {
     statusCode: status.OK,
     success: true,
@@ -52,6 +80,7 @@ const updateApplicant = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+//==========Get All Recruiters=========
 const getAllRecruiters = catchAsync(async (req: Request, res: Response) => {
   const filters = pick(req.query, [...recruiterListQueryKeys]);
   const options = pick(req.query, [...listOptionsKeys]);
@@ -65,6 +94,7 @@ const getAllRecruiters = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+//==========Get Single Recruiter=========
 const getSingleRecruiter = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
   const includeDeleted = req.query.includeDeleted === "true";
@@ -80,11 +110,26 @@ const getSingleRecruiter = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+//==========Update Recruiter=========
 const updateRecruiter = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
+  const payload = { ...(req.body as Record<string, unknown>) };
+  const f = profileMultipartFiles(req);
+  if (f.image?.buffer?.length) {
+    payload.image = await uploadProfileImage(
+      f.image.buffer,
+      PROFILE_IMAGE_FOLDER,
+    );
+  }
+  if (f.companyLogo?.buffer?.length) {
+    payload.companyLogo = await uploadProfileImage(
+      f.companyLogo.buffer,
+      COMPANY_LOGO_FOLDER,
+    );
+  }
   const result = await adminServices.updateRecruiter(
     id as string,
-    req.body,
+    payload as Parameters<typeof adminServices.updateRecruiter>[1],
   );
   sendResponse(res, {
     statusCode: status.OK,
@@ -94,6 +139,7 @@ const updateRecruiter = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+//==========Get All Admins=========
 const getAllAdmins = catchAsync(async (req: Request, res: Response) => {
   const filters = pick(req.query, [...adminListQueryKeys]);
   const options = pick(req.query, [...listOptionsKeys]);
@@ -107,6 +153,7 @@ const getAllAdmins = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+//==========Get Single Admin=========
 const getSingleAdmin = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
   const includeDeleted = req.query.includeDeleted === "true";
@@ -122,9 +169,53 @@ const getSingleAdmin = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+//==========Get Admin Profile (self)=========
+const getMyProfile = catchAsync(async (req: Request, res: Response) => {
+  const result = await adminServices.getMyProfile(req.user!.id);
+  sendResponse(res, {
+    statusCode: status.OK,
+    success: true,
+    message: "Profile fetched successfully",
+    data: result,
+  });
+});
+
+//==========Update Admin Profile (self)=========
+const updateMyProfile = catchAsync(async (req: Request, res: Response) => {
+  const body = req.body as {
+    name?: string;
+    address?: string;
+    phone?: string;
+  };
+  const f = profileMultipartFiles(req);
+  const urls: AdminSelfFileUrls = {};
+  if (f.image?.buffer?.length) {
+    urls.image = await uploadProfileImage(f.image.buffer, PROFILE_IMAGE_FOLDER);
+  }
+  const result = await adminServices.updateMyProfile(req.user!.id, body, urls);
+  sendResponse(res, {
+    statusCode: status.OK,
+    success: true,
+    message: "Profile updated",
+    data: result,
+  });
+});
+
+//==========Update Admin Profile (by id)=========
 const updateAdminProfile = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
-  const result = await adminServices.updateAdminProfile(id as string, req.body);
+  const payload = { ...(req.body as Record<string, unknown>) };
+  const f = profileMultipartFiles(req);
+  if (f.image?.buffer?.length) {
+    payload.image = await uploadProfileImage(
+      f.image.buffer,
+      PROFILE_IMAGE_FOLDER,
+    );
+  }
+  const result = await adminServices.updateAdminProfile(
+    id as string,
+    payload as Parameters<typeof adminServices.updateAdminProfile>[1],
+  );
   sendResponse(res, {
     statusCode: status.OK,
     success: true,
@@ -133,6 +224,23 @@ const updateAdminProfile = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+//==========Get User By Id=========
+const getUserById = catchAsync(async (req: Request, res: Response) => {
+  const { userId } = req.params;
+  const includeDeleted = req.query.includeDeleted === "true";
+  const result = await adminServices.getUserById(
+    userId as string,
+    includeDeleted,
+  );
+  sendResponse(res, {
+    statusCode: status.OK,
+    success: true,
+    message: "User fetched successfully",
+    data: result,
+  });
+});
+
+//==========Soft Delete User=========
 const softDeleteUser = catchAsync(async (req: Request, res: Response) => {
   const { userId } = req.params;
   const actorRole = req.user!.role as UserRole;
@@ -149,24 +257,7 @@ const softDeleteUser = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-const updateUserRole = catchAsync(async (req: Request, res: Response) => {
-  const { userId } = req.params;
-  const { role } = req.body;
-  const actorRole = req.user!.role as UserRole;
-  const result = await adminServices.updateUserRole(
-    req.user!.id,
-    actorRole,
-    userId as string,
-    role,
-  );
-  sendResponse(res, {
-    statusCode: status.OK,
-    success: true,
-    message: "User role updated successfully",
-    data: result,
-  });
-});
-
+//==========Update User Status=========
 const updateUserStatus = catchAsync(async (req: Request, res: Response) => {
   const { userId } = req.params;
   const { status: userStatus } = req.body;
@@ -194,8 +285,10 @@ export const adminController = {
   updateRecruiter,
   getAllAdmins,
   getSingleAdmin,
+  getMyProfile,
+  updateMyProfile,
   updateAdminProfile,
+  getUserById,
   softDeleteUser,
-  updateUserRole,
   updateUserStatus,
 };

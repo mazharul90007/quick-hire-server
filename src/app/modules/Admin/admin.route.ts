@@ -1,30 +1,43 @@
 import express from "express";
 import auth from "../../middlewares/auth";
 import { validateRequest } from "../../middlewares/validateRequest";
-import { UserRole } from "../../../../generated/prisma/enums";
+import { uploadProfileAssets } from "../../middlewares/uploadProfileAssets";
+import { parseOptionalMultipartJson } from "../../middlewares/parseOptionalMultipartJson";
 import { adminController } from "./admin.controller";
 import { adminValidations } from "./admin.validation";
+import { adminStaffRoles } from "./admin.constant";
 
 const router = express.Router();
 
-const staffRoles = [UserRole.ADMIN, UserRole.SUPER_ADMIN] as const;
+router.get("/me", auth(...adminStaffRoles), adminController.getMyProfile);
+
+router.patch(
+  "/me",
+  auth(...adminStaffRoles),
+  uploadProfileAssets,
+  parseOptionalMultipartJson,
+  validateRequest(adminValidations.updateMyProfileSchema),
+  adminController.updateMyProfile,
+);
 
 // ----- Applicants -----
 router.get(
   "/applicants",
-  auth(...staffRoles),
+  auth(...adminStaffRoles),
   adminController.getAllApplicants,
 );
 
 router.get(
   "/applicants/:id",
-  auth(...staffRoles),
+  auth(...adminStaffRoles),
   adminController.getSingleApplicant,
 );
 
 router.patch(
   "/applicants/:id",
-  auth(...staffRoles),
+  auth(...adminStaffRoles),
+  uploadProfileAssets,
+  parseOptionalMultipartJson,
   validateRequest(adminValidations.updateApplicantSchema),
   adminController.updateApplicant,
 );
@@ -32,56 +45,59 @@ router.patch(
 // ----- Recruiters -----
 router.get(
   "/recruiters",
-  auth(...staffRoles),
+  auth(...adminStaffRoles),
   adminController.getAllRecruiters,
 );
 
 router.get(
   "/recruiters/:id",
-  auth(...staffRoles),
+  auth(...adminStaffRoles),
   adminController.getSingleRecruiter,
 );
 
 router.patch(
   "/recruiters/:id",
-  auth(...staffRoles),
+  auth(...adminStaffRoles),
+  uploadProfileAssets,
+  parseOptionalMultipartJson,
   validateRequest(adminValidations.updateRecruiterSchema),
   adminController.updateRecruiter,
 );
 
 // ----- Admin profiles (staff) -----
-router.get("/admins", auth(...staffRoles), adminController.getAllAdmins);
+router.get("/admins", auth(...adminStaffRoles), adminController.getAllAdmins);
 
 router.get(
   "/admins/:id",
-  auth(...staffRoles),
+  auth(...adminStaffRoles),
   adminController.getSingleAdmin,
 );
 
 router.patch(
   "/admins/:id",
-  auth(...staffRoles),
+  auth(...adminStaffRoles),
+  uploadProfileAssets,
+  parseOptionalMultipartJson,
   validateRequest(adminValidations.updateAdminProfileSchema),
   adminController.updateAdminProfile,
 );
 
-// ----- User-level (soft delete, role, account status) -----
+// ----- User-level (get, soft delete, account status) -----
+router.get(
+  "/users/:userId",
+  auth(...adminStaffRoles),
+  adminController.getUserById,
+);
+
 router.delete(
   "/users/:userId",
-  auth(...staffRoles),
+  auth(...adminStaffRoles),
   adminController.softDeleteUser,
 );
 
 router.patch(
-  "/users/:userId/role",
-  auth(...staffRoles),
-  validateRequest(adminValidations.updateUserRoleSchema),
-  adminController.updateUserRole,
-);
-
-router.patch(
   "/users/:userId/status",
-  auth(...staffRoles),
+  auth(...adminStaffRoles),
   validateRequest(adminValidations.updateUserStatusSchema),
   adminController.updateUserStatus,
 );

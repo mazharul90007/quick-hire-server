@@ -3,19 +3,23 @@ import { applicationController } from "./application.controller";
 import { applicationValidation } from "./application.validation";
 import auth from "../../middlewares/auth";
 import { validateRequest } from "../../middlewares/validateRequest";
+import { uploadApplicationCv } from "../../middlewares/uploadApplicationCv";
+import { parseApplicationDataField } from "./application.middleware";
 import { UserRole } from "../../../../generated/prisma/enums";
 
 const router = express.Router();
 
-//==============Create Application==============
+//==========Create Application=========
 router.post(
   "/",
   auth(UserRole.APPLICANT),
-  validateRequest(applicationValidation.createApplicationValidationSchema),
+  uploadApplicationCv.single("cv"),
+  parseApplicationDataField,
+  validateRequest(applicationValidation.createApplicationFormFieldsSchema),
   applicationController.createApplication,
 );
 
-//==============Get All Applications==============
+//==========Get All Applications=========
 router.get(
   "/",
   auth(
@@ -27,7 +31,7 @@ router.get(
   applicationController.getAllApplications,
 );
 
-//==============Get Single Application==============
+//==========Get Single Application=========
 router.get(
   "/:id",
   auth(

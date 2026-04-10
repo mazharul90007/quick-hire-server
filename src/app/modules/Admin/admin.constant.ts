@@ -1,3 +1,8 @@
+import { UserRole } from "../../../../generated/prisma/enums";
+
+/** JWT auth on admin routes — ADMIN and SUPER_ADMIN only. */
+export const adminStaffRoles = [UserRole.ADMIN, UserRole.SUPER_ADMIN] as const;
+
 /** GET /admin/applicants */
 export const applicantListQueryKeys = [
   "searchTerm",

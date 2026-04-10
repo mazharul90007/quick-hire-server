@@ -17,6 +17,7 @@ model User {
   applicant          Applicant?
   accounts           Account[]
   sessions           Session[]
+  coursesCreated     Course[]
 
   @@map("user")
 }

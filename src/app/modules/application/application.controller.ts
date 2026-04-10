@@ -6,14 +6,39 @@ import { UserRole } from "../../../../generated/prisma/enums";
 import { applicationServices } from "./application.service";
 import pick from "../../../shared/pick";
 import { applicationFilterableFields } from "./application.constant";
+import ApiError from "../../errors/ApiErrors";
+import { uploadApplicationCvPdf } from "../../../lib/cloudinary";
+import type { CreateApplicationFormPayload } from "./application.validation";
 
-//==============Create Application==============
+//==========Create Application=========
 const createApplication = catchAsync(async (req: Request, res: Response) => {
-  // Logged-in user id comes from the session (never trust a userId from the body).
   const userId = req.user?.id as string;
+  const file = req.file;
 
-  // Body was validated (jobId, optional cover note / expected salary).
-  const result = await applicationServices.createApplication(userId, req.body);
+  if (!file?.buffer?.length) {
+    throw new ApiError(
+      status.BAD_REQUEST,
+      'CV PDF is required (form field name: "cv")',
+    );
+  }
+  if (file.mimetype !== "application/pdf") {
+    throw new ApiError(status.BAD_REQUEST, "CV must be a PDF file");
+  }
+  const magic = file.buffer.subarray(0, 4).toString("utf8");
+  if (!magic.startsWith("%PDF")) {
+    throw new ApiError(
+      status.BAD_REQUEST,
+      "File does not appear to be a valid PDF",
+    );
+  }
+
+  const cvUrl = await uploadApplicationCvPdf(file.buffer);
+  const body = req.body as CreateApplicationFormPayload;
+
+  const result = await applicationServices.createApplication(userId, {
+    ...body,
+    cv: cvUrl,
+  });
 
   sendResponse(res, {
     statusCode: status.OK,
@@ -23,7 +48,7 @@ const createApplication = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-//==============Get All Applications==============
+//==========Get All Applications=========
 const getAllApplications = catchAsync(async (req: Request, res: Response) => {
   // Only whitelisted query keys become filters (see application.constant).
   const filters = pick(req.query, applicationFilterableFields);
@@ -47,7 +72,7 @@ const getAllApplications = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-//==============Get Single Application==============
+//==========Get Single Application=========
 const getSingleApplication = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id as string;
   const result = await applicationServices.getSingleApplication(id, {

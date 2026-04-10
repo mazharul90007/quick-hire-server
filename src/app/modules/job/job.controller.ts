@@ -5,6 +5,7 @@ import sendResponse from "../../../shared/sendResponse";
 import status from "http-status";
 import { jobFilterableFields } from "./job.constant";
 import pick from "../../../shared/pick";
+import { UserRole } from "../../../../generated/prisma/enums";
 
 //===============Create Job=================
 const createJob = catchAsync(async (req: Request, res: Response) => {
@@ -48,8 +49,26 @@ const getSingleJob = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+//===============Update Job===============
+const updateJob = catchAsync(async (req: Request, res: Response) => {
+  const id = req.params.id as string;
+  const payload = req.body;
+  const result = await jobServices.updateJob(id, payload, {
+    userId: req.user!.id,
+    role: req.user!.role as UserRole,
+  });
+
+  sendResponse(res, {
+    statusCode: status.OK,
+    success: true,
+    message: "Job updated successfully",
+    data: result,
+  });
+});
+
 export const jobController = {
   createJob,
+  updateJob,
   getAllJobs,
   getSingleJob,
 };

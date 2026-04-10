@@ -1,19 +1,13 @@
 import { Router } from "express";
 import auth from "../../middlewares/auth";
+import { validateRequest } from "../../middlewares/validateRequest";
 import { UserRole } from "../../../../generated/prisma/enums";
 import { jobController } from "./job.controller";
 import { jobValidations } from "./job.validation";
 const router = Router();
-//create job
-router.post("/", auth(UserRole.ADMIN, UserRole.SUPER_ADMIN), (req, res, next) => {
-    try {
-        req.body = jobValidations.createJobValidationSchema.parse(req.body);
-        return jobController.createJob(req, res, next);
-    }
-    catch (error) {
-        next(error);
-    }
-});
+//create job (recruiter only)
+router.post("/", auth(UserRole.RECRUITER), validateRequest(jobValidations.createJobValidationSchema), jobController.createJob);
+router.patch("/:id", auth(UserRole.ADMIN, UserRole.SUPER_ADMIN, UserRole.RECRUITER), validateRequest(jobValidations.updateJobValidationSchema), jobController.updateJob);
 //Get all jobs
 router.get("/", jobController.getAllJobs);
 //Get single job

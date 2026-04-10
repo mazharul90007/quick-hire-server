@@ -1,14 +1,17 @@
 import { z } from "zod";
-const createApplicationValidationSchema = z.object({
-    jobId: z.string().min(1, "Job ID is required"),
-    name: z.string().min(1, "Name is required"),
-    email: z.string().email("Invalid email address"),
-    resume_link: z.string().url("Invalid resume link URL"),
-    cover_note: z.string().optional(),
-    expectedSalary: z.string().optional(),
-    userId: z.string().optional(),
+/** Multipart text fields arrive as strings; normalize empty strings to undefined. */
+const emptyToUndef = (v) => v === "" || v === undefined || v === null ? undefined : v;
+//==========Create Application (form fields schema)=========
+/**
+ * Parsed from multipart field `data` (JSON string) after `parseApplicationDataField`.
+ * File `cv` is on `req.file` (validated separately).
+ */
+const createApplicationFormFieldsSchema = z.object({
+    jobId: z.uuid("Valid job id is required"),
+    cover_note: z.preprocess(emptyToUndef, z.string().optional()),
+    expectedSalary: z.preprocess(emptyToUndef, z.string().optional()),
 });
 export const applicationValidation = {
-    createApplicationValidationSchema,
+    createApplicationFormFieldsSchema,
 };
 //# sourceMappingURL=application.validation.js.map

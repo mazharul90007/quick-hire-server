@@ -3,7 +3,6 @@ model Recruiter {
     userId             String       @unique
     user               User         @relation(fields: [userId], references: [id])
     recruiterName      String?
-    recruiterPhoto     String?
     recruiterPhone     String?
     recruiterWorkEmail String?
     companyName        String?
@@ -45,6 +44,7 @@ enum Subscription {
 model Industry {
     id            String        @id @default(uuid())
     name          String        @unique
+    logo          String?
     createdAt     DateTime      @default(now())
     updatedAt     DateTime      @updatedAt
     subIndustries SubIndustry[]

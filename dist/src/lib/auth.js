@@ -29,12 +29,39 @@ export const auth = betterAuth({
                 defaultValue: UserStatus.ACTIVE,
                 required: true,
             },
+            needPasswordChange: {
+                type: "boolean",
+                required: true,
+                defaultValue: false,
+            },
+            isDeleted: {
+                type: "boolean",
+                required: true,
+                defaultValue: false,
+            },
+            deletedAt: {
+                type: "date",
+                required: false,
+                defaultValue: null,
+            },
         },
     },
     emailAndPassword: {
         enabled: true,
         autoSignIn: false,
         requireEmailVerification: true,
+        sendResetPassword: async ({ user, url, token, }) => {
+            const resetUrl = `${process.env.APP_URL}/reset-password?token=${token}`;
+            await transporter.sendMail({
+                from: '"QuickHire" <quickhire@gmail.com>',
+                to: user.email,
+                subject: "Reset your password",
+                html: `<p>Please reset your password by clicking <a href="${resetUrl}">here</a>.</p>`,
+            });
+        },
+        forgotPassword: {
+            enabled: true,
+        },
     },
     emailVerification: {
         sendOnSignUp: true,

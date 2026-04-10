@@ -39,8 +39,24 @@ const getSingleJob = catchAsync(async (req, res) => {
         data: result,
     });
 });
+//===============Update Job===============
+const updateJob = catchAsync(async (req, res) => {
+    const id = req.params.id;
+    const payload = req.body;
+    const result = await jobServices.updateJob(id, payload, {
+        userId: req.user.id,
+        role: req.user.role,
+    });
+    sendResponse(res, {
+        statusCode: status.OK,
+        success: true,
+        message: "Job updated successfully",
+        data: result,
+    });
+});
 export const jobController = {
     createJob,
+    updateJob,
     getAllJobs,
     getSingleJob,
 };

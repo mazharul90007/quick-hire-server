@@ -1,10 +1,10 @@
 import { z } from "zod";
 
 const createIndustry = z.object({
-  name: z.string("Industry name is required"),
+  name: z.string().min(1, "Industry name is required"),
 });
 const updateIndustry = z.object({
-  name: z.string().optional(),
+  name: z.string().min(1).optional(),
 });
 
 export const IndustryValidation = {

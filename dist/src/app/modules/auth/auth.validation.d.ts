@@ -1,0 +1,46 @@
+import { z } from "zod";
+export declare const AuthValidation: {
+    createApplicant: z.ZodObject<{
+        email: z.ZodString;
+        password: z.ZodString;
+        applicant: z.ZodObject<{
+            name: z.ZodOptional<z.ZodString>;
+            address: z.ZodOptional<z.ZodString>;
+            phone: z.ZodOptional<z.ZodString>;
+        }, z.core.$strip>;
+    }, z.core.$strip>;
+    createAdmin: z.ZodObject<{
+        password: z.ZodString;
+        admin: z.ZodObject<{
+            name: z.ZodOptional<z.ZodString>;
+            email: z.ZodString;
+            address: z.ZodOptional<z.ZodString>;
+            phone: z.ZodOptional<z.ZodString>;
+        }, z.core.$strip>;
+    }, z.core.$strip>;
+    forgetPassword: z.ZodObject<{
+        email: z.ZodString;
+    }, z.core.$strip>;
+    resetPassword: z.ZodObject<{
+        newPassword: z.ZodString;
+        token: z.ZodString;
+    }, z.core.$strip>;
+    createRecruiter: z.ZodObject<{
+        email: z.ZodString;
+        password: z.ZodString;
+        recruiter: z.ZodObject<{
+            recruiterName: z.ZodOptional<z.ZodString>;
+            recruiterPhone: z.ZodOptional<z.ZodString>;
+            recruiterWorkEmail: z.ZodOptional<z.ZodString>;
+            companyName: z.ZodOptional<z.ZodString>;
+            companyWebsite: z.ZodOptional<z.ZodString>;
+            companyFacebookId: z.ZodOptional<z.ZodString>;
+            companyLinkedInId: z.ZodOptional<z.ZodString>;
+            companySize: z.ZodOptional<z.ZodString>;
+            companyAddress: z.ZodOptional<z.ZodString>;
+            industryId: z.ZodOptional<z.ZodString>;
+            subIndustryId: z.ZodOptional<z.ZodString>;
+        }, z.core.$strip>;
+    }, z.core.$strip>;
+};
+//# sourceMappingURL=auth.validation.d.ts.map

@@ -7,8 +7,15 @@
 *
 * 🟢 You can import this file directly.
 */
+export const UserType = {
+    NORMAL: 'NORMAL',
+    SILVER: 'SILVER',
+    GOLD: 'GOLD',
+    DIAMOND: 'DIAMOND'
+};
 export const UserRole = {
     APPLICANT: 'APPLICANT',
+    RECRUITER: 'RECRUITER',
     ADMIN: 'ADMIN',
     SUPER_ADMIN: 'SUPER_ADMIN'
 };
@@ -17,9 +24,17 @@ export const UserStatus = {
     BLOCKED: 'BLOCKED',
     DELETED: 'DELETED'
 };
-export const CategoryStatus = {
-    ACTIVE: 'ACTIVE',
-    BLOCKED: 'BLOCKED'
+export const CoursePurchaseStatus = {
+    PENDING: 'PENDING',
+    PAID: 'PAID',
+    FAILED: 'FAILED',
+    REFUNDED: 'REFUNDED',
+    CANCELED: 'CANCELED'
+};
+export const CourseAccessDuration = {
+    MONTHS_6: 'MONTHS_6',
+    MONTHS_12: 'MONTHS_12',
+    UNLIMITED: 'UNLIMITED'
 };
 export const JobTypes = {
     REMOTE: 'REMOTE',
@@ -32,5 +47,23 @@ export const EmploymentType = {
     CONTRACTUAL: 'CONTRACTUAL',
     INTERNSHIP: 'INTERNSHIP',
     FREELANCE: 'FREELANCE'
+};
+export const JobStatus = {
+    ACTIVE: 'ACTIVE',
+    PAUSED: 'PAUSED',
+    DELETED: 'DELETED'
+};
+export const CompanySize = {
+    SMALL: 'SMALL',
+    MEDIUM: 'MEDIUM',
+    LARGE: 'LARGE',
+    VERY_LARGE: 'VERY_LARGE',
+    ENTERPRISE: 'ENTERPRISE'
+};
+export const Subscription = {
+    FREE: 'FREE',
+    SILVER: 'SILVER',
+    GOLD: 'GOLD',
+    DIAMOND: 'DIAMOND'
 };
 //# sourceMappingURL=enums.js.map

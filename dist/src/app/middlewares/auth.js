@@ -18,6 +18,18 @@ const auth = (...roles) => {
                     message: "Email verification required, Please verify your email",
                 });
             }
+            if (session.user.status === "BLOCKED" || session.user.isDeleted) {
+                return res.status(403).json({
+                    success: false,
+                    message: "Your account is inactive. Please contact support.",
+                });
+            }
+            if (session.user.needPasswordChange) {
+                return res.status(403).json({
+                    success: false,
+                    message: "Password change required! Please reset your password using the Forgot Password flow.",
+                });
+            }
             req.user = {
                 id: session.user.id,
                 email: session.user.email,

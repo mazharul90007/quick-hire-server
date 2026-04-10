@@ -1,27 +1,28 @@
 import { z } from "zod";
 import {
-  UserRole,
   UserStatus,
   UserType,
   CompanySize,
   Subscription,
 } from "../../../../generated/prisma/enums";
 
+//==========Update Applicant (body schema)=========
 const updateApplicantSchema = z
   .object({
     name: z.string().max(200).optional(),
     address: z.string().max(500).optional(),
     phone: z.string().max(50).optional(),
-    profilePhoto: z.string().max(2000).optional(),
+    image: z.string().max(2000).optional(),
     cv: z.string().max(2000).optional(),
-    userType: z.nativeEnum(UserType).optional(),
+    userType: z.enum(UserType).optional(),
   })
   .strict();
 
+//==========Update Recruiter (body schema)=========
 const updateRecruiterSchema = z
   .object({
     recruiterName: z.string().max(200).optional(),
-    recruiterPhoto: z.string().max(2000).optional(),
+    image: z.string().max(2000).optional(),
     recruiterPhone: z.string().max(50).optional(),
     recruiterWorkEmail: z.string().max(200).optional(),
     companyName: z.string().max(200).optional(),
@@ -29,33 +30,39 @@ const updateRecruiterSchema = z
     companyWebsite: z.string().max(500).optional(),
     companyFacebookId: z.string().max(200).optional(),
     companyLinkedInId: z.string().max(200).optional(),
-    companySize: z.nativeEnum(CompanySize).optional(),
+    companySize: z.enum(CompanySize).optional(),
     companyAddress: z.string().max(500).optional(),
-    industryId: z.string().uuid().optional().nullable(),
-    subIndustryId: z.string().uuid().optional().nullable(),
+    industryId: z.uuid().optional().nullable(),
+    subIndustryId: z.uuid().optional().nullable(),
     isVerified: z.boolean().optional(),
-    subscriptionPlan: z.nativeEnum(Subscription).optional(),
+    subscriptionPlan: z.enum(Subscription).optional(),
   })
   .strict();
 
+//==========Update Admin Profile (by id, body schema)=========
 const updateAdminProfileSchema = z
   .object({
     name: z.string().max(200).optional(),
     address: z.string().max(500).optional(),
     phone: z.string().max(50).optional(),
-    profilePhoto: z.string().max(2000).optional(),
+    image: z.string().max(2000).optional(),
   })
   .strict();
 
-const updateUserRoleSchema = z
+//==========Update Admin Profile (self, body schema)=========
+/** Staff self-service profile (multipart files, no URL strings). */
+const updateMyProfileSchema = z
   .object({
-    role: z.nativeEnum(UserRole),
+    name: z.string().max(200).optional(),
+    address: z.string().max(500).optional(),
+    phone: z.string().max(50).optional(),
   })
   .strict();
 
+//==========Update User Status (body schema)=========
 const updateUserStatusSchema = z
   .object({
-    status: z.nativeEnum(UserStatus),
+    status: z.enum(UserStatus),
   })
   .strict();
 
@@ -63,6 +70,6 @@ export const adminValidations = {
   updateApplicantSchema,
   updateRecruiterSchema,
   updateAdminProfileSchema,
-  updateUserRoleSchema,
+  updateMyProfileSchema,
   updateUserStatusSchema,
 };

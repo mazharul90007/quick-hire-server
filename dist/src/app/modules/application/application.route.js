@@ -2,21 +2,16 @@ import express from "express";
 import { applicationController } from "./application.controller";
 import { applicationValidation } from "./application.validation";
 import auth from "../../middlewares/auth";
+import { validateRequest } from "../../middlewares/validateRequest";
+import { uploadApplicationCv } from "../../middlewares/uploadApplicationCv";
+import { parseApplicationDataField } from "./application.middleware";
 import { UserRole } from "../../../../generated/prisma/enums";
 const router = express.Router();
-// =============Create application================
-router.post("/", (req, res, next) => {
-    try {
-        req.body = applicationValidation.createApplicationValidationSchema.parse(req.body);
-        return applicationController.createApplication(req, res, next);
-    }
-    catch (error) {
-        next(error);
-    }
-});
-// ================Get all applications==================
-router.get("/", auth(UserRole.ADMIN, UserRole.SUPER_ADMIN), applicationController.getAllApplications);
-// ================Get single application==============s
-router.get("/:id", auth(UserRole.ADMIN, UserRole.SUPER_ADMIN), applicationController.getSingleApplication);
+//==========Create Application=========
+router.post("/", auth(UserRole.APPLICANT), uploadApplicationCv.single("cv"), parseApplicationDataField, validateRequest(applicationValidation.createApplicationFormFieldsSchema), applicationController.createApplication);
+//==========Get All Applications=========
+router.get("/", auth(UserRole.ADMIN, UserRole.SUPER_ADMIN, UserRole.RECRUITER, UserRole.APPLICANT), applicationController.getAllApplications);
+//==========Get Single Application=========
+router.get("/:id", auth(UserRole.ADMIN, UserRole.SUPER_ADMIN, UserRole.RECRUITER, UserRole.APPLICANT), applicationController.getSingleApplication);
 export const ApplicationRoutes = router;
 //# sourceMappingURL=application.route.js.map

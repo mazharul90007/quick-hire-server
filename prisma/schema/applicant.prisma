@@ -5,12 +5,12 @@ model Applicant {
     name         String?
     address      String?
     phone        String?
-    profilePhoto String?
     cv           String?
     userType     UserType      @default(NORMAL)
     createdAt    DateTime      @default(now())
     updatedAt    DateTime      @updatedAt
-    applications Application[]
+    applications     Application[]
+    coursePurchases    CoursePurchase[]
 
     @@map("applicants")
 }

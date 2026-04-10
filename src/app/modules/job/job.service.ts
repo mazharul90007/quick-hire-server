@@ -1,4 +1,5 @@
 import { Prisma } from "../../../../generated/prisma/client";
+import { UserRole } from "../../../../generated/prisma/enums";
 import { prisma } from "../../../lib/prisma";
 import ApiError from "../../errors/ApiErrors";
 import calculatePagination from "../../helpers/paginationHelpers";
@@ -7,7 +8,7 @@ import {
   jobEnumFilterFields,
   jobSearchableFields,
 } from "./job.constant";
-import type { CreateJobPayload } from "./job.validation";
+import type { CreateJobPayload, UpdateJobPayload } from "./job.validation";
 
 //===============Create Job=================
 const createJob = async (userId: string, payload: CreateJobPayload) => {
@@ -171,8 +172,85 @@ const getSingleJob = async (id: string) => {
   return result;
 };
 
+const updateJob = async (
+  id: string,
+  payload: UpdateJobPayload,
+  viewer: { userId: string; role: UserRole },
+) => {
+  const job = await prisma.job.findUnique({
+    where: { id },
+    select: {
+      id: true,
+      recruiterId: true,
+      industryId: true,
+      subIndustryId: true,
+      recruiter: { select: { userId: true } },
+    },
+  });
+  if (!job) {
+    throw new ApiError(404, "Job not found");
+  }
+
+  const isAdmin =
+    viewer.role === UserRole.ADMIN || viewer.role === UserRole.SUPER_ADMIN;
+  const isRecruiter = viewer.role === UserRole.RECRUITER;
+  if (!isAdmin && !isRecruiter) {
+    throw new ApiError(403, "You are not allowed to update this job");
+  }
+  if (isRecruiter && job.recruiter.userId !== viewer.userId) {
+    throw new ApiError(403, "You can only update jobs you created");
+  }
+
+  if (isRecruiter && (payload.featured !== undefined || payload.isVerified !== undefined)) {
+    throw new ApiError(
+      403,
+      "Recruiters are not allowed to update featured/verification flags",
+    );
+  }
+
+  const nextIndustryId = payload.industryId ?? job.industryId;
+  const nextSubIndustryId = payload.subIndustryId ?? job.subIndustryId;
+  if (payload.industryId !== undefined || payload.subIndustryId !== undefined) {
+    const sub = await prisma.subIndustry.findUnique({
+      where: { id: nextSubIndustryId },
+      select: { industryId: true },
+    });
+    if (!sub) {
+      throw new ApiError(404, "Sub-industry not found");
+    }
+    if (sub.industryId !== nextIndustryId) {
+      throw new ApiError(
+        400,
+        "Sub-industry does not belong to the given industry",
+      );
+    }
+  }
+
+  const { deadline, ...rest } = payload;
+  const cleanRest = Object.fromEntries(
+    Object.entries(rest).filter(([, value]) => value !== undefined),
+  ) as Prisma.JobUncheckedUpdateInput;
+  const updateData: Prisma.JobUncheckedUpdateInput = {
+    ...cleanRest,
+    ...(deadline !== undefined
+      ? { deadline: deadline ? new Date(deadline) : null }
+      : {}),
+  };
+
+  return prisma.job.update({
+    where: { id },
+    data: updateData,
+    include: {
+      industry: true,
+      subIndustry: true,
+      recruiter: true,
+    },
+  });
+};
+
 export const jobServices = {
   createJob,
+  updateJob,
   getAllJobs,
   getSingleJob,
 };

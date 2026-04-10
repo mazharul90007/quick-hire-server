@@ -1,17 +1,29 @@
 export const jobFilterableFields = [
     "searchTerm",
-    "companyName",
-    "location",
-    "district",
-    "categoryId",
+    "industryId",
+    "subIndustryId",
+    "recruiterId",
     "jobType",
     "employmentType",
+    "status",
     "featured",
+    "isVerified",
+    "location",
+    "district",
 ];
 export const jobSearchableFields = [
     "title",
-    "companyName",
     "location",
     "district",
+    "description",
+];
+export const jobEnumFilterFields = ["jobType", "employmentType", "status"];
+export const jobAllowedSortFields = [
+    "createdAt",
+    "updatedAt",
+    "deadline",
+    "title",
+    "featured",
+    "vacancy",
 ];
 //# sourceMappingURL=job.constant.js.map

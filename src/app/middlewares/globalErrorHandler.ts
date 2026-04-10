@@ -1,6 +1,8 @@
 import type { NextFunction, Request, Response } from "express";
 import status from "http-status";
+import { ZodError } from "zod";
 import { Prisma } from "../../../generated/prisma/client";
+import ApiError from "../errors/ApiErrors";
 
 const globalErrorHandler = (
   error: any,
@@ -13,7 +15,19 @@ const globalErrorHandler = (
   let message = error.message || "Something went wrong";
   // let error = error;
 
-  if (error instanceof Prisma.PrismaClientValidationError) {
+  if (error instanceof ApiError) {
+    statusCode = error.statusCode;
+    message = error.message;
+  } else if (error instanceof ZodError) {
+    statusCode = status.BAD_REQUEST;
+    message = error.issues.map((i) => i.message).join("; ");
+  } else if (error?.name === "MulterError") {
+    statusCode = status.BAD_REQUEST;
+    message =
+      error.code === "LIMIT_FILE_SIZE"
+        ? "CV file is too large (maximum 5 MB)."
+        : error.message || "File upload error";
+  } else if (error instanceof Prisma.PrismaClientValidationError) {
     statusCode = status.BAD_REQUEST;
     message = "Validation Error";
   } else if (error instanceof Prisma.PrismaClientKnownRequestError) {

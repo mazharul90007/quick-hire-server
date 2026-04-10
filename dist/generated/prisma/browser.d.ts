@@ -3,6 +3,16 @@ export { Prisma };
 export * as $Enums from './enums';
 export * from './enums';
 /**
+ * Model Admin
+ *
+ */
+export type Admin = Prisma.AdminModel;
+/**
+ * Model Applicant
+ *
+ */
+export type Applicant = Prisma.ApplicantModel;
+/**
  * Model Application
  *
  */
@@ -28,13 +38,33 @@ export type Account = Prisma.AccountModel;
  */
 export type Verification = Prisma.VerificationModel;
 /**
- * Model Category
+ * Model Course
  *
  */
-export type Category = Prisma.CategoryModel;
+export type Course = Prisma.CourseModel;
+/**
+ * Model CoursePurchase
+ *
+ */
+export type CoursePurchase = Prisma.CoursePurchaseModel;
 /**
  * Model Job
  *
  */
 export type Job = Prisma.JobModel;
+/**
+ * Model Recruiter
+ *
+ */
+export type Recruiter = Prisma.RecruiterModel;
+/**
+ * Model Industry
+ *
+ */
+export type Industry = Prisma.IndustryModel;
+/**
+ * Model SubIndustry
+ *
+ */
+export type SubIndustry = Prisma.SubIndustryModel;
 //# sourceMappingURL=browser.d.ts.map

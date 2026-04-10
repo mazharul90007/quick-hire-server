@@ -88,7 +88,6 @@ const applicantSelectForApplicationDetail = {
   id: true,
   name: true,
   phone: true,
-  profilePhoto: true,
   cv: true,
   user: {
     select: {
@@ -105,15 +104,14 @@ const applicationScalarSelectForDetail = {
   id: true,
   applicantId: true,
   jobId: true,
+  cv: true,
   cover_note: true,
   expectedSalary: true,
   createdAt: true,
   updatedAt: true,
 } as const;
 
-// ---------------------------------------------------------------------------
-// CREATE APPLICATION
-// ---------------------------------------------------------------------------
+//==========Create Application=========
 // Called after the route proves the user is an applicant. We still load the
 // Applicant row here because the session only gives us userId — applications
 // are stored against applicantId, not userId.
@@ -169,6 +167,7 @@ const createApplication = async (
     data: {
       applicantId: applicant.id,
       jobId: payload.jobId,
+      cv: payload.cv,
       cover_note: payload.cover_note ?? null,
       expectedSalary: payload.expectedSalary ?? null,
     },
@@ -178,9 +177,7 @@ const createApplication = async (
   return result;
 };
 
-// ---------------------------------------------------------------------------
-// GET ALL APPLICATIONS (paginated list)
-// ---------------------------------------------------------------------------
+//==========Get All Applications=========
 // Everyone allowed on the route gets a list, but the rows are restricted:
 //   • Admin / super admin → every application in the system
 //   • Recruiter → only applications for jobs they posted
@@ -312,9 +309,7 @@ const getAllApplications = async (
   };
 };
 
-// ---------------------------------------------------------------------------
-// GET SINGLE APPLICATION  (GET /applications/:id)
-// ---------------------------------------------------------------------------
+//==========Get Single Application=========
 // Who may see this row:
 //   • Admin / super admin     → any application
 //   • Applicant ("client")    → only if they submitted it (same applicantId)

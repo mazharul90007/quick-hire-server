@@ -13,12 +13,35 @@ export declare const auth: import("better-auth").Auth<{
                 defaultValue: "ACTIVE";
                 required: true;
             };
+            needPasswordChange: {
+                type: "boolean";
+                required: true;
+                defaultValue: false;
+            };
+            isDeleted: {
+                type: "boolean";
+                required: true;
+                defaultValue: false;
+            };
+            deletedAt: {
+                type: "date";
+                required: false;
+                defaultValue: null;
+            };
         };
     };
     emailAndPassword: {
         enabled: true;
         autoSignIn: false;
         requireEmailVerification: true;
+        sendResetPassword: ({ user, url, token, }: {
+            user: any;
+            url: string;
+            token: string;
+        }) => Promise<void>;
+        forgotPassword: {
+            enabled: boolean;
+        };
     };
     emailVerification: {
         sendOnSignUp: true;

@@ -26,13 +26,19 @@ export declare const JsonNull: import("@prisma/client-runtime-utils").JsonNullCl
  */
 export declare const AnyNull: import("@prisma/client-runtime-utils").AnyNullClass;
 export declare const ModelName: {
+    readonly Admin: "Admin";
+    readonly Applicant: "Applicant";
     readonly Application: "Application";
     readonly User: "User";
     readonly Session: "Session";
     readonly Account: "Account";
     readonly Verification: "Verification";
-    readonly Category: "Category";
+    readonly Course: "Course";
+    readonly CoursePurchase: "CoursePurchase";
     readonly Job: "Job";
+    readonly Recruiter: "Recruiter";
+    readonly Industry: "Industry";
+    readonly SubIndustry: "SubIndustry";
 };
 export type ModelName = (typeof ModelName)[keyof typeof ModelName];
 export declare const TransactionIsolationLevel: {
@@ -42,13 +48,33 @@ export declare const TransactionIsolationLevel: {
     readonly Serializable: "Serializable";
 };
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel];
-export declare const ApplicationScalarFieldEnum: {
+export declare const AdminScalarFieldEnum: {
     readonly id: "id";
     readonly userId: "userId";
-    readonly jobId: "jobId";
     readonly name: "name";
-    readonly email: "email";
-    readonly resume_link: "resume_link";
+    readonly address: "address";
+    readonly phone: "phone";
+    readonly createdAt: "createdAt";
+    readonly updatedAt: "updatedAt";
+};
+export type AdminScalarFieldEnum = (typeof AdminScalarFieldEnum)[keyof typeof AdminScalarFieldEnum];
+export declare const ApplicantScalarFieldEnum: {
+    readonly id: "id";
+    readonly userId: "userId";
+    readonly name: "name";
+    readonly address: "address";
+    readonly phone: "phone";
+    readonly cv: "cv";
+    readonly userType: "userType";
+    readonly createdAt: "createdAt";
+    readonly updatedAt: "updatedAt";
+};
+export type ApplicantScalarFieldEnum = (typeof ApplicantScalarFieldEnum)[keyof typeof ApplicantScalarFieldEnum];
+export declare const ApplicationScalarFieldEnum: {
+    readonly id: "id";
+    readonly applicantId: "applicantId";
+    readonly jobId: "jobId";
+    readonly cv: "cv";
     readonly cover_note: "cover_note";
     readonly expectedSalary: "expectedSalary";
     readonly createdAt: "createdAt";
@@ -57,16 +83,18 @@ export declare const ApplicationScalarFieldEnum: {
 export type ApplicationScalarFieldEnum = (typeof ApplicationScalarFieldEnum)[keyof typeof ApplicationScalarFieldEnum];
 export declare const UserScalarFieldEnum: {
     readonly id: "id";
-    readonly name: "name";
     readonly email: "email";
-    readonly emailVerified: "emailVerified";
+    readonly name: "name";
     readonly image: "image";
-    readonly createdAt: "createdAt";
-    readonly updatedAt: "updatedAt";
+    readonly emailVerified: "emailVerified";
     readonly address: "address";
-    readonly phone: "phone";
     readonly role: "role";
     readonly status: "status";
+    readonly needPasswordChange: "needPasswordChange";
+    readonly isDeleted: "isDeleted";
+    readonly deletedAt: "deletedAt";
+    readonly createdAt: "createdAt";
+    readonly updatedAt: "updatedAt";
 };
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum];
 export declare const SessionScalarFieldEnum: {
@@ -105,21 +133,45 @@ export declare const VerificationScalarFieldEnum: {
     readonly updatedAt: "updatedAt";
 };
 export type VerificationScalarFieldEnum = (typeof VerificationScalarFieldEnum)[keyof typeof VerificationScalarFieldEnum];
-export declare const CategoryScalarFieldEnum: {
+export declare const CourseScalarFieldEnum: {
     readonly id: "id";
-    readonly userId: "userId";
     readonly title: "title";
-    readonly status: "status";
+    readonly slug: "slug";
+    readonly description: "description";
+    readonly priceAmount: "priceAmount";
+    readonly currency: "currency";
+    readonly accessDuration: "accessDuration";
+    readonly stripeProductId: "stripeProductId";
+    readonly stripePriceId: "stripePriceId";
+    readonly thumbnailUrl: "thumbnailUrl";
+    readonly isPublished: "isPublished";
+    readonly createdByUserId: "createdByUserId";
+    readonly createdAt: "createdAt";
+    readonly updatedAt: "updatedAt";
 };
-export type CategoryScalarFieldEnum = (typeof CategoryScalarFieldEnum)[keyof typeof CategoryScalarFieldEnum];
+export type CourseScalarFieldEnum = (typeof CourseScalarFieldEnum)[keyof typeof CourseScalarFieldEnum];
+export declare const CoursePurchaseScalarFieldEnum: {
+    readonly id: "id";
+    readonly applicantId: "applicantId";
+    readonly courseId: "courseId";
+    readonly status: "status";
+    readonly amount: "amount";
+    readonly currency: "currency";
+    readonly stripeCheckoutSessionId: "stripeCheckoutSessionId";
+    readonly stripePaymentIntentId: "stripePaymentIntentId";
+    readonly paidAt: "paidAt";
+    readonly accessExpiresAt: "accessExpiresAt";
+    readonly receiptNumber: "receiptNumber";
+    readonly createdAt: "createdAt";
+    readonly updatedAt: "updatedAt";
+};
+export type CoursePurchaseScalarFieldEnum = (typeof CoursePurchaseScalarFieldEnum)[keyof typeof CoursePurchaseScalarFieldEnum];
 export declare const JobScalarFieldEnum: {
     readonly id: "id";
-    readonly userId: "userId";
-    readonly categoryId: "categoryId";
+    readonly recruiterId: "recruiterId";
+    readonly industryId: "industryId";
+    readonly subIndustryId: "subIndustryId";
     readonly title: "title";
-    readonly companyName: "companyName";
-    readonly companyLogo: "companyLogo";
-    readonly companyDetails: "companyDetails";
     readonly location: "location";
     readonly district: "district";
     readonly vacancy: "vacancy";
@@ -127,7 +179,7 @@ export declare const JobScalarFieldEnum: {
     readonly salary: "salary";
     readonly experience: "experience";
     readonly education: "education";
-    readonly additionalReqirements: "additionalReqirements";
+    readonly additionalRequirements: "additionalRequirements";
     readonly responsibilities: "responsibilities";
     readonly requiredSkills: "requiredSkills";
     readonly description: "description";
@@ -135,12 +187,52 @@ export declare const JobScalarFieldEnum: {
     readonly jobType: "jobType";
     readonly employmentType: "employmentType";
     readonly featured: "featured";
+    readonly isVerified: "isVerified";
     readonly tags: "tags";
     readonly deadline: "deadline";
+    readonly status: "status";
     readonly createdAt: "createdAt";
     readonly updatedAt: "updatedAt";
 };
 export type JobScalarFieldEnum = (typeof JobScalarFieldEnum)[keyof typeof JobScalarFieldEnum];
+export declare const RecruiterScalarFieldEnum: {
+    readonly id: "id";
+    readonly userId: "userId";
+    readonly recruiterName: "recruiterName";
+    readonly recruiterPhone: "recruiterPhone";
+    readonly recruiterWorkEmail: "recruiterWorkEmail";
+    readonly companyName: "companyName";
+    readonly companyLogo: "companyLogo";
+    readonly companyWebsite: "companyWebsite";
+    readonly companyFacebookId: "companyFacebookId";
+    readonly companyLinkedInId: "companyLinkedInId";
+    readonly companySize: "companySize";
+    readonly companyAddress: "companyAddress";
+    readonly industryId: "industryId";
+    readonly subIndustryId: "subIndustryId";
+    readonly isVerified: "isVerified";
+    readonly subscriptionPlan: "subscriptionPlan";
+    readonly isDeleted: "isDeleted";
+    readonly createdAt: "createdAt";
+    readonly updatedAt: "updatedAt";
+};
+export type RecruiterScalarFieldEnum = (typeof RecruiterScalarFieldEnum)[keyof typeof RecruiterScalarFieldEnum];
+export declare const IndustryScalarFieldEnum: {
+    readonly id: "id";
+    readonly name: "name";
+    readonly logo: "logo";
+    readonly createdAt: "createdAt";
+    readonly updatedAt: "updatedAt";
+};
+export type IndustryScalarFieldEnum = (typeof IndustryScalarFieldEnum)[keyof typeof IndustryScalarFieldEnum];
+export declare const SubIndustryScalarFieldEnum: {
+    readonly id: "id";
+    readonly name: "name";
+    readonly industryId: "industryId";
+    readonly createdAt: "createdAt";
+    readonly updatedAt: "updatedAt";
+};
+export type SubIndustryScalarFieldEnum = (typeof SubIndustryScalarFieldEnum)[keyof typeof SubIndustryScalarFieldEnum];
 export declare const SortOrder: {
     readonly asc: "asc";
     readonly desc: "desc";

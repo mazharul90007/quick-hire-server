@@ -11,8 +11,8 @@ export interface PrismaClientConstructor {
    * const prisma = new PrismaClient({
    *   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL })
    * })
-   * // Fetch zero or more Applications
-   * const applications = await prisma.application.findMany()
+   * // Fetch zero or more Admins
+   * const admins = await prisma.admin.findMany()
    * ```
    *
    * Read more in our [docs](https://pris.ly/d/client).
@@ -30,8 +30,8 @@ export interface PrismaClientConstructor {
  * const prisma = new PrismaClient({
  *   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL })
  * })
- * // Fetch zero or more Applications
- * const applications = await prisma.application.findMany()
+ * // Fetch zero or more Admins
+ * const admins = await prisma.admin.findMany()
  * ```
  *
  * Read more in our [docs](https://pris.ly/d/client).
@@ -116,13 +116,35 @@ export interface PrismaClient<in LogOpts extends Prisma.LogLevel = never, in out
         extArgs: ExtArgs;
     }>>;
     /**
- * `prisma.application`: Exposes CRUD operations for the **Application** model.
+ * `prisma.admin`: Exposes CRUD operations for the **Admin** model.
   * Example usage:
   * ```ts
-  * // Fetch zero or more Applications
-  * const applications = await prisma.application.findMany()
+  * // Fetch zero or more Admins
+  * const admins = await prisma.admin.findMany()
   * ```
   */
+    get admin(): Prisma.AdminDelegate<ExtArgs, {
+        omit: OmitOpts;
+    }>;
+    /**
+     * `prisma.applicant`: Exposes CRUD operations for the **Applicant** model.
+      * Example usage:
+      * ```ts
+      * // Fetch zero or more Applicants
+      * const applicants = await prisma.applicant.findMany()
+      * ```
+      */
+    get applicant(): Prisma.ApplicantDelegate<ExtArgs, {
+        omit: OmitOpts;
+    }>;
+    /**
+     * `prisma.application`: Exposes CRUD operations for the **Application** model.
+      * Example usage:
+      * ```ts
+      * // Fetch zero or more Applications
+      * const applications = await prisma.application.findMany()
+      * ```
+      */
     get application(): Prisma.ApplicationDelegate<ExtArgs, {
         omit: OmitOpts;
     }>;
@@ -171,14 +193,25 @@ export interface PrismaClient<in LogOpts extends Prisma.LogLevel = never, in out
         omit: OmitOpts;
     }>;
     /**
-     * `prisma.category`: Exposes CRUD operations for the **Category** model.
+     * `prisma.course`: Exposes CRUD operations for the **Course** model.
       * Example usage:
       * ```ts
-      * // Fetch zero or more Categories
-      * const categories = await prisma.category.findMany()
+      * // Fetch zero or more Courses
+      * const courses = await prisma.course.findMany()
       * ```
       */
-    get category(): Prisma.CategoryDelegate<ExtArgs, {
+    get course(): Prisma.CourseDelegate<ExtArgs, {
+        omit: OmitOpts;
+    }>;
+    /**
+     * `prisma.coursePurchase`: Exposes CRUD operations for the **CoursePurchase** model.
+      * Example usage:
+      * ```ts
+      * // Fetch zero or more CoursePurchases
+      * const coursePurchases = await prisma.coursePurchase.findMany()
+      * ```
+      */
+    get coursePurchase(): Prisma.CoursePurchaseDelegate<ExtArgs, {
         omit: OmitOpts;
     }>;
     /**
@@ -190,6 +223,39 @@ export interface PrismaClient<in LogOpts extends Prisma.LogLevel = never, in out
       * ```
       */
     get job(): Prisma.JobDelegate<ExtArgs, {
+        omit: OmitOpts;
+    }>;
+    /**
+     * `prisma.recruiter`: Exposes CRUD operations for the **Recruiter** model.
+      * Example usage:
+      * ```ts
+      * // Fetch zero or more Recruiters
+      * const recruiters = await prisma.recruiter.findMany()
+      * ```
+      */
+    get recruiter(): Prisma.RecruiterDelegate<ExtArgs, {
+        omit: OmitOpts;
+    }>;
+    /**
+     * `prisma.industry`: Exposes CRUD operations for the **Industry** model.
+      * Example usage:
+      * ```ts
+      * // Fetch zero or more Industries
+      * const industries = await prisma.industry.findMany()
+      * ```
+      */
+    get industry(): Prisma.IndustryDelegate<ExtArgs, {
+        omit: OmitOpts;
+    }>;
+    /**
+     * `prisma.subIndustry`: Exposes CRUD operations for the **SubIndustry** model.
+      * Example usage:
+      * ```ts
+      * // Fetch zero or more SubIndustries
+      * const subIndustries = await prisma.subIndustry.findMany()
+      * ```
+      */
+    get subIndustry(): Prisma.SubIndustryDelegate<ExtArgs, {
         omit: OmitOpts;
     }>;
 }

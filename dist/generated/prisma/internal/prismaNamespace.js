@@ -67,13 +67,19 @@ export const JsonNull = runtime.JsonNull;
  */
 export const AnyNull = runtime.AnyNull;
 export const ModelName = {
+    Admin: 'Admin',
+    Applicant: 'Applicant',
     Application: 'Application',
     User: 'User',
     Session: 'Session',
     Account: 'Account',
     Verification: 'Verification',
-    Category: 'Category',
-    Job: 'Job'
+    Course: 'Course',
+    CoursePurchase: 'CoursePurchase',
+    Job: 'Job',
+    Recruiter: 'Recruiter',
+    Industry: 'Industry',
+    SubIndustry: 'SubIndustry'
 };
 /**
  * Enums
@@ -84,13 +90,31 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
     RepeatableRead: 'RepeatableRead',
     Serializable: 'Serializable'
 });
-export const ApplicationScalarFieldEnum = {
+export const AdminScalarFieldEnum = {
     id: 'id',
     userId: 'userId',
-    jobId: 'jobId',
     name: 'name',
-    email: 'email',
-    resume_link: 'resume_link',
+    address: 'address',
+    phone: 'phone',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+};
+export const ApplicantScalarFieldEnum = {
+    id: 'id',
+    userId: 'userId',
+    name: 'name',
+    address: 'address',
+    phone: 'phone',
+    cv: 'cv',
+    userType: 'userType',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+};
+export const ApplicationScalarFieldEnum = {
+    id: 'id',
+    applicantId: 'applicantId',
+    jobId: 'jobId',
+    cv: 'cv',
     cover_note: 'cover_note',
     expectedSalary: 'expectedSalary',
     createdAt: 'createdAt',
@@ -98,16 +122,18 @@ export const ApplicationScalarFieldEnum = {
 };
 export const UserScalarFieldEnum = {
     id: 'id',
-    name: 'name',
     email: 'email',
-    emailVerified: 'emailVerified',
+    name: 'name',
     image: 'image',
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt',
+    emailVerified: 'emailVerified',
     address: 'address',
-    phone: 'phone',
     role: 'role',
-    status: 'status'
+    status: 'status',
+    needPasswordChange: 'needPasswordChange',
+    isDeleted: 'isDeleted',
+    deletedAt: 'deletedAt',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
 };
 export const SessionScalarFieldEnum = {
     id: 'id',
@@ -142,20 +168,43 @@ export const VerificationScalarFieldEnum = {
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
 };
-export const CategoryScalarFieldEnum = {
+export const CourseScalarFieldEnum = {
     id: 'id',
-    userId: 'userId',
     title: 'title',
-    status: 'status'
+    slug: 'slug',
+    description: 'description',
+    priceAmount: 'priceAmount',
+    currency: 'currency',
+    accessDuration: 'accessDuration',
+    stripeProductId: 'stripeProductId',
+    stripePriceId: 'stripePriceId',
+    thumbnailUrl: 'thumbnailUrl',
+    isPublished: 'isPublished',
+    createdByUserId: 'createdByUserId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+};
+export const CoursePurchaseScalarFieldEnum = {
+    id: 'id',
+    applicantId: 'applicantId',
+    courseId: 'courseId',
+    status: 'status',
+    amount: 'amount',
+    currency: 'currency',
+    stripeCheckoutSessionId: 'stripeCheckoutSessionId',
+    stripePaymentIntentId: 'stripePaymentIntentId',
+    paidAt: 'paidAt',
+    accessExpiresAt: 'accessExpiresAt',
+    receiptNumber: 'receiptNumber',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
 };
 export const JobScalarFieldEnum = {
     id: 'id',
-    userId: 'userId',
-    categoryId: 'categoryId',
+    recruiterId: 'recruiterId',
+    industryId: 'industryId',
+    subIndustryId: 'subIndustryId',
     title: 'title',
-    companyName: 'companyName',
-    companyLogo: 'companyLogo',
-    companyDetails: 'companyDetails',
     location: 'location',
     district: 'district',
     vacancy: 'vacancy',
@@ -163,7 +212,7 @@ export const JobScalarFieldEnum = {
     salary: 'salary',
     experience: 'experience',
     education: 'education',
-    additionalReqirements: 'additionalReqirements',
+    additionalRequirements: 'additionalRequirements',
     responsibilities: 'responsibilities',
     requiredSkills: 'requiredSkills',
     description: 'description',
@@ -171,8 +220,45 @@ export const JobScalarFieldEnum = {
     jobType: 'jobType',
     employmentType: 'employmentType',
     featured: 'featured',
+    isVerified: 'isVerified',
     tags: 'tags',
     deadline: 'deadline',
+    status: 'status',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+};
+export const RecruiterScalarFieldEnum = {
+    id: 'id',
+    userId: 'userId',
+    recruiterName: 'recruiterName',
+    recruiterPhone: 'recruiterPhone',
+    recruiterWorkEmail: 'recruiterWorkEmail',
+    companyName: 'companyName',
+    companyLogo: 'companyLogo',
+    companyWebsite: 'companyWebsite',
+    companyFacebookId: 'companyFacebookId',
+    companyLinkedInId: 'companyLinkedInId',
+    companySize: 'companySize',
+    companyAddress: 'companyAddress',
+    industryId: 'industryId',
+    subIndustryId: 'subIndustryId',
+    isVerified: 'isVerified',
+    subscriptionPlan: 'subscriptionPlan',
+    isDeleted: 'isDeleted',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+};
+export const IndustryScalarFieldEnum = {
+    id: 'id',
+    name: 'name',
+    logo: 'logo',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+};
+export const SubIndustryScalarFieldEnum = {
+    id: 'id',
+    name: 'name',
+    industryId: 'industryId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
 };
