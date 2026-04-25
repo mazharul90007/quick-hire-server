@@ -1,8 +1,22 @@
 import { betterAuth } from "better-auth";
+import { expo } from "@better-auth/expo";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { prisma } from "./prisma";
 import nodemailer from "nodemailer";
 import { UserRole, UserStatus } from "../../generated/prisma/enums";
+/** Must match `expo.scheme` in quick-hire-app/app.json (override via EXPO_APP_SCHEME). */
+const expoAppScheme = process.env.EXPO_APP_SCHEME ?? "quickhireapp";
+const expoTrustedOrigins = [
+    `${expoAppScheme}://`,
+    `${expoAppScheme}://*`,
+];
+const expoDevTrustedOrigins = process.env.NODE_ENV === "development"
+    ? [
+        "exp://",
+        "exp://**",
+        "exp://192.168.*.*:*/**",
+    ]
+    : [];
 const transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
     port: 587,
@@ -16,7 +30,13 @@ export const auth = betterAuth({
     database: prismaAdapter(prisma, {
         provider: "postgresql",
     }),
-    trustedOrigins: [process.env.APP_URL, "http://localhost:3000"],
+    plugins: [expo()],
+    trustedOrigins: [
+        process.env.APP_URL,
+        "http://localhost:3000",
+        ...expoTrustedOrigins,
+        ...expoDevTrustedOrigins,
+    ],
     user: {
         additionalFields: {
             role: {

@@ -1,0 +1,35 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: quick-hire-server
+    ports:
+      - "4000:4000"
+    env_file:
+      - .env
+    environment:
+      PORT: 4000
+    restart: unless-stopped
+
+  db:
+    image: postgres:16-alpine
+    container_name: quick-hire-db
+    profiles: ["local-db"]
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: quick_hire
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d quick_hire"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+volumes:
+  postgres_data:

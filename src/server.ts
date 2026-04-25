@@ -1,7 +1,7 @@
 import { Server } from "http";
-import app from "./app";
-import config from "./app/config";
-import { seedSuperAdmin } from "./app/DB/seed";
+import app from "./app.js";
+import config from "./app/config/index.js";
+import { seedSuperAdmin } from "./app/DB/seed.js";
 
 const port = config.port || 4000;
 

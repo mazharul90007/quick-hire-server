@@ -135,10 +135,10 @@ export declare const CourseService: {
             thumbnailUrl: string | null;
         };
     } & {
-        status: CoursePurchaseStatus;
         id: string;
         createdAt: Date;
         updatedAt: Date;
+        status: CoursePurchaseStatus;
         applicantId: string;
         currency: string;
         courseId: string;
@@ -183,10 +183,10 @@ export declare const CourseService: {
             createdByAdminId: string;
         };
     } & {
-        status: CoursePurchaseStatus;
         id: string;
         createdAt: Date;
         updatedAt: Date;
+        status: CoursePurchaseStatus;
         applicantId: string;
         currency: string;
         courseId: string;

@@ -89,8 +89,8 @@ export declare const applicationServices: {
         createdAt: Date;
         updatedAt: Date;
         job: {
-            status: import("../../../../generated/prisma/enums").JobStatus;
             id: string;
+            status: import("../../../../generated/prisma/enums").JobStatus;
             recruiterId: string;
             jobType: import("../../../../generated/prisma/enums").JobTypes;
             employmentType: import("../../../../generated/prisma/enums").EmploymentType;

@@ -2,10 +2,10 @@ import { UserRole } from "../../../../generated/prisma/enums";
 import type { CreateJobPayload, UpdateJobPayload } from "./job.validation";
 export declare const jobServices: {
     createJob: (userId: string, payload: CreateJobPayload) => Promise<{
-        status: import("../../../../generated/prisma/enums").JobStatus;
         id: string;
         createdAt: Date;
         updatedAt: Date;
+        status: import("../../../../generated/prisma/enums").JobStatus;
         industryId: string;
         subIndustryId: string;
         recruiterId: string;
@@ -34,10 +34,10 @@ export declare const jobServices: {
         role: UserRole;
     }) => Promise<{
         recruiter: {
-            isDeleted: boolean;
             id: string;
             createdAt: Date;
             updatedAt: Date;
+            isDeleted: boolean;
             userId: string;
             industryId: string | null;
             subIndustryId: string | null;
@@ -69,10 +69,10 @@ export declare const jobServices: {
             industryId: string;
         };
     } & {
-        status: import("../../../../generated/prisma/enums").JobStatus;
         id: string;
         createdAt: Date;
         updatedAt: Date;
+        status: import("../../../../generated/prisma/enums").JobStatus;
         industryId: string;
         subIndustryId: string;
         recruiterId: string;
@@ -104,10 +104,10 @@ export declare const jobServices: {
         };
         data: ({
             recruiter: {
-                isDeleted: boolean;
                 id: string;
                 createdAt: Date;
                 updatedAt: Date;
+                isDeleted: boolean;
                 userId: string;
                 industryId: string | null;
                 subIndustryId: string | null;
@@ -139,10 +139,10 @@ export declare const jobServices: {
                 industryId: string;
             };
         } & {
-            status: import("../../../../generated/prisma/enums").JobStatus;
             id: string;
             createdAt: Date;
             updatedAt: Date;
+            status: import("../../../../generated/prisma/enums").JobStatus;
             industryId: string;
             subIndustryId: string;
             recruiterId: string;
@@ -169,10 +169,10 @@ export declare const jobServices: {
     }>;
     getSingleJob: (id: string) => Promise<{
         recruiter: {
-            isDeleted: boolean;
             id: string;
             createdAt: Date;
             updatedAt: Date;
+            isDeleted: boolean;
             userId: string;
             industryId: string | null;
             subIndustryId: string | null;
@@ -204,10 +204,10 @@ export declare const jobServices: {
             industryId: string;
         };
     } & {
-        status: import("../../../../generated/prisma/enums").JobStatus;
         id: string;
         createdAt: Date;
         updatedAt: Date;
+        status: import("../../../../generated/prisma/enums").JobStatus;
         industryId: string;
         subIndustryId: string;
         recruiterId: string;

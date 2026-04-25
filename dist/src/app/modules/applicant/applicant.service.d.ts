@@ -6,14 +6,14 @@ export type ApplicantProfileFileUrls = {
 export declare function getMyProfile(userId: string): Promise<{
     user: {
         name: string | null;
-        role: import("../../../../generated/prisma/enums").UserRole;
-        status: import("../../../../generated/prisma/enums").UserStatus;
         id: string;
         createdAt: Date;
         updatedAt: Date;
         email: string;
         emailVerified: boolean;
         image: string | null;
+        role: import("../../../../generated/prisma/enums").UserRole;
+        status: import("../../../../generated/prisma/enums").UserStatus;
         address: string | null;
     };
 } & {
@@ -30,14 +30,14 @@ export declare function getMyProfile(userId: string): Promise<{
 export declare function updateMyProfile(userId: string, data: UpdateMyApplicantProfileInput, files: ApplicantProfileFileUrls): Promise<{
     user: {
         name: string | null;
-        role: import("../../../../generated/prisma/enums").UserRole;
-        status: import("../../../../generated/prisma/enums").UserStatus;
         id: string;
         createdAt: Date;
         updatedAt: Date;
         email: string;
         emailVerified: boolean;
         image: string | null;
+        role: import("../../../../generated/prisma/enums").UserRole;
+        status: import("../../../../generated/prisma/enums").UserStatus;
         address: string | null;
     };
 } & {

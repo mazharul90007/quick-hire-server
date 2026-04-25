@@ -4,12 +4,12 @@ export declare const AuthService: {
     createApplicant: (payload: ICreateApplicant) => Promise<{
         user: {
             name: string | null;
-            role: UserRole;
-            status: import("../../../../generated/prisma/enums").UserStatus;
-            needPasswordChange: boolean;
             email: string;
             emailVerified: boolean;
             image: string | null;
+            role: UserRole;
+            status: import("../../../../generated/prisma/enums").UserStatus;
+            needPasswordChange: boolean;
             address: string | null;
         };
     } & {
@@ -41,19 +41,19 @@ export declare const AuthService: {
     createRecruiter: (payload: ICreateRecruiter) => Promise<{
         user: {
             name: string | null;
-            role: UserRole;
-            status: import("../../../../generated/prisma/enums").UserStatus;
-            needPasswordChange: boolean;
             email: string;
             emailVerified: boolean;
             image: string | null;
+            role: UserRole;
+            status: import("../../../../generated/prisma/enums").UserStatus;
+            needPasswordChange: boolean;
             address: string | null;
         };
     } & {
-        isDeleted: boolean;
         id: string;
         createdAt: Date;
         updatedAt: Date;
+        isDeleted: boolean;
         userId: string;
         industryId: string | null;
         subIndustryId: string | null;

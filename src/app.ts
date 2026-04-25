@@ -34,7 +34,7 @@ app.all("/api/auth/*splat", toNodeHandler(auth));
 app.use("/api/v1", router);
 
 app.get("/", (req: Request, res: Response) => {
-  res.send("QuickHire server is running");
+  res.send("QuickHire server is running...");
 });
 
 app.use(notFound);

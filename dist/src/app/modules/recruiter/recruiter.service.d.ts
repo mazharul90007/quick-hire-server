@@ -6,14 +6,14 @@ export type RecruiterProfileFileUrls = {
 export declare function getMyProfile(userId: string): Promise<{
     user: {
         name: string | null;
-        role: import("../../../../generated/prisma/enums").UserRole;
-        status: import("../../../../generated/prisma/enums").UserStatus;
         id: string;
         createdAt: Date;
         updatedAt: Date;
         email: string;
         emailVerified: boolean;
         image: string | null;
+        role: import("../../../../generated/prisma/enums").UserRole;
+        status: import("../../../../generated/prisma/enums").UserStatus;
         address: string | null;
     };
     industry: {
@@ -25,10 +25,10 @@ export declare function getMyProfile(userId: string): Promise<{
         id: string;
     } | null;
 } & {
-    isDeleted: boolean;
     id: string;
     createdAt: Date;
     updatedAt: Date;
+    isDeleted: boolean;
     userId: string;
     industryId: string | null;
     subIndustryId: string | null;
@@ -48,14 +48,14 @@ export declare function getMyProfile(userId: string): Promise<{
 export declare function updateMyProfile(userId: string, data: UpdateMyRecruiterProfileInput, files: RecruiterProfileFileUrls): Promise<{
     user: {
         name: string | null;
-        role: import("../../../../generated/prisma/enums").UserRole;
-        status: import("../../../../generated/prisma/enums").UserStatus;
         id: string;
         createdAt: Date;
         updatedAt: Date;
         email: string;
         emailVerified: boolean;
         image: string | null;
+        role: import("../../../../generated/prisma/enums").UserRole;
+        status: import("../../../../generated/prisma/enums").UserStatus;
         address: string | null;
     };
     industry: {
@@ -67,10 +67,10 @@ export declare function updateMyProfile(userId: string, data: UpdateMyRecruiterP
         id: string;
     } | null;
 } & {
-    isDeleted: boolean;
     id: string;
     createdAt: Date;
     updatedAt: Date;
+    isDeleted: boolean;
     userId: string;
     industryId: string | null;
     subIndustryId: string | null;

@@ -13,16 +13,16 @@ export declare const adminServices: {
         data: ({
             user: {
                 name: string | null;
-                role: UserRole;
-                status: UserStatus;
-                isDeleted: boolean;
-                deletedAt: Date | null;
                 id: string;
                 createdAt: Date;
                 updatedAt: Date;
                 email: string;
                 emailVerified: boolean;
                 image: string | null;
+                role: UserRole;
+                status: UserStatus;
+                isDeleted: boolean;
+                deletedAt: Date | null;
                 address: string | null;
             };
         } & {
@@ -40,16 +40,16 @@ export declare const adminServices: {
     getSingleApplicant: (id: string, includeDeleted?: boolean) => Promise<{
         user: {
             name: string | null;
-            role: UserRole;
-            status: UserStatus;
-            isDeleted: boolean;
-            deletedAt: Date | null;
             id: string;
             createdAt: Date;
             updatedAt: Date;
             email: string;
             emailVerified: boolean;
             image: string | null;
+            role: UserRole;
+            status: UserStatus;
+            isDeleted: boolean;
+            deletedAt: Date | null;
             address: string | null;
         };
     } & {
@@ -68,16 +68,16 @@ export declare const adminServices: {
     }) => Promise<{
         user: {
             name: string | null;
-            role: UserRole;
-            status: UserStatus;
-            isDeleted: boolean;
-            deletedAt: Date | null;
             id: string;
             createdAt: Date;
             updatedAt: Date;
             email: string;
             emailVerified: boolean;
             image: string | null;
+            role: UserRole;
+            status: UserStatus;
+            isDeleted: boolean;
+            deletedAt: Date | null;
             address: string | null;
         };
     } & {
@@ -100,16 +100,16 @@ export declare const adminServices: {
         data: ({
             user: {
                 name: string | null;
-                role: UserRole;
-                status: UserStatus;
-                isDeleted: boolean;
-                deletedAt: Date | null;
                 id: string;
                 createdAt: Date;
                 updatedAt: Date;
                 email: string;
                 emailVerified: boolean;
                 image: string | null;
+                role: UserRole;
+                status: UserStatus;
+                isDeleted: boolean;
+                deletedAt: Date | null;
                 address: string | null;
             };
             industry: {
@@ -121,10 +121,10 @@ export declare const adminServices: {
                 id: string;
             } | null;
         } & {
-            isDeleted: boolean;
             id: string;
             createdAt: Date;
             updatedAt: Date;
+            isDeleted: boolean;
             userId: string;
             industryId: string | null;
             subIndustryId: string | null;
@@ -145,16 +145,16 @@ export declare const adminServices: {
     getSingleRecruiter: (id: string, includeDeleted?: boolean) => Promise<{
         user: {
             name: string | null;
-            role: UserRole;
-            status: UserStatus;
-            isDeleted: boolean;
-            deletedAt: Date | null;
             id: string;
             createdAt: Date;
             updatedAt: Date;
             email: string;
             emailVerified: boolean;
             image: string | null;
+            role: UserRole;
+            status: UserStatus;
+            isDeleted: boolean;
+            deletedAt: Date | null;
             address: string | null;
         };
         industry: {
@@ -166,10 +166,10 @@ export declare const adminServices: {
             id: string;
         } | null;
     } & {
-        isDeleted: boolean;
         id: string;
         createdAt: Date;
         updatedAt: Date;
+        isDeleted: boolean;
         userId: string;
         industryId: string | null;
         subIndustryId: string | null;
@@ -191,16 +191,16 @@ export declare const adminServices: {
     }) => Promise<{
         user: {
             name: string | null;
-            role: UserRole;
-            status: UserStatus;
-            isDeleted: boolean;
-            deletedAt: Date | null;
             id: string;
             createdAt: Date;
             updatedAt: Date;
             email: string;
             emailVerified: boolean;
             image: string | null;
+            role: UserRole;
+            status: UserStatus;
+            isDeleted: boolean;
+            deletedAt: Date | null;
             address: string | null;
         };
         industry: {
@@ -212,10 +212,10 @@ export declare const adminServices: {
             id: string;
         } | null;
     } & {
-        isDeleted: boolean;
         id: string;
         createdAt: Date;
         updatedAt: Date;
+        isDeleted: boolean;
         userId: string;
         industryId: string | null;
         subIndustryId: string | null;
@@ -241,16 +241,16 @@ export declare const adminServices: {
         data: ({
             user: {
                 name: string | null;
-                role: UserRole;
-                status: UserStatus;
-                isDeleted: boolean;
-                deletedAt: Date | null;
                 id: string;
                 createdAt: Date;
                 updatedAt: Date;
                 email: string;
                 emailVerified: boolean;
                 image: string | null;
+                role: UserRole;
+                status: UserStatus;
+                isDeleted: boolean;
+                deletedAt: Date | null;
                 address: string | null;
             };
         } & {
@@ -266,16 +266,16 @@ export declare const adminServices: {
     getSingleAdmin: (id: string, includeDeleted?: boolean) => Promise<{
         user: {
             name: string | null;
-            role: UserRole;
-            status: UserStatus;
-            isDeleted: boolean;
-            deletedAt: Date | null;
             id: string;
             createdAt: Date;
             updatedAt: Date;
             email: string;
             emailVerified: boolean;
             image: string | null;
+            role: UserRole;
+            status: UserStatus;
+            isDeleted: boolean;
+            deletedAt: Date | null;
             address: string | null;
         };
     } & {
@@ -292,16 +292,16 @@ export declare const adminServices: {
     }) => Promise<{
         user: {
             name: string | null;
-            role: UserRole;
-            status: UserStatus;
-            isDeleted: boolean;
-            deletedAt: Date | null;
             id: string;
             createdAt: Date;
             updatedAt: Date;
             email: string;
             emailVerified: boolean;
             image: string | null;
+            role: UserRole;
+            status: UserStatus;
+            isDeleted: boolean;
+            deletedAt: Date | null;
             address: string | null;
         };
     } & {
@@ -316,16 +316,16 @@ export declare const adminServices: {
     getMyProfile: (userId: string) => Promise<{
         user: {
             name: string | null;
-            role: UserRole;
-            status: UserStatus;
-            isDeleted: boolean;
-            deletedAt: Date | null;
             id: string;
             createdAt: Date;
             updatedAt: Date;
             email: string;
             emailVerified: boolean;
             image: string | null;
+            role: UserRole;
+            status: UserStatus;
+            isDeleted: boolean;
+            deletedAt: Date | null;
             address: string | null;
         };
     } & {
@@ -344,16 +344,16 @@ export declare const adminServices: {
     }, files: AdminSelfFileUrls) => Promise<{
         user: {
             name: string | null;
-            role: UserRole;
-            status: UserStatus;
-            isDeleted: boolean;
-            deletedAt: Date | null;
             id: string;
             createdAt: Date;
             updatedAt: Date;
             email: string;
             emailVerified: boolean;
             image: string | null;
+            role: UserRole;
+            status: UserStatus;
+            isDeleted: boolean;
+            deletedAt: Date | null;
             address: string | null;
         };
     } & {
@@ -367,22 +367,22 @@ export declare const adminServices: {
     }>;
     getUserById: (userId: string, includeDeleted?: boolean) => Promise<{
         name: string | null;
-        role: UserRole;
-        status: UserStatus;
-        needPasswordChange: boolean;
-        isDeleted: boolean;
-        deletedAt: Date | null;
         id: string;
         createdAt: Date;
         updatedAt: Date;
         email: string;
         emailVerified: boolean;
         image: string | null;
+        role: UserRole;
+        status: UserStatus;
+        needPasswordChange: boolean;
+        isDeleted: boolean;
+        deletedAt: Date | null;
         recruiter: {
-            isDeleted: boolean;
             id: string;
             createdAt: Date;
             updatedAt: Date;
+            isDeleted: boolean;
             industryId: string | null;
             subIndustryId: string | null;
             isVerified: boolean;
@@ -428,30 +428,30 @@ export declare const adminServices: {
     }>;
     softDeleteUser: (actorUserId: string, actorRole: UserRole, targetUserId: string) => Promise<{
         name: string | null;
-        role: UserRole;
-        status: UserStatus;
-        isDeleted: boolean;
-        deletedAt: Date | null;
         id: string;
         createdAt: Date;
         updatedAt: Date;
         email: string;
         emailVerified: boolean;
         image: string | null;
+        role: UserRole;
+        status: UserStatus;
+        isDeleted: boolean;
+        deletedAt: Date | null;
         address: string | null;
     } | null>;
     updateUserStatus: (actorUserId: string, actorRole: UserRole, targetUserId: string, newStatus: UserStatus) => Promise<{
         name: string | null;
-        role: UserRole;
-        status: UserStatus;
-        isDeleted: boolean;
-        deletedAt: Date | null;
         id: string;
         createdAt: Date;
         updatedAt: Date;
         email: string;
         emailVerified: boolean;
         image: string | null;
+        role: UserRole;
+        status: UserStatus;
+        isDeleted: boolean;
+        deletedAt: Date | null;
         address: string | null;
     } | null>;
 };
