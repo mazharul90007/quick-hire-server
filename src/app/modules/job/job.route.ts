@@ -7,6 +7,9 @@ import { jobValidations } from "./job.validation";
 
 const router: Router = Router();
 
+//Smart Search (Top priority)
+router.get("/ai-search", jobController.smartSearch);
+
 //create job (recruiter only)
 router.post(
   "/",
@@ -23,6 +26,7 @@ router.patch(
 );
 
 //Get all jobs
+console.log("DEFINING JOB ROUTES...");
 router.get("/", jobController.getAllJobs);
 
 //Get single job

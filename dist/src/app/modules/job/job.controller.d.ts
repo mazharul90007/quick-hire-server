@@ -4,5 +4,6 @@ export declare const jobController: {
     updateJob: (req: Request, res: Response, next: import("express").NextFunction) => Promise<void>;
     getAllJobs: (req: Request, res: Response, next: import("express").NextFunction) => Promise<void>;
     getSingleJob: (req: Request, res: Response, next: import("express").NextFunction) => Promise<void>;
+    smartSearch: (req: Request, res: Response, next: import("express").NextFunction) => Promise<void>;
 };
 //# sourceMappingURL=job.controller.d.ts.map

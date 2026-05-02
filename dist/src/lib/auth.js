@@ -11,11 +11,7 @@ const expoTrustedOrigins = [
     `${expoAppScheme}://*`,
 ];
 const expoDevTrustedOrigins = process.env.NODE_ENV === "development"
-    ? [
-        "exp://",
-        "exp://**",
-        "exp://192.168.*.*:*/**",
-    ]
+    ? ["exp://", "exp://**", "exp://192.168.*.*:*/**"]
     : [];
 const transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",

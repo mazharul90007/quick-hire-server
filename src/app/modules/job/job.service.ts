@@ -9,6 +9,7 @@ import {
   jobSearchableFields,
 } from "./job.constant";
 import type { CreateJobPayload, UpdateJobPayload } from "./job.validation";
+import { generateEmbedding, generateRAGResponse } from "../../../utils/ai.util";
 
 //===============Create Job=================
 const createJob = async (userId: string, payload: CreateJobPayload) => {
@@ -48,6 +49,16 @@ const createJob = async (userId: string, payload: CreateJobPayload) => {
       deadline: deadline ? new Date(deadline) : undefined,
     } as Prisma.JobUncheckedCreateInput,
   });
+
+  try {
+    const textToEmbed = `${result.title || ''} ${result.description || ''} ${(result.requiredSkills || []).join(' ')} ${result.location || ''}`.trim();
+    if (textToEmbed) {
+      const embedding = await generateEmbedding(textToEmbed);
+      await prisma.$executeRaw`UPDATE "jobs" SET "embedding" = ${`[${embedding.join(',')}]`}::vector WHERE id = ${result.id}`;
+    }
+  } catch (error) {
+    console.error("Failed to generate embedding for job:", error);
+  }
 
   return result;
 };
@@ -237,7 +248,7 @@ const updateJob = async (
       : {}),
   };
 
-  return prisma.job.update({
+  const updatedJob = await prisma.job.update({
     where: { id },
     data: updateData,
     include: {
@@ -246,6 +257,67 @@ const updateJob = async (
       recruiter: true,
     },
   });
+
+  try {
+    const textToEmbed = `${updatedJob.title || ''} ${updatedJob.description || ''} ${(updatedJob.requiredSkills || []).join(' ')} ${updatedJob.location || ''}`.trim();
+    if (textToEmbed) {
+      const embedding = await generateEmbedding(textToEmbed);
+      await prisma.$executeRaw`UPDATE "jobs" SET "embedding" = ${`[${embedding.join(',')}]`}::vector WHERE id = ${updatedJob.id}`;
+    }
+  } catch (error) {
+    console.error("Failed to generate embedding for updated job:", error);
+  }
+
+  return updatedJob;
+};
+
+//===============Smart Search=================
+const smartSearch = async (query: string) => {
+  try {
+    if (!query) {
+      throw new ApiError(400, "Query is required for smart search");
+    }
+
+    // 1. Generate embedding for user query
+    const embedding = await generateEmbedding(query);
+
+    // 2. Perform vector search in Prisma
+    // Note: pgvector uses <=> for cosine distance. We order by distance ascending.
+    const jobs: any[] = await prisma.$queryRaw`
+      SELECT id, title, location, description, "requiredSkills"
+      FROM jobs
+      ORDER BY embedding <=> ${`[${embedding.join(',')}]`}::vector
+      LIMIT 5;
+    `;
+
+    if (!jobs || jobs.length === 0) {
+      return {
+        aiMessage: "I couldn't find any jobs matching your criteria right now. Please try a different query.",
+        jobs: []
+      };
+    }
+
+    // 3. Generate natural language response
+    const aiMessage = await generateRAGResponse(query, jobs);
+
+    // Fetch full job details including relations to return to frontend
+    const fullJobs = await prisma.job.findMany({
+      where: { id: { in: jobs.map(j => j.id) } },
+      include: {
+        industry: true,
+        subIndustry: true,
+        recruiter: true,
+      }
+    });
+
+    return {
+      aiMessage,
+      jobs: fullJobs
+    };
+  } catch (error) {
+    console.error("SMART SEARCH ERROR:", error);
+    throw error;
+  }
 };
 
 export const jobServices = {
@@ -253,4 +325,5 @@ export const jobServices = {
   updateJob,
   getAllJobs,
   getSingleJob,
+  smartSearch,
 };

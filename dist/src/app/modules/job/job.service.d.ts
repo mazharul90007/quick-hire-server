@@ -231,5 +231,72 @@ export declare const jobServices: {
         benefits: string[];
         tags: string[];
     }>;
+    smartSearch: (query: string) => Promise<{
+        aiMessage: string;
+        jobs: ({
+            recruiter: {
+                id: string;
+                createdAt: Date;
+                updatedAt: Date;
+                isDeleted: boolean;
+                userId: string;
+                industryId: string | null;
+                subIndustryId: string | null;
+                isVerified: boolean;
+                recruiterName: string | null;
+                recruiterPhone: string | null;
+                recruiterWorkEmail: string | null;
+                companyName: string | null;
+                companyLogo: string | null;
+                companyWebsite: string | null;
+                companyFacebookId: string | null;
+                companyLinkedInId: string | null;
+                companySize: import("../../../../generated/prisma/enums").CompanySize | null;
+                companyAddress: string | null;
+                subscriptionPlan: import("../../../../generated/prisma/enums").Subscription;
+            };
+            industry: {
+                name: string;
+                id: string;
+                createdAt: Date;
+                updatedAt: Date;
+                logo: string | null;
+            };
+            subIndustry: {
+                name: string;
+                id: string;
+                createdAt: Date;
+                updatedAt: Date;
+                industryId: string;
+            };
+        } & {
+            id: string;
+            createdAt: Date;
+            updatedAt: Date;
+            status: import("../../../../generated/prisma/enums").JobStatus;
+            industryId: string;
+            subIndustryId: string;
+            recruiterId: string;
+            jobType: import("../../../../generated/prisma/enums").JobTypes;
+            employmentType: import("../../../../generated/prisma/enums").EmploymentType;
+            featured: boolean | null;
+            isVerified: boolean | null;
+            location: string | null;
+            district: string | null;
+            title: string | null;
+            description: string | null;
+            deadline: Date | null;
+            vacancy: number | null;
+            age: string | null;
+            salary: string | null;
+            experience: string | null;
+            education: string[];
+            additionalRequirements: string[];
+            responsibilities: string[];
+            requiredSkills: string[];
+            benefits: string[];
+            tags: string[];
+        })[];
+    }>;
 };
 //# sourceMappingURL=job.service.d.ts.map

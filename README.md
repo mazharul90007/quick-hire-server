@@ -234,10 +234,11 @@ This includes built-in auth routes (for example sign-in, sign-up, sign-out, sess
 
 ### 💼 Jobs (`/api/v1/jobs`)
 
-- `POST /` - Create job (RECRUITER)
-- `PATCH /:id` - Update job (RECRUITER, ADMIN, SUPER_ADMIN)
+- `POST /` - Create a job (RECRUITER)
+- `PATCH /:id` - Update a job (RECRUITER, ADMIN, SUPER_ADMIN)
 - `GET /` - Get all jobs (PUBLIC)
 - `GET /:id` - Get single job (PUBLIC)
+- `GET /ai-search` - AI-powered RAG smart search (PUBLIC)
 
 ---
 
@@ -327,6 +328,14 @@ This includes built-in auth routes (for example sign-in, sign-up, sign-out, sess
 - `POST /courses` - Create a course (ADMIN, SUPER_ADMIN)
 - `PATCH /courses/:courseId` - Update a course (ADMIN, SUPER_ADMIN)
 - `DELETE /courses/:courseId` - Delete/unpublish a course (ADMIN, SUPER_ADMIN)
+
+---
+
+## 🤖 AI Features
+
+Quick Hire leverages AI to provide a smarter recruitment experience:
+
+- **AI-Powered Smart Search (RAG)**: Uses **OpenAI Embeddings** and **PostgreSQL pgvector** to provide a Retrieval-Augmented Generation (RAG) based job search. Applicants can describe their ideal role in natural language, and the AI finds the top 5 closest matches, providing a personalized natural language summary for each.
 
 ---
 

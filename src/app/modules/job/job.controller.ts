@@ -39,6 +39,7 @@ const getAllJobs = catchAsync(async (req: Request, res: Response) => {
 //===============Get single Job===============
 const getSingleJob = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id as string;
+  // console.log("GET SINGLE JOB ROUTE HIT! ID:", id);
   const result = await jobServices.getSingleJob(id);
 
   sendResponse(res, {
@@ -66,9 +67,24 @@ const updateJob = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+//===============Smart Search=================
+const smartSearch = catchAsync(async (req: Request, res: Response) => {
+  // console.log("SMART SEARCH ROUTE HIT! Query:", req.query.q);
+  const query = req.query.q as string;
+  const result = await jobServices.smartSearch(query);
+
+  sendResponse(res, {
+    statusCode: status.OK,
+    success: true,
+    message: "Smart search completed",
+    data: result,
+  });
+});
+
 export const jobController = {
   createJob,
   updateJob,
   getAllJobs,
   getSingleJob,
+  smartSearch,
 };

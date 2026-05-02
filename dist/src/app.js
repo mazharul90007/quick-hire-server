@@ -25,7 +25,7 @@ app.use(express.urlencoded({ extended: true }));
 app.all("/api/auth/*splat", toNodeHandler(auth));
 app.use("/api/v1", router);
 app.get("/", (req, res) => {
-    res.send("QuickHire server is running");
+    res.send("QuickHire server is running...");
 });
 app.use(notFound);
 // Global error handler
