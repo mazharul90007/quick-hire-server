@@ -6,6 +6,7 @@ import nodemailer from "nodemailer";
 import { UserRole, UserStatus } from "../../generated/prisma/enums";
 
 /** Must match `expo.scheme` in quick-hire-app/app.json (override via EXPO_APP_SCHEME). */
+console.log("BETTER_AUTH_URL:", process.env.BETTER_AUTH_URL);
 const expoAppScheme = process.env.EXPO_APP_SCHEME ?? "quickhireapp";
 
 const expoTrustedOrigins = [
@@ -244,6 +245,28 @@ export const auth = betterAuth({
     },
   },
 
+  socialProviders: {
+    google: {
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+    },
+  },
+  databaseHooks: {
+    user: {
+      create: {
+        after: async (user) => {
+          if (user.role === UserRole.APPLICANT) {
+            await prisma.applicant.create({
+              data: {
+                userId: user.id,
+                name: user.name,
+              },
+            });
+          }
+        },
+      },
+    },
+  },
   advanced: {
     defaultCookieAttributes: {
       sameSite: "none",

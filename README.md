@@ -24,6 +24,7 @@
 ### Authentication and Account Security
 
 - **Better-Auth integration** with cookie-based sessions.
+- **Social Login**: Support for **Google Login** via Better-Auth.
 - **Email verification required** for email/password login flows.
 - **Forgot/reset password** workflow via email.
 - **Role and status aware access control** (ACTIVE/BLOCKED/DELETED).
@@ -161,10 +162,17 @@ CLOUDINARY_CLOUD_NAME="your_cloudinary_cloud_name"
 CLOUDINARY_API_KEY="your_cloudinary_api_key"
 CLOUDINARY_API_SECRET="your_cloudinary_api_secret"
 
-STRIPE_SECRET_KEY="your_stripe_secret_key"
-STRIPE_WEBHOOK_SECRET="your_stripe_webhook_secret"
 STRIPE_SUCCESS_URL="http://localhost:3000/applicant/payment-success"
 STRIPE_CANCEL_URL="http://localhost:3000/applicant/payment-failed"
+
+# Google OAuth
+GOOGLE_CLIENT_ID="your_google_client_id"
+GOOGLE_CLIENT_SECRET="your_google_client_secret"
+
+# OpenRouter (RAG)
+OPENROUTER_API_KEY="your_openrouter_api_key"
+OPENROUTER_EMBEDDING_MODEL="nvidia/llama-nemotron-embed-vl-1b-v2:free"
+OPENROUTER_LLM_MODEL="nvidia/nemotron-3-super-120b-a12b:free"
 ```
 
 ### 4. Database Setup
@@ -239,6 +247,14 @@ This includes built-in auth routes (for example sign-in, sign-up, sign-out, sess
 - `GET /` - Get all jobs (PUBLIC)
 - `GET /:id` - Get single job (PUBLIC)
 - `GET /ai-search` - AI-powered RAG smart search (PUBLIC)
+
+---
+
+### 🤖 RAG Engine (`/api/v1/rag`)
+
+- `GET /stats` - Get RAG system statistics (total documents, source breakdown)
+- `POST /ingest-jobs` - Bulk index all existing jobs into the vector store
+- `POST /query` - Direct natural language query to the RAG engine
 
 ---
 
@@ -335,7 +351,10 @@ This includes built-in auth routes (for example sign-in, sign-up, sign-out, sess
 
 Quick Hire leverages AI to provide a smarter recruitment experience:
 
-- **AI-Powered Smart Search (RAG)**: Uses **OpenAI Embeddings** and **PostgreSQL pgvector** to provide a Retrieval-Augmented Generation (RAG) based job search. Applicants can describe their ideal role in natural language, and the AI finds the top 5 closest matches, providing a personalized natural language summary for each.
+- **Professional RAG Architecture**: Modular design with dedicated services for `Embedding`, `Indexing`, and `LLM` orchestration.
+- **AI-Powered Smart Search**: Uses **OpenRouter Embeddings** and **PostgreSQL pgvector** to provide a Retrieval-Augmented Generation (RAG) based job search.
+- **Generic Vector Store**: A centralized `document_embeddings` table designed for multi-entity support (Jobs, Resumes, etc.).
+- **Smart Formatting**: Automated document chunking and metadata management for accurate semantic retrieval.
 
 ---
 
