@@ -30,11 +30,11 @@ export declare const adminServices: {
             id: string;
             createdAt: Date;
             updatedAt: Date;
-            userId: string;
-            cv: string | null;
             address: string | null;
             phone: string | null;
+            cv: string | null;
             userType: UserType;
+            userId: string;
         })[];
     }>;
     getSingleApplicant: (id: string, includeDeleted?: boolean) => Promise<{
@@ -57,11 +57,11 @@ export declare const adminServices: {
         id: string;
         createdAt: Date;
         updatedAt: Date;
-        userId: string;
-        cv: string | null;
         address: string | null;
         phone: string | null;
+        cv: string | null;
         userType: UserType;
+        userId: string;
     }>;
     updateApplicant: (id: string, payload: Prisma.ApplicantUpdateInput & {
         image?: string | null;
@@ -85,11 +85,11 @@ export declare const adminServices: {
         id: string;
         createdAt: Date;
         updatedAt: Date;
-        userId: string;
-        cv: string | null;
         address: string | null;
         phone: string | null;
+        cv: string | null;
         userType: UserType;
+        userId: string;
     }>;
     getAllRecruiters: (filters: Record<string, unknown>, options: Record<string, unknown>) => Promise<{
         meta: {
@@ -258,9 +258,9 @@ export declare const adminServices: {
             id: string;
             createdAt: Date;
             updatedAt: Date;
-            userId: string;
             address: string | null;
             phone: string | null;
+            userId: string;
         })[];
     }>;
     getSingleAdmin: (id: string, includeDeleted?: boolean) => Promise<{
@@ -283,9 +283,9 @@ export declare const adminServices: {
         id: string;
         createdAt: Date;
         updatedAt: Date;
-        userId: string;
         address: string | null;
         phone: string | null;
+        userId: string;
     }>;
     updateAdminProfile: (id: string, payload: Prisma.AdminUpdateInput & {
         image?: string | null;
@@ -309,9 +309,9 @@ export declare const adminServices: {
         id: string;
         createdAt: Date;
         updatedAt: Date;
-        userId: string;
         address: string | null;
         phone: string | null;
+        userId: string;
     }>;
     getMyProfile: (userId: string) => Promise<{
         user: {
@@ -333,9 +333,9 @@ export declare const adminServices: {
         id: string;
         createdAt: Date;
         updatedAt: Date;
-        userId: string;
         address: string | null;
         phone: string | null;
+        userId: string;
     }>;
     updateMyProfile: (userId: string, data: {
         name?: string;
@@ -361,9 +361,9 @@ export declare const adminServices: {
         id: string;
         createdAt: Date;
         updatedAt: Date;
-        userId: string;
         address: string | null;
         phone: string | null;
+        userId: string;
     }>;
     getUserById: (userId: string, includeDeleted?: boolean) => Promise<{
         name: string | null;
@@ -378,6 +378,17 @@ export declare const adminServices: {
         needPasswordChange: boolean;
         isDeleted: boolean;
         deletedAt: Date | null;
+        address: string | null;
+        applicant: {
+            name: string | null;
+            id: string;
+            createdAt: Date;
+            updatedAt: Date;
+            address: string | null;
+            phone: string | null;
+            cv: string | null;
+            userType: UserType;
+        } | null;
         recruiter: {
             id: string;
             createdAt: Date;
@@ -406,17 +417,6 @@ export declare const adminServices: {
             companyAddress: string | null;
             subscriptionPlan: Subscription;
         } | null;
-        applicant: {
-            name: string | null;
-            id: string;
-            createdAt: Date;
-            updatedAt: Date;
-            cv: string | null;
-            address: string | null;
-            phone: string | null;
-            userType: UserType;
-        } | null;
-        address: string | null;
         admin: {
             name: string | null;
             id: string;

@@ -21,11 +21,11 @@ export declare function getMyProfile(userId: string): Promise<{
     id: string;
     createdAt: Date;
     updatedAt: Date;
-    userId: string;
-    cv: string | null;
     address: string | null;
     phone: string | null;
+    cv: string | null;
     userType: import("../../../../generated/prisma/enums").UserType;
+    userId: string;
 }>;
 export declare function updateMyProfile(userId: string, data: UpdateMyApplicantProfileInput, files: ApplicantProfileFileUrls): Promise<{
     user: {
@@ -45,10 +45,10 @@ export declare function updateMyProfile(userId: string, data: UpdateMyApplicantP
     id: string;
     createdAt: Date;
     updatedAt: Date;
-    userId: string;
-    cv: string | null;
     address: string | null;
     phone: string | null;
+    cv: string | null;
     userType: import("../../../../generated/prisma/enums").UserType;
+    userId: string;
 }>;
 //# sourceMappingURL=applicant.service.d.ts.map

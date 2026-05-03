@@ -17,20 +17,20 @@ export declare const AuthService: {
         id: string;
         createdAt: Date;
         updatedAt: Date;
-        userId: string;
-        cv: string | null;
         address: string | null;
         phone: string | null;
+        cv: string | null;
         userType: import("../../../../generated/prisma/enums").UserType;
+        userId: string;
     }>;
     createAdmin: (payload: any) => Promise<{
         name: string | null;
         id: string;
         createdAt: Date;
         updatedAt: Date;
-        userId: string;
         address: string | null;
         phone: string | null;
+        userId: string;
     }>;
     forgetPassword: (payload: {
         email: string;

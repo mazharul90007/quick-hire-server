@@ -160,11 +160,11 @@ export declare const CourseService: {
             id: string;
             createdAt: Date;
             updatedAt: Date;
-            userId: string;
-            cv: string | null;
             address: string | null;
             phone: string | null;
+            cv: string | null;
             userType: import("../../../../generated/prisma/enums").UserType;
+            userId: string;
         };
         course: {
             id: string;

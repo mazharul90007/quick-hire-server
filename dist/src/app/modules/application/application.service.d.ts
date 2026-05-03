@@ -14,6 +14,15 @@ type ApplicationViewer = {
 };
 export declare const applicationServices: {
     createApplication: (userId: string, payload: CreateApplicationPayload) => Promise<{
+        applicant: {
+            user: {
+                name: string | null;
+                id: string;
+                email: string;
+                image: string | null;
+            };
+            id: string;
+        };
         job: {
             id: string;
             jobType: import("../../../../generated/prisma/enums").JobTypes;
@@ -26,24 +35,15 @@ export declare const applicationServices: {
                 companyLogo: string | null;
             };
         };
-        applicant: {
-            user: {
-                name: string | null;
-                id: string;
-                email: string;
-                image: string | null;
-            };
-            id: string;
-        };
     } & {
         id: string;
         createdAt: Date;
         updatedAt: Date;
+        cv: string | null;
         jobId: string;
         applicantId: string;
         cover_note: string | null;
         expectedSalary: string | null;
-        cv: string | null;
     }>;
     getAllApplications: (filters: any, options: any, viewer: ApplicationViewer) => Promise<{
         meta: {
@@ -52,6 +52,15 @@ export declare const applicationServices: {
             total: number;
         };
         data: ({
+            applicant: {
+                user: {
+                    name: string | null;
+                    id: string;
+                    email: string;
+                    image: string | null;
+                };
+                id: string;
+            };
             job: {
                 id: string;
                 jobType: import("../../../../generated/prisma/enums").JobTypes;
@@ -64,30 +73,34 @@ export declare const applicationServices: {
                     companyLogo: string | null;
                 };
             };
-            applicant: {
-                user: {
-                    name: string | null;
-                    id: string;
-                    email: string;
-                    image: string | null;
-                };
-                id: string;
-            };
         } & {
             id: string;
             createdAt: Date;
             updatedAt: Date;
+            cv: string | null;
             jobId: string;
             applicantId: string;
             cover_note: string | null;
             expectedSalary: string | null;
-            cv: string | null;
         })[];
     }>;
     getSingleApplication: (id: string, viewer: ApplicationViewer) => Promise<{
         id: string;
         createdAt: Date;
         updatedAt: Date;
+        cv: string | null;
+        applicant: {
+            user: {
+                name: string | null;
+                id: string;
+                email: string;
+                image: string | null;
+            };
+            name: string | null;
+            id: string;
+            phone: string | null;
+            cv: string | null;
+        };
         job: {
             id: string;
             status: import("../../../../generated/prisma/enums").JobStatus;
@@ -117,19 +130,6 @@ export declare const applicationServices: {
         applicantId: string;
         cover_note: string | null;
         expectedSalary: string | null;
-        cv: string | null;
-        applicant: {
-            user: {
-                name: string | null;
-                id: string;
-                email: string;
-                image: string | null;
-            };
-            name: string | null;
-            id: string;
-            cv: string | null;
-            phone: string | null;
-        };
     }>;
 };
 export {};

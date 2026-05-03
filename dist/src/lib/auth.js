@@ -235,6 +235,22 @@ export const auth = betterAuth({
             clientSecret: process.env.GOOGLE_CLIENT_SECRET,
         },
     },
+    databaseHooks: {
+        user: {
+            create: {
+                after: async (user) => {
+                    if (user.role === UserRole.APPLICANT) {
+                        await prisma.applicant.create({
+                            data: {
+                                userId: user.id,
+                                name: user.name,
+                            },
+                        });
+                    }
+                },
+            },
+        },
+    },
     advanced: {
         defaultCookieAttributes: {
             sameSite: "none",

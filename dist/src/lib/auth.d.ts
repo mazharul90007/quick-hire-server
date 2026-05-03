@@ -102,6 +102,21 @@ export declare const auth: import("better-auth").Auth<{
             clientSecret: string;
         };
     };
+    databaseHooks: {
+        user: {
+            create: {
+                after: (user: {
+                    id: string;
+                    createdAt: Date;
+                    updatedAt: Date;
+                    email: string;
+                    emailVerified: boolean;
+                    name: string;
+                    image?: string | null | undefined;
+                } & Record<string, unknown>) => Promise<void>;
+            };
+        };
+    };
     advanced: {
         defaultCookieAttributes: {
             sameSite: "none";
