@@ -232,8 +232,8 @@ export declare const jobServices: {
         tags: string[];
     }>;
     smartSearch: (query: string) => Promise<{
-        aiMessage: string;
-        jobs: ({
+        aiMessage: any;
+        jobs: (({
             recruiter: {
                 id: string;
                 createdAt: Date;
@@ -296,7 +296,7 @@ export declare const jobServices: {
             requiredSkills: string[];
             benefits: string[];
             tags: string[];
-        })[];
+        }) | undefined)[];
     }>;
 };
 //# sourceMappingURL=job.service.d.ts.map

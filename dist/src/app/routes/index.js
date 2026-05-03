@@ -8,6 +8,7 @@ import { AdminRoutes } from "../modules/Admin/admin.route";
 import { RecruiterRoutes } from "../modules/recruiter/recruiter.route";
 import { ApplicantRoutes } from "../modules/applicant/applicant.route";
 import { CourseRoutes, CourseAdminRoutes, CourseApplicantRoutes, } from "../modules/course/course.route";
+import { RagRoutes } from "../modules/rag/rag.route";
 const router = express.Router();
 /** Mount admin + course admin routers on same /admin prefix (URLs unchanged). */
 const adminRouter = express.Router();
@@ -53,6 +54,10 @@ const moduleRoutes = [
     {
         path: "/courses",
         route: CourseRoutes,
+    },
+    {
+        path: "/rag",
+        route: RagRoutes,
     },
 ];
 moduleRoutes.forEach((route) => router.use(route.path, route.route));

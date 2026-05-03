@@ -49,6 +49,7 @@ export const ModelName = {
     Course: 'Course',
     CoursePurchase: 'CoursePurchase',
     Job: 'Job',
+    DocumentEmbedding: 'DocumentEmbedding',
     Recruiter: 'Recruiter',
     Industry: 'Industry',
     SubIndustry: 'SubIndustry'
@@ -199,6 +200,19 @@ export const JobScalarFieldEnum = {
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
 };
+export const DocumentEmbeddingScalarFieldEnum = {
+    id: 'id',
+    chunkKey: 'chunkKey',
+    sourceType: 'sourceType',
+    sourceId: 'sourceId',
+    sourceLabel: 'sourceLabel',
+    content: 'content',
+    metadata: 'metadata',
+    isDeleted: 'isDeleted',
+    deletedAt: 'deletedAt',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+};
 export const RecruiterScalarFieldEnum = {
     id: 'id',
     userId: 'userId',
@@ -238,6 +252,10 @@ export const SortOrder = {
     asc: 'asc',
     desc: 'desc'
 };
+export const NullableJsonNullValueInput = {
+    DbNull: DbNull,
+    JsonNull: JsonNull
+};
 export const QueryMode = {
     default: 'default',
     insensitive: 'insensitive'
@@ -245,5 +263,10 @@ export const QueryMode = {
 export const NullsOrder = {
     first: 'first',
     last: 'last'
+};
+export const JsonNullValueFilter = {
+    DbNull: DbNull,
+    JsonNull: JsonNull,
+    AnyNull: AnyNull
 };
 //# sourceMappingURL=prismaNamespaceBrowser.js.map

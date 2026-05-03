@@ -226,6 +226,17 @@ export interface PrismaClient<in LogOpts extends Prisma.LogLevel = never, in out
         omit: OmitOpts;
     }>;
     /**
+     * `prisma.documentEmbedding`: Exposes CRUD operations for the **DocumentEmbedding** model.
+      * Example usage:
+      * ```ts
+      * // Fetch zero or more DocumentEmbeddings
+      * const documentEmbeddings = await prisma.documentEmbedding.findMany()
+      * ```
+      */
+    get documentEmbedding(): Prisma.DocumentEmbeddingDelegate<ExtArgs, {
+        omit: OmitOpts;
+    }>;
+    /**
      * `prisma.recruiter`: Exposes CRUD operations for the **Recruiter** model.
       * Example usage:
       * ```ts

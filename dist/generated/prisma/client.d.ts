@@ -72,6 +72,11 @@ export type CoursePurchase = Prisma.CoursePurchaseModel;
  */
 export type Job = Prisma.JobModel;
 /**
+ * Model DocumentEmbedding
+ *
+ */
+export type DocumentEmbedding = Prisma.DocumentEmbeddingModel;
+/**
  * Model Recruiter
  *
  */

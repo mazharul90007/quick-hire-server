@@ -9,7 +9,24 @@ import {
   jobSearchableFields,
 } from "./job.constant";
 import type { CreateJobPayload, UpdateJobPayload } from "./job.validation";
-import { generateEmbedding, generateRAGResponse } from "../../../utils/ai.util";
+import { IndexingService } from "../rag/indexing.service";
+import { RAGService } from "../rag/rag.service";
+
+const indexingService = new IndexingService();
+const ragService = new RAGService();
+
+const formatJobForIndexing = (job: any) => {
+  return `Job Title: ${job.title}
+Company: ${job.recruiter?.name || "Unknown Recruiter"}
+Location: ${job.location}, ${job.district}
+Salary: ${job.salary}
+Experience: ${job.experience}
+Required Skills: ${(job.requiredSkills || []).join(", ")}
+Industry: ${job.industry?.name}
+Sub-Industry: ${job.subIndustry?.name}
+Description: ${job.description}
+Additional Requirements: ${(job.additionalRequirements || []).join(". ")}`.trim();
+};
 
 //===============Create Job=================
 const createJob = async (userId: string, payload: CreateJobPayload) => {
@@ -51,13 +68,24 @@ const createJob = async (userId: string, payload: CreateJobPayload) => {
   });
 
   try {
-    const textToEmbed = `${result.title || ''} ${result.description || ''} ${(result.requiredSkills || []).join(' ')} ${result.location || ''}`.trim();
-    if (textToEmbed) {
-      const embedding = await generateEmbedding(textToEmbed);
-      await prisma.$executeRaw`UPDATE "jobs" SET "embedding" = ${`[${embedding.join(',')}]`}::vector WHERE id = ${result.id}`;
+    const fullJob = await prisma.job.findUnique({
+      where: { id: result.id },
+      include: { industry: true, subIndustry: true, recruiter: true }
+    });
+    
+    if (fullJob) {
+      const content = formatJobForIndexing(fullJob);
+      await indexingService.indexDocument(
+        `job-${fullJob.id}`,
+        "JOB",
+        fullJob.id,
+        content,
+        fullJob.title || undefined,
+        { jobId: fullJob.id, title: fullJob.title }
+      );
     }
   } catch (error) {
-    console.error("Failed to generate embedding for job:", error);
+    console.error("Failed to index job after creation:", error);
   }
 
   return result;
@@ -259,13 +287,17 @@ const updateJob = async (
   });
 
   try {
-    const textToEmbed = `${updatedJob.title || ''} ${updatedJob.description || ''} ${(updatedJob.requiredSkills || []).join(' ')} ${updatedJob.location || ''}`.trim();
-    if (textToEmbed) {
-      const embedding = await generateEmbedding(textToEmbed);
-      await prisma.$executeRaw`UPDATE "jobs" SET "embedding" = ${`[${embedding.join(',')}]`}::vector WHERE id = ${updatedJob.id}`;
-    }
+    const content = formatJobForIndexing(updatedJob);
+    await indexingService.indexDocument(
+      `job-${updatedJob.id}`,
+      "JOB",
+      updatedJob.id,
+      content,
+      updatedJob.title || undefined,
+      { jobId: updatedJob.id, title: updatedJob.title }
+    );
   } catch (error) {
-    console.error("Failed to generate embedding for updated job:", error);
+    console.error("Failed to re-index job after update:", error);
   }
 
   return updatedJob;
@@ -278,31 +310,20 @@ const smartSearch = async (query: string) => {
       throw new ApiError(400, "Query is required for smart search");
     }
 
-    // 1. Generate embedding for user query
-    const embedding = await generateEmbedding(query);
+    // 1. Generate answer and retrieve sources using RAGService
+    const ragResult = await ragService.generateAnswer(query, 5, "JOB");
 
-    // 2. Perform vector search in Prisma
-    // Note: pgvector uses <=> for cosine distance. We order by distance ascending.
-    const jobs: any[] = await prisma.$queryRaw`
-      SELECT id, title, location, description, "requiredSkills"
-      FROM jobs
-      ORDER BY embedding <=> ${`[${embedding.join(',')}]`}::vector
-      LIMIT 5;
-    `;
-
-    if (!jobs || jobs.length === 0) {
+    if (!ragResult.sources || ragResult.sources.length === 0) {
       return {
         aiMessage: "I couldn't find any jobs matching your criteria right now. Please try a different query.",
         jobs: []
       };
     }
 
-    // 3. Generate natural language response
-    const aiMessage = await generateRAGResponse(query, jobs);
-
-    // Fetch full job details including relations to return to frontend
+    // 2. Fetch full job details for the retrieved sources
+    const jobIds = ragResult.sources.map((s: any) => s.sourceId);
     const fullJobs = await prisma.job.findMany({
-      where: { id: { in: jobs.map(j => j.id) } },
+      where: { id: { in: jobIds } },
       include: {
         industry: true,
         subIndustry: true,
@@ -310,9 +331,14 @@ const smartSearch = async (query: string) => {
       }
     });
 
+    // Sort fullJobs based on the order of jobIds (similarity)
+    const sortedJobs = jobIds
+      .map(id => fullJobs.find(job => job.id === id))
+      .filter(Boolean);
+
     return {
-      aiMessage,
-      jobs: fullJobs
+      aiMessage: ragResult.answer,
+      jobs: sortedJobs
     };
   } catch (error) {
     console.error("SMART SEARCH ERROR:", error);

@@ -241,6 +241,7 @@ export declare const ModelName: {
     readonly Course: "Course";
     readonly CoursePurchase: "CoursePurchase";
     readonly Job: "Job";
+    readonly DocumentEmbedding: "DocumentEmbedding";
     readonly Recruiter: "Recruiter";
     readonly Industry: "Industry";
     readonly SubIndustry: "SubIndustry";
@@ -256,7 +257,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         omit: GlobalOmitOptions;
     };
     meta: {
-        modelProps: "admin" | "applicant" | "application" | "user" | "session" | "account" | "verification" | "course" | "coursePurchase" | "job" | "recruiter" | "industry" | "subIndustry";
+        modelProps: "admin" | "applicant" | "application" | "user" | "session" | "account" | "verification" | "course" | "coursePurchase" | "job" | "documentEmbedding" | "recruiter" | "industry" | "subIndustry";
         txIsolationLevel: TransactionIsolationLevel;
     };
     model: {
@@ -1000,6 +1001,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
                 };
             };
         };
+        DocumentEmbedding: {
+            payload: Prisma.$DocumentEmbeddingPayload<ExtArgs>;
+            fields: Prisma.DocumentEmbeddingFieldRefs;
+            operations: {
+                findUnique: {
+                    args: Prisma.DocumentEmbeddingFindUniqueArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentEmbeddingPayload> | null;
+                };
+                findUniqueOrThrow: {
+                    args: Prisma.DocumentEmbeddingFindUniqueOrThrowArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentEmbeddingPayload>;
+                };
+                findFirst: {
+                    args: Prisma.DocumentEmbeddingFindFirstArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentEmbeddingPayload> | null;
+                };
+                findFirstOrThrow: {
+                    args: Prisma.DocumentEmbeddingFindFirstOrThrowArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentEmbeddingPayload>;
+                };
+                findMany: {
+                    args: Prisma.DocumentEmbeddingFindManyArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentEmbeddingPayload>[];
+                };
+                create: {
+                    args: Prisma.DocumentEmbeddingCreateArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentEmbeddingPayload>;
+                };
+                createMany: {
+                    args: Prisma.DocumentEmbeddingCreateManyArgs<ExtArgs>;
+                    result: BatchPayload;
+                };
+                createManyAndReturn: {
+                    args: Prisma.DocumentEmbeddingCreateManyAndReturnArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentEmbeddingPayload>[];
+                };
+                delete: {
+                    args: Prisma.DocumentEmbeddingDeleteArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentEmbeddingPayload>;
+                };
+                update: {
+                    args: Prisma.DocumentEmbeddingUpdateArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentEmbeddingPayload>;
+                };
+                deleteMany: {
+                    args: Prisma.DocumentEmbeddingDeleteManyArgs<ExtArgs>;
+                    result: BatchPayload;
+                };
+                updateMany: {
+                    args: Prisma.DocumentEmbeddingUpdateManyArgs<ExtArgs>;
+                    result: BatchPayload;
+                };
+                updateManyAndReturn: {
+                    args: Prisma.DocumentEmbeddingUpdateManyAndReturnArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentEmbeddingPayload>[];
+                };
+                upsert: {
+                    args: Prisma.DocumentEmbeddingUpsertArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentEmbeddingPayload>;
+                };
+                aggregate: {
+                    args: Prisma.DocumentEmbeddingAggregateArgs<ExtArgs>;
+                    result: runtime.Types.Utils.Optional<Prisma.AggregateDocumentEmbedding>;
+                };
+                groupBy: {
+                    args: Prisma.DocumentEmbeddingGroupByArgs<ExtArgs>;
+                    result: runtime.Types.Utils.Optional<Prisma.DocumentEmbeddingGroupByOutputType>[];
+                };
+                count: {
+                    args: Prisma.DocumentEmbeddingCountArgs<ExtArgs>;
+                    result: runtime.Types.Utils.Optional<Prisma.DocumentEmbeddingCountAggregateOutputType> | number;
+                };
+            };
+        };
         Recruiter: {
             payload: Prisma.$RecruiterPayload<ExtArgs>;
             fields: Prisma.RecruiterFieldRefs;
@@ -1403,6 +1478,20 @@ export declare const JobScalarFieldEnum: {
     readonly updatedAt: "updatedAt";
 };
 export type JobScalarFieldEnum = (typeof JobScalarFieldEnum)[keyof typeof JobScalarFieldEnum];
+export declare const DocumentEmbeddingScalarFieldEnum: {
+    readonly id: "id";
+    readonly chunkKey: "chunkKey";
+    readonly sourceType: "sourceType";
+    readonly sourceId: "sourceId";
+    readonly sourceLabel: "sourceLabel";
+    readonly content: "content";
+    readonly metadata: "metadata";
+    readonly isDeleted: "isDeleted";
+    readonly deletedAt: "deletedAt";
+    readonly createdAt: "createdAt";
+    readonly updatedAt: "updatedAt";
+};
+export type DocumentEmbeddingScalarFieldEnum = (typeof DocumentEmbeddingScalarFieldEnum)[keyof typeof DocumentEmbeddingScalarFieldEnum];
 export declare const RecruiterScalarFieldEnum: {
     readonly id: "id";
     readonly userId: "userId";
@@ -1446,6 +1535,11 @@ export declare const SortOrder: {
     readonly desc: "desc";
 };
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder];
+export declare const NullableJsonNullValueInput: {
+    readonly DbNull: runtime.DbNullClass;
+    readonly JsonNull: runtime.JsonNullClass;
+};
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput];
 export declare const QueryMode: {
     readonly default: "default";
     readonly insensitive: "insensitive";
@@ -1456,6 +1550,12 @@ export declare const NullsOrder: {
     readonly last: "last";
 };
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder];
+export declare const JsonNullValueFilter: {
+    readonly DbNull: runtime.DbNullClass;
+    readonly JsonNull: runtime.JsonNullClass;
+    readonly AnyNull: runtime.AnyNullClass;
+};
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter];
 /**
  * Field references
  */
@@ -1559,6 +1659,14 @@ export type EnumJobStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$Prisma
  * Reference to a field of type 'JobStatus[]'
  */
 export type ListEnumJobStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'JobStatus[]'>;
+/**
+ * Reference to a field of type 'Json'
+ */
+export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>;
+/**
+ * Reference to a field of type 'QueryMode'
+ */
+export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>;
 /**
  * Reference to a field of type 'CompanySize'
  */
@@ -1679,6 +1787,7 @@ export type GlobalOmitConfig = {
     course?: Prisma.CourseOmit;
     coursePurchase?: Prisma.CoursePurchaseOmit;
     job?: Prisma.JobOmit;
+    documentEmbedding?: Prisma.DocumentEmbeddingOmit;
     recruiter?: Prisma.RecruiterOmit;
     industry?: Prisma.IndustryOmit;
     subIndustry?: Prisma.SubIndustryOmit;

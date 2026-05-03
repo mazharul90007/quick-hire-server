@@ -386,6 +386,14 @@ export declare const adminServices: {
             industryId: string | null;
             subIndustryId: string | null;
             isVerified: boolean;
+            industry: {
+                name: string;
+                id: string;
+            } | null;
+            subIndustry: {
+                name: string;
+                id: string;
+            } | null;
             recruiterName: string | null;
             recruiterPhone: string | null;
             recruiterWorkEmail: string | null;
@@ -397,14 +405,6 @@ export declare const adminServices: {
             companySize: import("../../../../generated/prisma/enums").CompanySize | null;
             companyAddress: string | null;
             subscriptionPlan: Subscription;
-            industry: {
-                name: string;
-                id: string;
-            } | null;
-            subIndustry: {
-                name: string;
-                id: string;
-            } | null;
         } | null;
         applicant: {
             name: string | null;

@@ -12,6 +12,7 @@ import {
   CourseAdminRoutes,
   CourseApplicantRoutes,
 } from "../modules/course/course.route";
+import { RagRoutes } from "../modules/rag/rag.route";
 
 const router: express.Router = express.Router();
 
@@ -61,6 +62,10 @@ const moduleRoutes = [
   {
     path: "/courses",
     route: CourseRoutes,
+  },
+  {
+    path: "/rag",
+    route: RagRoutes,
   },
 ];
 
