@@ -238,6 +238,7 @@ export declare const ModelName: {
     readonly Session: "Session";
     readonly Account: "Account";
     readonly Verification: "Verification";
+    readonly Blog: "Blog";
     readonly Course: "Course";
     readonly CoursePurchase: "CoursePurchase";
     readonly Job: "Job";
@@ -257,7 +258,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         omit: GlobalOmitOptions;
     };
     meta: {
-        modelProps: "admin" | "applicant" | "application" | "user" | "session" | "account" | "verification" | "course" | "coursePurchase" | "job" | "documentEmbedding" | "recruiter" | "industry" | "subIndustry";
+        modelProps: "admin" | "applicant" | "application" | "user" | "session" | "account" | "verification" | "blog" | "course" | "coursePurchase" | "job" | "documentEmbedding" | "recruiter" | "industry" | "subIndustry";
         txIsolationLevel: TransactionIsolationLevel;
     };
     model: {
@@ -776,6 +777,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
                 count: {
                     args: Prisma.VerificationCountArgs<ExtArgs>;
                     result: runtime.Types.Utils.Optional<Prisma.VerificationCountAggregateOutputType> | number;
+                };
+            };
+        };
+        Blog: {
+            payload: Prisma.$BlogPayload<ExtArgs>;
+            fields: Prisma.BlogFieldRefs;
+            operations: {
+                findUnique: {
+                    args: Prisma.BlogFindUniqueArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$BlogPayload> | null;
+                };
+                findUniqueOrThrow: {
+                    args: Prisma.BlogFindUniqueOrThrowArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$BlogPayload>;
+                };
+                findFirst: {
+                    args: Prisma.BlogFindFirstArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$BlogPayload> | null;
+                };
+                findFirstOrThrow: {
+                    args: Prisma.BlogFindFirstOrThrowArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$BlogPayload>;
+                };
+                findMany: {
+                    args: Prisma.BlogFindManyArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$BlogPayload>[];
+                };
+                create: {
+                    args: Prisma.BlogCreateArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$BlogPayload>;
+                };
+                createMany: {
+                    args: Prisma.BlogCreateManyArgs<ExtArgs>;
+                    result: BatchPayload;
+                };
+                createManyAndReturn: {
+                    args: Prisma.BlogCreateManyAndReturnArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$BlogPayload>[];
+                };
+                delete: {
+                    args: Prisma.BlogDeleteArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$BlogPayload>;
+                };
+                update: {
+                    args: Prisma.BlogUpdateArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$BlogPayload>;
+                };
+                deleteMany: {
+                    args: Prisma.BlogDeleteManyArgs<ExtArgs>;
+                    result: BatchPayload;
+                };
+                updateMany: {
+                    args: Prisma.BlogUpdateManyArgs<ExtArgs>;
+                    result: BatchPayload;
+                };
+                updateManyAndReturn: {
+                    args: Prisma.BlogUpdateManyAndReturnArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$BlogPayload>[];
+                };
+                upsert: {
+                    args: Prisma.BlogUpsertArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$BlogPayload>;
+                };
+                aggregate: {
+                    args: Prisma.BlogAggregateArgs<ExtArgs>;
+                    result: runtime.Types.Utils.Optional<Prisma.AggregateBlog>;
+                };
+                groupBy: {
+                    args: Prisma.BlogGroupByArgs<ExtArgs>;
+                    result: runtime.Types.Utils.Optional<Prisma.BlogGroupByOutputType>[];
+                };
+                count: {
+                    args: Prisma.BlogCountArgs<ExtArgs>;
+                    result: runtime.Types.Utils.Optional<Prisma.BlogCountAggregateOutputType> | number;
                 };
             };
         };
@@ -1416,6 +1491,22 @@ export declare const VerificationScalarFieldEnum: {
     readonly updatedAt: "updatedAt";
 };
 export type VerificationScalarFieldEnum = (typeof VerificationScalarFieldEnum)[keyof typeof VerificationScalarFieldEnum];
+export declare const BlogScalarFieldEnum: {
+    readonly id: "id";
+    readonly title: "title";
+    readonly slug: "slug";
+    readonly content: "content";
+    readonly excerpt: "excerpt";
+    readonly category: "category";
+    readonly author: "author";
+    readonly image: "image";
+    readonly imagePublicId: "imagePublicId";
+    readonly readTime: "readTime";
+    readonly isPublished: "isPublished";
+    readonly createdAt: "createdAt";
+    readonly updatedAt: "updatedAt";
+};
+export type BlogScalarFieldEnum = (typeof BlogScalarFieldEnum)[keyof typeof BlogScalarFieldEnum];
 export declare const CourseScalarFieldEnum: {
     readonly id: "id";
     readonly title: "title";
@@ -1784,6 +1875,7 @@ export type GlobalOmitConfig = {
     session?: Prisma.SessionOmit;
     account?: Prisma.AccountOmit;
     verification?: Prisma.VerificationOmit;
+    blog?: Prisma.BlogOmit;
     course?: Prisma.CourseOmit;
     coursePurchase?: Prisma.CoursePurchaseOmit;
     job?: Prisma.JobOmit;

@@ -13,6 +13,7 @@ import {
   CourseApplicantRoutes,
 } from "../modules/course/course.route";
 import { RagRoutes } from "../modules/rag/rag.route";
+import { BlogRoutes } from "../modules/blog/blog.routes";
 
 const router: express.Router = express.Router();
 
@@ -66,6 +67,10 @@ const moduleRoutes = [
   {
     path: "/rag",
     route: RagRoutes,
+  },
+  {
+    path: "/blogs",
+    route: BlogRoutes,
   },
 ];
 

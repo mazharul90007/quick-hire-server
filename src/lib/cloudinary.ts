@@ -52,11 +52,11 @@ export function uploadApplicantCvPdf(buffer: Buffer): Promise<string> {
   return uploadRawPdf(buffer, "quickhire/applicant-cvs");
 }
 
-/** Profile / logo images (JPEG, PNG, WebP, GIF). */
-export function uploadProfileImage(
+/** Base image upload function. */
+export function uploadImage(
   buffer: Buffer,
   folder: string,
-): Promise<string> {
+): Promise<{ url: string; publicId: string }> {
   ensureConfig();
   return new Promise((resolve, reject) => {
     const stream = cloudinary.uploader.upload_stream(
@@ -72,12 +72,36 @@ export function uploadProfileImage(
           return;
         }
         const url = result?.secure_url;
-        if (!url) reject(new Error("Cloudinary returned no secure_url"));
-        else resolve(url);
+        const publicId = result?.public_id;
+        if (!url || !publicId)
+          reject(new Error("Cloudinary returned no secure_url or public_id"));
+        else resolve({ url, publicId });
       },
     );
     stream.end(buffer);
   });
+}
+
+/** Profile / logo images (JPEG, PNG, WebP, GIF). Returns only the URL for compatibility. */
+export async function uploadProfileImage(
+  buffer: Buffer,
+  folder: string,
+): Promise<string> {
+  const result = await uploadImage(buffer, folder);
+  return result.url;
+}
+
+/** Delete an asset from Cloudinary. */
+export async function deleteFromCloudinary(publicId: string): Promise<void> {
+  ensureConfig();
+  try {
+    await cloudinary.uploader.destroy(publicId);
+  } catch (error) {
+    console.error("Cloudinary deletion failed:", error);
+    // We don't necessarily want to throw if deletion fails, 
+    // but the user requested it as part of a transaction logic.
+    throw error;
+  }
 }
 
 export const profileImageMaxBytes = MAX_IMAGE_BYTES;

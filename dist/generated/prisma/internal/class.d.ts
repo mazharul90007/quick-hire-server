@@ -193,6 +193,17 @@ export interface PrismaClient<in LogOpts extends Prisma.LogLevel = never, in out
         omit: OmitOpts;
     }>;
     /**
+     * `prisma.blog`: Exposes CRUD operations for the **Blog** model.
+      * Example usage:
+      * ```ts
+      * // Fetch zero or more Blogs
+      * const blogs = await prisma.blog.findMany()
+      * ```
+      */
+    get blog(): Prisma.BlogDelegate<ExtArgs, {
+        omit: OmitOpts;
+    }>;
+    /**
      * `prisma.course`: Exposes CRUD operations for the **Course** model.
       * Example usage:
       * ```ts

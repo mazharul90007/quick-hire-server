@@ -46,6 +46,7 @@ export const ModelName = {
     Session: 'Session',
     Account: 'Account',
     Verification: 'Verification',
+    Blog: 'Blog',
     Course: 'Course',
     CoursePurchase: 'CoursePurchase',
     Job: 'Job',
@@ -138,6 +139,21 @@ export const VerificationScalarFieldEnum = {
     identifier: 'identifier',
     value: 'value',
     expiresAt: 'expiresAt',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+};
+export const BlogScalarFieldEnum = {
+    id: 'id',
+    title: 'title',
+    slug: 'slug',
+    content: 'content',
+    excerpt: 'excerpt',
+    category: 'category',
+    author: 'author',
+    image: 'image',
+    imagePublicId: 'imagePublicId',
+    readTime: 'readTime',
+    isPublished: 'isPublished',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
 };

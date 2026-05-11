@@ -1,0 +1,17 @@
+model Blog {
+  id          String   @id @default(uuid())
+  title       String
+  slug        String   @unique
+  content     String   @db.Text
+  excerpt     String?  @db.Text
+  category    String
+  author      String
+  image       String?
+  imagePublicId String?
+  readTime    String?
+  isPublished Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("blogs")
+}

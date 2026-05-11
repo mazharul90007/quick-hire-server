@@ -57,6 +57,11 @@ export type Account = Prisma.AccountModel;
  */
 export type Verification = Prisma.VerificationModel;
 /**
+ * Model Blog
+ *
+ */
+export type Blog = Prisma.BlogModel;
+/**
  * Model Course
  *
  */

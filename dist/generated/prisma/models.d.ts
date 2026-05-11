@@ -5,6 +5,7 @@ export type * from './models/User';
 export type * from './models/Session';
 export type * from './models/Account';
 export type * from './models/Verification';
+export type * from './models/Blog';
 export type * from './models/Course';
 export type * from './models/CoursePurchase';
 export type * from './models/Job';

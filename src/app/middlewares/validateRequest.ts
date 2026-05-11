@@ -11,13 +11,13 @@ export const validateRequest = (zodSchema: z.ZodObject) => {
         return next(new ApiError(400, "Invalid JSON in field data."));
       }
     }
-
+ 
     const parsedResult = zodSchema.safeParse(req.body);
-
+ 
     if (!parsedResult.success) {
       return next(parsedResult.error);
     }
-
+ 
     req.body = parsedResult.data;
     next();
   };

@@ -33,6 +33,7 @@ export declare const ModelName: {
     readonly Session: "Session";
     readonly Account: "Account";
     readonly Verification: "Verification";
+    readonly Blog: "Blog";
     readonly Course: "Course";
     readonly CoursePurchase: "CoursePurchase";
     readonly Job: "Job";
@@ -134,6 +135,22 @@ export declare const VerificationScalarFieldEnum: {
     readonly updatedAt: "updatedAt";
 };
 export type VerificationScalarFieldEnum = (typeof VerificationScalarFieldEnum)[keyof typeof VerificationScalarFieldEnum];
+export declare const BlogScalarFieldEnum: {
+    readonly id: "id";
+    readonly title: "title";
+    readonly slug: "slug";
+    readonly content: "content";
+    readonly excerpt: "excerpt";
+    readonly category: "category";
+    readonly author: "author";
+    readonly image: "image";
+    readonly imagePublicId: "imagePublicId";
+    readonly readTime: "readTime";
+    readonly isPublished: "isPublished";
+    readonly createdAt: "createdAt";
+    readonly updatedAt: "updatedAt";
+};
+export type BlogScalarFieldEnum = (typeof BlogScalarFieldEnum)[keyof typeof BlogScalarFieldEnum];
 export declare const CourseScalarFieldEnum: {
     readonly id: "id";
     readonly title: "title";
