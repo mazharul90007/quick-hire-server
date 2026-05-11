@@ -69,6 +69,15 @@
 - **Applicant checkout with Stripe**.
 - **Stripe webhook processing** for payment confirmation.
 - **Receipt PDF download** for completed purchases.
+ 
++### Blog Management
++
++- **Full CRUD for Blogs** (ADMIN, SUPER_ADMIN).
++- **Image upload support** via Cloudinary.
++- **Public blog feed** with detailed view support.
++- **Slug-based retrieval** for SEO-friendly URLs.
++- **Publishing control** (Draft/Published status).
++
 
 ---
 
@@ -247,6 +256,18 @@ This includes built-in auth routes (for example sign-in, sign-up, sign-out, sess
 - `GET /` - Get all jobs (PUBLIC)
 - `GET /:id` - Get single job (PUBLIC)
 - `GET /ai-search` - AI-powered RAG smart search (PUBLIC)
++
++---
++
++### 📰 Blogs (`/api/v1/blogs`)
++
++- `POST /create-blog` - Create a blog post with image upload (ADMIN, SUPER_ADMIN)
++- `PATCH /:id` - Update a blog post (ADMIN, SUPER_ADMIN)
++- `GET /` - Get all blog posts (PUBLIC)
++- `GET /:id` - Get single blog by ID (PUBLIC)
++- `GET /slug/:slug` - Get single blog by SEO slug (PUBLIC)
++- `DELETE /:id` - Delete blog post and its image (ADMIN, SUPER_ADMIN)
++
 
 ---
 
